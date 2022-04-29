@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SolarWinds.Tools.CommandLineTool.Helpers;
 using SolarWinds.Tools.CommandLineTool.Service.OrionSWISQueryClient;
+using SolarWinds.Tools.CommandLineTool.SwisEntities;
 
 namespace SolarWinds.Tools.CommandLineTool.Extensions
 {
@@ -27,6 +28,27 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
             }
 
             return Enumerable.Empty<T>().ToList();
+        }
+
+        private class IdResult
+        {
+            public int ID { get; set; }
+        }
+        public static IList<int> GetEntityIds(this SwisClient swisClient, string entityType, int maxRecords = 100)
+        {
+            try
+            {
+                var netObjectType = SwisEntity.Get<NetObjectTypes>(swisClient).FirstOrDefault(_ => _.EntityType == entityType);
+                string query = $"SELECT TOP {maxRecords} {netObjectType.KeyProperty} as ID from {entityType}";
+                return swisClient.QueryList<IdResult>(query).Select(_ => _.ID).ToList();
+
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return Enumerable.Empty<int>().ToList();
         }
     }
 }

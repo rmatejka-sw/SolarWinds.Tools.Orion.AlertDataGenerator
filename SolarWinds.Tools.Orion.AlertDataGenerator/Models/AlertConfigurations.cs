@@ -1,16 +1,13 @@
 using System;
 using System.Linq;
-using Microsoft.Extensions.Caching.Memory;
 using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Helpers;
-using SolarWinds.Tools.Orion.AlertDataGenerator;
-using SolarWinds.Tools.Orion.AlertDataGenerator.Models;
-using PerfStackEntity =  SolarWinds.Tools.CommandLineTool.Service.PerfStackClient.Entity;
-using System.Collections.Generic;
+using SolarWinds.Tools.CommandLineTool.SqlEntities;
+using SolarWinds.Tools.CommandLineTool.SwisEntities;
 
-namespace OrionAlertDataGenerator.Models
+namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
 {
-    public class AlertConfigurations
+    public class AlertConfigurations : SqlEntityBase
     {
         
         public int AlertID { get; set; }
@@ -38,15 +35,16 @@ namespace OrionAlertDataGenerator.Models
         {
             try
             {
-                var objectTypes = AlertObjectType.Get();
-                var alert = AlertDataGenerator.DbConnection.GetRandomRecord<AlertConfigurations>(
-                    alert=>alert.Enabled && objectTypes.Any( ot=> ot.ObjectType == alert.ObjectType));
-                var entityType = objectTypes.FirstOrDefault(ot => ot.ObjectType == alert.ObjectType)?.EntityType ?? null;
+                var alert = DbConnectionManager.DbConnection.GetRandomRecord<AlertConfigurations>(alert=>alert.Enabled);
+                var entityType = NetObjectTypes.GetList(AlertDataGenerator.WebApiClients.SwisClient).FirstOrDefault(ot => ot.Name == alert.ObjectType)?.EntityType ?? null;
                 if (entityType == null) return false;
-                var entity = CacheManager.Cache.GetOrCreate<IList<PerfStackEntity>>(entityType,
-                    cacheEntry => AlertDataGenerator.WebApiClients.PerfStackEntitiesClient
-                        .GetManagedEntitiesAsync(entityType, 100).Result.Data
-                        .ToList<PerfStackEntity>()).PickRandom();
+                var entities = System_ManagedEntity.GetManagedEntity(AlertDataGenerator.WebApiClients.SwisClient, entityType);
+                if (entities.Count == 0)
+                {
+                    ConsoleLogger.Warning($"entityType not found {entityType}");
+                    return false;
+                }
+                var entity = entities.PickRandom();
                 var alertObject = AlertObjects.CreateOrUpdate(intervalDateTime, alert, entity);
                 // Create AlertObject
                 // Create AlertHistory

@@ -1,6 +1,4 @@
-﻿using Bogus;
-using CommandLine;
-using SolarWinds.Tools.CommandLineTool;
+﻿using CommandLine;
 using SolarWinds.Tools.CommandLineTool.Helpers;
 using SolarWinds.Tools.CommandLineTool.Options;
 

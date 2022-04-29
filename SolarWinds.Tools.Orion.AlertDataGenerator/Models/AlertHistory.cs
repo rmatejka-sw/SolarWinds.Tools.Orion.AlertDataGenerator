@@ -1,10 +1,15 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SolarWinds.Tools.CommandLineTool.SqlEntities;
 
-namespace OrionAlertDataGenerator.Models
+namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
 {
-    public class AlertHistory
+    [Table("AlertHistory")]
+    public class AlertHistory : SqlEntityBase
     {
-        public int AlertHistoryID { get; set; }
+        [Key]
+        public long AlertHistoryID { get; set; }
         public short EventType { get; set; }
         public string Message { get; set; }
         public DateTime? TimeStamp { get; set; }

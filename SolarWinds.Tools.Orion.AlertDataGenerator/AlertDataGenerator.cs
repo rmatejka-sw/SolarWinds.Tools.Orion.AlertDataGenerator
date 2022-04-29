@@ -1,10 +1,8 @@
 ﻿using System;
-using OrionAlertDataGenerator.Models;
 using SolarWinds.Tools.CommandLineTool;
-using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Helpers;
-using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.CommandLineTool.Service;
+using SolarWinds.Tools.Orion.AlertDataGenerator.Models;
 
 
 namespace SolarWinds.Tools.Orion.AlertDataGenerator
@@ -25,8 +23,7 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator
                 while(totalAlerts>0)
                 {
                     var result = AlertConfigurations.GenerateAlert(intervalTime);
-                    if (!result) return false;
-                    totalAlerts -= 1;
+                    if (result) totalAlerts -= 1;
                 }
             }
             catch (Exception e)

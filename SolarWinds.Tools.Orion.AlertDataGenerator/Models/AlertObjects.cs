@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using DapperExtensions;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.FSharp.Linq;
 using SolarWinds.Tools.CommandLineTool.Helpers;
-using SolarWinds.Tools.Orion.AlertDataGenerator;
-using SolarWinds.Tools.Orion.AlertDataGenerator.Models;
-using PerfStackEntity = SolarWinds.Tools.CommandLineTool.Service.PerfStackClient.Entity;
+using SolarWinds.Tools.CommandLineTool.SqlEntities;
+using SolarWinds.Tools.CommandLineTool.SwisEntities;
 
-namespace OrionAlertDataGenerator.Models
+namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
 {
-    public class AlertObjects
+    [Table("AlertObjects")]
+    public class AlertObjects : SqlEntityBase
     {
-        public int AlertObjectID { get; set; }
+        [Key]
+        public long AlertObjectID { get; set; }
         public int AlertID { get; set; }
         public string EntityUri { get; set; }
         public string EntityType { get; set; }
@@ -26,16 +28,16 @@ namespace OrionAlertDataGenerator.Models
         public string RelatedNodeDetailsUrl { get; set; }
         public string RealEntityUri { get; set; }
         public string RealEntityType { get; set; }
-        public long? TriggeredCount { get; set; }
+        public long TriggeredCount { get; set; }
         public DateTime? LastTriggeredDateTime { get; set; }
         public string Context { get; set; }
         public string AlertNote { get; set; }
 
-        public static IList<AlertObjects> Get()
+        public static IList<AlertObjects> GetList()
         {
             try
             {
-                return CacheManager.Cache.GetOrCreate(typeof(IList<AlertObjects>),ce=>AlertDataGenerator.DbConnection.GetList<AlertObjects>().ToList());
+                return CacheManager.Cache.GetOrCreate(typeof(IList<AlertObjects>), ce => DbConnectionManager.DbConnection.GetList<AlertObjects>().ToList());
             }
             catch (Exception e)
             {
@@ -46,21 +48,18 @@ namespace OrionAlertDataGenerator.Models
         }
 
 
-        public static AlertObjects CreateOrUpdate(DateTime triggerDate, AlertConfigurations alert, PerfStackEntity entity)
+        public static AlertObjects CreateOrUpdate(DateTime triggerDate, AlertConfigurations alert, System_ManagedEntity entity)
         {
             try
             {
-                var netObjectId = NetObjectType.GetNetObjectId(entity.InstanceType, new Opid(entity.Id).EntityId);
-                if (entity.AncestorDisplayNames.Count > 1)
-                {
-                    var mapsEntities = AlertDataGenerator.WebApiClients.MapsEntitiesClient
-                        .MapsGetAncestorsForEntityAsync(entity.Id).Result;
-                }
-
+                var netObjectType = NetObjectTypes.Get(AlertDataGenerator.WebApiClients.SwisClient, entity.InstanceType);
+                var entityId = entity.GetEntityId();
+                var netObjectId = netObjectType.GetNetObjectId(entityId);
                 AlertObjects alertObjects =
-                    Get().FirstOrDefault(_ => _.AlertID == alert.AlertID && _.EntityNetObjectId == netObjectId);
+                    AlertObjects.GetList().FirstOrDefault(_ => _.AlertID == alert.AlertID && _.EntityNetObjectId == netObjectId);
                 if (alertObjects == null)
                 {
+                    var relatedNode = GetRelatedNode(entity);
                     alertObjects = new AlertObjects
                     {
                         AlertID = alert.AlertID,
@@ -69,23 +68,37 @@ namespace OrionAlertDataGenerator.Models
                         EntityCaption = entity.DisplayName,
                         EntityDetailsUrl = entity.DetailsUrl,
                         EntityNetObjectId = netObjectId,
-                        RelatedNodeCaption = "",
-                        RelatedNodeUri = "",
-                        RelatedNodeId = null,
-                        RelatedNodeDetailsUrl = "",
-                        RealEntityUri = "",
+                        RelatedNodeCaption = relatedNode?.DisplayName,
+                        RelatedNodeUri = relatedNode?.Uri,
+                        RelatedNodeId = relatedNode?.GetEntityId(),
+                        RelatedNodeDetailsUrl = relatedNode?.DetailsUrl,
+                        RealEntityUri = relatedNode?.Uri,
                         RealEntityType = entity.InstanceType,
                         TriggeredCount = 1
                     };
-                    //var result = AlertDataGenerator.DbConnection.Insert<AlertObjects>(alertObjects);
+                    var result = DbConnectionManager.DbConnection.Insert<AlertObjects>(alertObjects);
+                    alertObjects.AlertObjectID = (long)result;
                 }
                 else
                 {
                     alertObjects.LastTriggeredDateTime = triggerDate;
                     alertObjects.TriggeredCount += 1;
-                    AlertDataGenerator.DbConnection.Update(alertObjects);
+                    DbConnectionManager.DbConnection.Update(alertObjects);
                 }
-                // Create AlertHistory
+                AlertActive alertActive =
+                    AlertActive.GetList<AlertActive>().FirstOrDefault(_ => _.AlertObjectID == alertObjects.AlertObjectID);
+                if (alertActive == null)
+                {
+                    alertActive = new AlertActive
+                    {
+                        AlertObjectID = (int)alertObjects.AlertObjectID,
+                        TriggeredDateTime = triggerDate,
+                        TriggeredMessage = FakerHelper.FakerMarker,
+                    };
+                    var result = DbConnectionManager.DbConnection.Insert<AlertActive>(alertActive);
+                    alertActive.AlertActiveID = (long)result;
+                }
+                CreateAlertHistories(triggerDate, alertObjects, alertActive);
                 return alertObjects;
             }
             catch (Exception e)
@@ -94,6 +107,35 @@ namespace OrionAlertDataGenerator.Models
             }
 
             return null;
+        }
+
+        private static void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
+        {
+            var lastEventType = AlertHistory.GetList<AlertHistory>(
+                $"SELECT TOP 1 EventType FROM AlertHistory WHERE AlertObjectID={alertObjects.AlertObjectID} and EventType in (0,1) order by TimeStamp DESC").FirstOrDefault()?.EventType??0;
+            var alertHistory = new AlertHistory
+            {
+                EventType = (short) (lastEventType == 0 ? 1 : 0),
+                Message = FakerHelper.FakerMarker,
+                TimeStamp = triggerDate,
+                AlertActiveID = alertActive.AlertActiveID,
+                AlertObjectID = (int) alertObjects.AlertObjectID
+            };
+            DbConnectionManager.DbConnection.Insert<AlertHistory>(alertHistory);
+            if (lastEventType == 0)
+            {
+                alertHistory.EventType = 0;
+                DbConnectionManager.DbConnection.Insert<AlertHistory>(alertHistory);
+            }
+        }
+
+        private static System_ManagedEntity GetRelatedNode(System_ManagedEntity entity)
+        {
+            var nodeName = entity.AncestorDisplayNames.Last();
+            var node = SwisEntity
+                        .GetManagedEntity(AlertDataGenerator.WebApiClients.SwisClient, "Orion.Nodes", null, nodeName)
+                        .FirstOrDefault();
+            return node;
         }
     }
 }

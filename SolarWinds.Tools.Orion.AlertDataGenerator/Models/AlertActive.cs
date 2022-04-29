@@ -1,9 +1,14 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SolarWinds.Tools.CommandLineTool.SqlEntities;
 
-namespace OrionAlertDataGenerator.Models
+namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
 {
-    public class AlertActive
+    [Table("AlertActive")]
+    public class AlertActive : SqlEntityBase
     {
+        [Key]
         public long AlertActiveID { get; set; }
         public byte? Acknowledged { get; set; }
         public string AcknowledgedBy { get; set; }

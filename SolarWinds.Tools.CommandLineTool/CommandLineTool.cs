@@ -21,7 +21,6 @@ namespace SolarWinds.Tools.CommandLineTool
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
         public TOptions Options { get; set; }
-        public static SqlConnection DbConnection { get; set; }
         public CommandLineTool(string[] args)
         {
             ContentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -45,7 +44,7 @@ namespace SolarWinds.Tools.CommandLineTool
         protected virtual RunStatus Run()
         {
             if (!this.IsValid) return RunStatus.ParameterValidationFailed;
-            DbConnection = this.ConnectToDatabase(this.Options);
+            DbConnectionManager.ConnectToDatabase(this.Options);
             try
             {
                 foreach (var intervalTime in this.Options.NextInterval())
@@ -89,31 +88,5 @@ namespace SolarWinds.Tools.CommandLineTool
             return null;
         }
 
-        protected SqlConnection ConnectToDatabase(IDatabaseOptions options)
-        {
-
-            try
-            {
-                var builder = new SqlConnectionStringBuilder
-                {
-                    DataSource = options.DbServerName,
-                    InitialCatalog = options.DbName,
-                    UserID = options.DbUserName,
-                    Password = options.DbPassword,
-                    Encrypt = false
-                };
-
-                var connectionString = builder.ToString();
-
-                return new SqlConnection(connectionString);
-
-            }
-            catch (Exception e)
-            {
-                ConsoleLogger.Error(e);
-            }
-
-            return null;
-        }
     }
 }
