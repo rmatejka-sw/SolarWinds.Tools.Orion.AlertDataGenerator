@@ -1,0 +1,2842 @@
+{
+  "x-generator": "NSwag v13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/maps/v1/projects/validate": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_MapProjectExists",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "displayName",
+            "in": "query",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/filterProperties": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_MapProjectFilterProperties",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilterProperty"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_ListMapsProjects",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_CreateMapsProject",
+        "parameters": [
+          {
+            "name": "project",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectIdsCdl}": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_GetMapsProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_DeleteMapsProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectId}": {
+      "put": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_UpdateMapsProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "project",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectId}/history": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_GetMapsProjectHistory",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectId}/history/{snapshotId}": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_GetMapsProjectHistorySnapshot",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "snapshotId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectId}/commits": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_GetProjectCommits",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/projects/{projectId}/commits/{commitId}": {
+      "get": {
+        "tags": [
+          "MapProjects"
+        ],
+        "operationId": "MapProjects_GetProjectCommit",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "commitId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/alerts": {
+      "get": {
+        "tags": [
+          "MapsAlerts"
+        ],
+        "operationId": "MapsAlerts_GetActiveAlertsForEntities",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ActiveAlert"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsAssetList",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AssetResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/{assetId}": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsAsset",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/images/{assetId}": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsImageAssetContent",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/icons/{assetId}": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsImageAssetContent2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/thumbnail/{assetId}": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsImageAssetThumbnail",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "assetId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/{assetType}": {
+      "post": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_MapsUploadImages",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "assetType",
+            "in": "path",
+            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/AssetType"
+            },
+            "x-nullable": false,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ImageFile"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/assets/images/assetType/{assetType}": {
+      "get": {
+        "tags": [
+          "MapsAssets"
+        ],
+        "operationId": "MapsAssets_GetMapsImageList",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "assetType",
+            "in": "path",
+            "required": true,
+            "x-schema": {
+              "$ref": "#/definitions/AssetType"
+            },
+            "x-nullable": false,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ImageFile"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/containers": {
+      "get": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_GetAllContainers",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_CreateNewContainer",
+        "parameters": [
+          {
+            "name": "containerDefinition",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ContainerDefinition"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/containers/{containerId}": {
+      "put": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_UpdateContainer",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "containerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "containerDefinition",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ContainerDefinition"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_GetSpecificContainer",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "containerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_DeleteSpecificContainer",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "containerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Entity"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/containers/{containerId}/members": {
+      "get": {
+        "tags": [
+          "MapsContainers"
+        ],
+        "operationId": "MapsContainers_GetSpecificContainerMembers",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "containerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph": {
+      "get": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_BuildGraph",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GraphResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_BuildGraphFromGraphDefinition",
+        "parameters": [
+          {
+            "name": "graphDefinition",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GraphDefinition"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GraphResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph/{graphId}": {
+      "get": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_GetGraph",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "graphId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GraphResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph/edges": {
+      "post": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_CreateMapsEdgeDefinition",
+        "parameters": [
+          {
+            "name": "edgeDefinition",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/EdgeDefinition"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph/edges/{edgeIdsCdl}": {
+      "delete": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_DeleteMapsEdgeDefinition",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "edgeIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph/{graphOpid}/snapshot": {
+      "get": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_GetGraphLatestSnapshot",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "graphOpid",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GraphResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/graph/{graphOpid}/snapshot/{graphSnapshotId}": {
+      "get": {
+        "tags": [
+          "MapsGraph"
+        ],
+        "operationId": "MapsGraph_GetGraphSnapshot",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "graphOpid",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "graphSnapshotId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GraphResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/states": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetStatusInfos",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetStatusInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetManagedEntities",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/filterproperties": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetEntityFilterPropertiesParameters",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilterProperty"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/filterproperties/{typesCdl}/{propertiesCdl}": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetEntityFilterProperties",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "typesCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "propertiesCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FilterProperty"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/types": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetEntityTypesMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/types/{typesCdl}": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetEntityTypeMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "typesCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetEntityInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/children": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetChildrenForEntityIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}/children": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetChildrenForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}/related": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetRelatedForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}/relationships": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetRelatedForEntity2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/related": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetRelatedForEntityIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/relationships": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetRelatedForEntityIds2",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/connected": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetConnectedForEntityIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}/connected": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetConnectedForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/ancestors": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetAncestorsForEntityIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/{entityId}/ancestors": {
+      "get": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_MapsGetAncestorsForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/provideSignalRConnectionData": {
+      "post": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_ProvideSignalRConnectionData",
+        "parameters": [
+          {
+            "name": "mapEntitiesList",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/MapEntitiesListFromBody"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/entities/loadEntityDetails": {
+      "post": {
+        "tags": [
+          "MapsEntities"
+        ],
+        "operationId": "MapsEntities_LoadEntityDetails",
+        "parameters": [
+          {
+            "name": "loadRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/EntityDetailsLoadRequestFromBody"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/states": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsStatusInfos",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsStatusInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/settings": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsSettings",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MapsSettings"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/types": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsTypesMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/types/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsEntityTypeMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/filterProperties/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsFilterPropertyConfigs",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DetailPropertyType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/filterProperties": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsFilterPropertyConfigs2",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DetailPropertyType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/types/{entityType}/properties": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsEntityTypePropertiesMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DetailPropertyType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/netobject": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsNetObjectsMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NetObjectInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/netobject/{netobjectIds}": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetMapsNetObjectMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "netobjectIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NetObjectInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/allowOrionMapsManagement": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetAllowOrionMapsManagement",
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/maps/v1/metadata/allowUploadImagesToOrionMaps": {
+      "get": {
+        "tags": [
+          "MapsMetadata"
+        ],
+        "operationId": "MapsMetadata_GetAllowUploadImagesToOrionMaps",
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FilterProperty": {
+      "type": "object",
+      "properties": {
+        "EntityType": {
+          "type": "string"
+        },
+        "RefId": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterValue"
+          }
+        }
+      }
+    },
+    "FilterValue": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Icon": {
+          "type": "string"
+        }
+      }
+    },
+    "ProjectResponse": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "required": [
+        "UpdateDateTime",
+        "CreateDateTime",
+        "CommitId",
+        "TrackHistory",
+        "Favorite",
+        "EntityCount",
+        "InstanceSiteId",
+        "GraphSnapshotId",
+        "Status",
+        "EventType",
+        "EventId"
+      ],
+      "properties": {
+        "Owner": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "UpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "CreateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "CommitId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Data": {
+          "type": "string"
+        },
+        "TrackHistory": {
+          "type": "boolean"
+        },
+        "Favorite": {
+          "type": "boolean"
+        },
+        "EntityCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "InstanceSiteId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "InstanceSiteName": {
+          "type": "string"
+        },
+        "ContainerOpid": {
+          "type": "string"
+        },
+        "GraphSnapshotId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "ViewerUrl": {
+          "type": "string"
+        },
+        "EditorUrl": {
+          "type": "string"
+        },
+        "ContainerDefinition": {
+          "$ref": "#/definitions/ContainerDefinition"
+        },
+        "GraphDefinition": {
+          "$ref": "#/definitions/GraphDefinition"
+        },
+        "AssetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusDescription": {
+          "type": "string"
+        },
+        "StatusIconPostfix": {
+          "type": "string"
+        },
+        "StatusColor": {
+          "type": "string"
+        },
+        "EventType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EventId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ContainerDefinition": {
+      "type": "object",
+      "required": [
+        "Frequency",
+        "PollingEnabled"
+      ],
+      "properties": {
+        "DisplayName": {
+          "type": "string"
+        },
+        "Owner": {
+          "type": "string"
+        },
+        "Frequency": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "RollupType": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "PollingEnabled": {
+          "type": "boolean"
+        },
+        "MemberIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ContainerType": {
+          "type": "string"
+        },
+        "ProjectId": {
+          "type": "string"
+        }
+      }
+    },
+    "GraphDefinition": {
+      "type": "object",
+      "properties": {
+        "ContainerOpid": {
+          "type": "string"
+        },
+        "ProjectId": {
+          "type": "string"
+        },
+        "NodeRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NodeRule"
+          }
+        },
+        "EdgeRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EdgeRule"
+          }
+        }
+      }
+    },
+    "NodeRule": {
+      "type": "object",
+      "required": [
+        "Type"
+      ],
+      "properties": {
+        "Type": {
+          "$ref": "#/definitions/GraphNodeRuleType"
+        },
+        "Opid": {
+          "type": "string"
+        },
+        "Filter": {
+          "type": "string"
+        }
+      }
+    },
+    "GraphNodeRuleType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "AddEntity",
+        "AddMembers",
+        "AddAncestors",
+        "AddDescendants",
+        "AddConnected",
+        "AddDependency"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "EdgeRule": {
+      "type": "object",
+      "required": [
+        "Type"
+      ],
+      "properties": {
+        "Type": {
+          "$ref": "#/definitions/GraphEdgeRuleType"
+        },
+        "Opids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Filter": {
+          "type": "string"
+        }
+      }
+    },
+    "GraphEdgeRuleType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "AddGeneratedTopology",
+        "AddManuallyCreatedTopology",
+        "AddMemberOf",
+        "AddDependency",
+        "AddAdm"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "Query": {
+      "type": "object",
+      "required": [
+        "Length",
+        "Offset",
+        "Total",
+        "Next",
+        "Previous"
+      ],
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Next": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Previous": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Notices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notice"
+          }
+        }
+      }
+    },
+    "Notice": {
+      "type": "object",
+      "properties": {
+        "Description": {
+          "type": "string"
+        }
+      }
+    },
+    "ActiveAlert": {
+      "type": "object",
+      "required": [
+        "AlertId",
+        "Duration",
+        "TriggeredDateTime",
+        "Severity",
+        "InstanceSiteId"
+      ],
+      "properties": {
+        "AlertId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Message": {
+          "type": "string"
+        },
+        "TriggeringEntity": {
+          "$ref": "#/definitions/TriggerEntity"
+        },
+        "RelatedEntity": {
+          "$ref": "#/definitions/Entity"
+        },
+        "Duration": {
+          "type": "number",
+          "format": "double"
+        },
+        "TriggeredDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Severity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "InstanceSiteId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DetailsUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "TriggerEntity": {
+      "type": "object",
+      "properties": {
+        "DisplayName": {
+          "type": "string"
+        },
+        "DetailsUrl": {
+          "type": "string"
+        },
+        "EntityType": {
+          "type": "string"
+        },
+        "Uri": {
+          "type": "string"
+        }
+      }
+    },
+    "Entity": {
+      "type": "object",
+      "required": [
+        "Status",
+        "IsContainer",
+        "Frequency",
+        "PollingEnabled",
+        "UnManaged"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusDescription": {
+          "type": "string"
+        },
+        "StatusIconPostfix": {
+          "type": "string"
+        },
+        "StatusColor": {
+          "type": "string"
+        },
+        "InstanceType": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "GroupDisplayName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DetailsUrl": {
+          "type": "string"
+        },
+        "Uri": {
+          "type": "string"
+        },
+        "IpAddress": {
+          "type": "string"
+        },
+        "Icon": {
+          "type": "string"
+        },
+        "SubIcon": {
+          "type": "string"
+        },
+        "VendorIcon": {
+          "type": "string"
+        },
+        "Details": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "ConnectionDescription": {
+          "type": "string"
+        },
+        "AncestorDisplayNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "AncestorIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "AncestorDetailsUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "AliasTargetId": {
+          "type": "string"
+        },
+        "IsContainer": {
+          "type": "boolean"
+        },
+        "Frequency": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "RollupType": {
+          "type": "string"
+        },
+        "PollingEnabled": {
+          "type": "boolean"
+        },
+        "UnManaged": {
+          "type": "boolean"
+        },
+        "EntitySubType": {
+          "type": "string"
+        }
+      }
+    },
+    "AssetResponse": {
+      "type": "object",
+      "properties": {
+        "Assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        }
+      }
+    },
+    "Asset": {
+      "type": "object",
+      "required": [
+        "UpdateDateTime",
+        "CreateDateTime",
+        "Height",
+        "Width"
+      ],
+      "properties": {
+        "Owner": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "Opid": {
+          "type": "string"
+        },
+        "ProjectId": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "AssetType": {
+          "type": "string"
+        },
+        "FilePath": {
+          "type": "string"
+        },
+        "ThumbnailPath": {
+          "type": "string"
+        },
+        "FileType": {
+          "type": "string"
+        },
+        "UpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "CreateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Height": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Width": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ImageFile": {
+      "type": "object",
+      "required": [
+        "Width",
+        "Height"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Opid": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "FilePath": {
+          "type": "string"
+        },
+        "ThumbnailPath": {
+          "type": "string"
+        },
+        "FileType": {
+          "type": "string"
+        },
+        "Width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "AssetType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Images",
+        "Icons"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "EntitiesResponse": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        }
+      }
+    },
+    "GraphResponse": {
+      "type": "object",
+      "required": [
+        "Status"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusDescription": {
+          "type": "string"
+        },
+        "StatusIconPostfix": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
+        },
+        "Edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Edge"
+          }
+        }
+      }
+    },
+    "Edge": {
+      "type": "object",
+      "required": [
+        "Type",
+        "IsCustom",
+        "IsDeletable",
+        "AllOrion"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "SourceId": {
+          "type": "string"
+        },
+        "DestinationId": {
+          "type": "string"
+        },
+        "Type": {
+          "$ref": "#/definitions/EdgeType"
+        },
+        "DestinationProcessName": {
+          "type": "string"
+        },
+        "DetailsUrl": {
+          "type": "string"
+        },
+        "Egress": {
+          "$ref": "#/definitions/ConnectionStateInfo"
+        },
+        "Ingress": {
+          "$ref": "#/definitions/ConnectionStateInfo"
+        },
+        "IsCustom": {
+          "type": "boolean"
+        },
+        "IsDeletable": {
+          "type": "boolean"
+        },
+        "AllOrion": {
+          "type": "boolean"
+        }
+      }
+    },
+    "EdgeType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "HasA",
+        "DependsOn",
+        "MemberOf",
+        "ConnectionL2",
+        "ConnectionL3",
+        "ConnectionCustom",
+        "AdmConnection",
+        "IsA"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "ConnectionStateInfo": {
+      "type": "object",
+      "required": [
+        "Port",
+        "Status",
+        "Bandwidth",
+        "Bps",
+        "IsAdmQualityPollingEnabled",
+        "InBandwidth",
+        "InBps"
+      ],
+      "properties": {
+        "DisplayName": {
+          "type": "string"
+        },
+        "Port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "SourceEntity": {
+          "$ref": "#/definitions/Entity"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusColor": {
+          "type": "string"
+        },
+        "Bandwidth": {
+          "type": "number",
+          "format": "double"
+        },
+        "Bps": {
+          "type": "number",
+          "format": "double"
+        },
+        "Stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Statistic"
+          }
+        },
+        "IsAdmQualityPollingEnabled": {
+          "type": "boolean"
+        },
+        "InBandwidth": {
+          "type": "number",
+          "format": "double"
+        },
+        "InBps": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "Statistic": {
+      "type": "object",
+      "required": [
+        "Value",
+        "Status"
+      ],
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "number",
+          "format": "double"
+        },
+        "Units": {
+          "type": "string"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusColor": {
+          "type": "string"
+        },
+        "StatusDescription": {
+          "type": "string"
+        }
+      }
+    },
+    "EdgeDefinition": {
+      "type": "object",
+      "required": [
+        "AllOrion",
+        "Type"
+      ],
+      "properties": {
+        "ProjectId": {
+          "type": "string"
+        },
+        "AllOrion": {
+          "type": "boolean"
+        },
+        "SourceId": {
+          "type": "string"
+        },
+        "DestinationId": {
+          "type": "string"
+        },
+        "Type": {
+          "$ref": "#/definitions/EdgeType"
+        },
+        "SourceDefinition": {
+          "$ref": "#/definitions/ConnectionDefinition"
+        },
+        "DestinationDefinition": {
+          "$ref": "#/definitions/ConnectionDefinition"
+        }
+      }
+    },
+    "ConnectionDefinition": {
+      "type": "object",
+      "required": [
+        "InterfaceMetricsInverted"
+      ],
+      "properties": {
+        "EntityId": {
+          "type": "string"
+        },
+        "InterfaceMetricsInverted": {
+          "type": "boolean"
+        },
+        "PropertyDefinition": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PropertyDefinition"
+          }
+        }
+      }
+    },
+    "PropertyDefinition": {
+      "type": "object",
+      "properties": {
+        "EntityId": {
+          "type": "string"
+        },
+        "Property": {
+          "type": "string"
+        }
+      }
+    },
+    "StatusInfo": {
+      "type": "object",
+      "required": [
+        "StatusId",
+        "RollupType",
+        "Ranking",
+        "UiOrder",
+        "ChildStatusMap",
+        "CategoryStatusMap"
+      ],
+      "properties": {
+        "StatusId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusName": {
+          "type": "string"
+        },
+        "ShortDescription": {
+          "type": "string"
+        },
+        "RollupType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Ranking": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "UiOrder": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Color": {
+          "type": "string"
+        },
+        "ColorName": {
+          "type": "string"
+        },
+        "IconPostfix": {
+          "type": "string"
+        },
+        "ChildStatusMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "CategoryStatusMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DisplayProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "EntityType": {
+      "type": "object",
+      "required": [
+        "IsContainer",
+        "KeyIndex"
+      ],
+      "properties": {
+        "FullName": {
+          "type": "string"
+        },
+        "Caption": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "DisplayNamePlural": {
+          "type": "string"
+        },
+        "KeyName": {
+          "type": "string"
+        },
+        "IsContainer": {
+          "type": "boolean"
+        },
+        "KeyType": {
+          "type": "string"
+        },
+        "KeyIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "NetObjectPrefix": {
+          "type": "string"
+        },
+        "DetailProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DetailPropertyType"
+          }
+        }
+      }
+    },
+    "DetailPropertyType": {
+      "type": "object",
+      "required": [
+        "Reporting",
+        "GroupBy",
+        "FilterBy",
+        "IsMetric"
+      ],
+      "properties": {
+        "EntityName": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "Units": {
+          "type": "string"
+        },
+        "MaxValue": {
+          "type": "string"
+        },
+        "MinValue": {
+          "type": "string"
+        },
+        "Reporting": {
+          "type": "boolean"
+        },
+        "GroupBy": {
+          "type": "boolean"
+        },
+        "FilterBy": {
+          "type": "boolean"
+        },
+        "IsMetric": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MapEntitiesListFromBody": {
+      "type": "object",
+      "properties": {
+        "EntityIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EntityDescription"
+          }
+        },
+        "EdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ConnectionId": {
+          "type": "string"
+        }
+      }
+    },
+    "EntityDescription": {
+      "type": "object",
+      "required": [
+        "SiteId",
+        "EntityId"
+      ],
+      "properties": {
+        "SiteId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EntityId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EntityType": {
+          "type": "string"
+        },
+        "GetEntityDescription": {
+          "type": "string"
+        }
+      }
+    },
+    "EntityDetailsLoadRequestFromBody": {
+      "type": "object",
+      "properties": {
+        "EntityDescription": {
+          "type": "string"
+        },
+        "FieldsToLoad": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MapsSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SettingsBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "TimeTravelEnabled",
+            "IncludeShadowNodes",
+            "ShowL3Unknowns",
+            "ShowL2Unknowns",
+            "MapsEntityCacheRetentionMinutes",
+            "MapsViewerRefreshIntervalMinutes",
+            "MapsStatisticRetentionHours",
+            "MapsHistoryRetentionDays",
+            "MapsHistoryMaxEntities",
+            "MapsHistoryMaxMaps",
+            "MapsHistorySnapshotInterval",
+            "MapsDefaultRefreshIntervalSeconds",
+            "LiveUpdatesForceStatusRefreshInterval",
+            "LiveUpdatesEnabled",
+            "SwisIsFederated",
+            "IsEoc",
+            "IsAdmInstalled",
+            "IsAdmQualityPollingEnabled",
+            "IsTopologyInstalled",
+            "IsVimInstalled",
+            "IsVmanInstalled",
+            "IsRecommendationsInstalled",
+            "TimeTravelMapsCurrentCount"
+          ],
+          "properties": {
+            "TimeTravelEnabled": {
+              "type": "boolean"
+            },
+            "MapsEntitiesBlackList": {
+              "type": "string"
+            },
+            "AppStackRelianceIgnoreList": {
+              "type": "string"
+            },
+            "IncludeShadowNodes": {
+              "type": "boolean"
+            },
+            "ShowL3Unknowns": {
+              "type": "boolean"
+            },
+            "ShowL2Unknowns": {
+              "type": "boolean"
+            },
+            "MapsEntityCacheRetentionMinutes": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsViewerRefreshIntervalMinutes": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsStatisticRetentionHours": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsHistoryRetentionDays": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsHistoryMaxEntities": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsHistoryMaxMaps": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsHistorySnapshotInterval": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MapsDefaultRefreshIntervalSeconds": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "LiveUpdatesForceStatusRefreshInterval": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "LiveUpdatesEnabled": {
+              "type": "boolean"
+            },
+            "SwisIsFederated": {
+              "type": "boolean"
+            },
+            "IsEoc": {
+              "type": "boolean"
+            },
+            "IsAdmInstalled": {
+              "type": "boolean"
+            },
+            "IsAdmQualityPollingEnabled": {
+              "type": "boolean"
+            },
+            "IsTopologyInstalled": {
+              "type": "boolean"
+            },
+            "IsVimInstalled": {
+              "type": "boolean"
+            },
+            "IsVmanInstalled": {
+              "type": "boolean"
+            },
+            "IsRecommendationsInstalled": {
+              "type": "boolean"
+            },
+            "TimeTravelMapsCurrentCount": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "SettingsBase": {
+      "type": "object",
+      "x-abstract": true
+    },
+    "NetObjectInfo": {
+      "type": "object",
+      "properties": {
+        "EntityType": {
+          "type": "string"
+        },
+        "Prefix": {
+          "type": "string"
+        },
+        "KeyProperty": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1297 @@
+﻿x-generator: NSwag v13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v11.0.0.0))
+swagger: '2.0'
+info:
+  title: My Title
+  version: 1.0.0
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /maps/v1/entities/states:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetStatusInfos
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StatusInfo'
+  '/maps/v1/entities/states/{statusIds}':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetStatusInfo
+      parameters:
+        - type: string
+          name: statusIds
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StatusInfo'
+  /maps/v1/entities:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetManagedEntities
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  /maps/v1/entities/filterproperties:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetEntityFilterPropertiesParameters
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FilterProperty'
+  '/maps/v1/entities/filterproperties/{typesCdl}/{propertiesCdl}':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetEntityFilterProperties
+      parameters:
+        - type: string
+          name: typesCdl
+          in: path
+          required: true
+          x-nullable: false
+        - type: string
+          name: propertiesCdl
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FilterProperty'
+  /maps/v1/entities/types:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetEntityTypesMetadata
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityType'
+  '/maps/v1/entities/types/{typesCdl}':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetEntityTypeMetadata
+      parameters:
+        - type: string
+          name: typesCdl
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityType'
+  '/maps/v1/entities/{entityId}':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetEntityInfo
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  /maps/v1/entities/children:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetChildrenForEntityIds
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  '/maps/v1/entities/{entityId}/children':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetChildrenForEntity
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  '/maps/v1/entities/{entityId}/related':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetRelatedForEntityAll
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  '/maps/v1/entities/{entityId}/relationships':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetRelatedForEntity
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  /maps/v1/entities/related:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetRelatedForEntityIds
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  /maps/v1/entities/relationships:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetRelatedForEntityIds2
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  /maps/v1/entities/connected:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetConnectedForEntityIds
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  '/maps/v1/entities/{entityId}/connected':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetConnectedForEntity
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  /maps/v1/entities/ancestors:
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetAncestorsForEntityIds
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/EntitiesResponse'
+  '/maps/v1/entities/{entityId}/ancestors':
+    get:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_MapsGetAncestorsForEntity
+      parameters:
+        - type: string
+          name: entityId
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  /maps/v1/entities/provideSignalRConnectionData:
+    post:
+      tags:
+        - MapsEntities
+      operationId: MapsEntities_ProvideSignalRConnectionData
+      parameters:
+        - name: mapEntitiesList
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MapEntitiesListFromBody'
+          x-nullable: true
+      responses:
+        '204':
+          description: ''
+  /maps/v1/metadata/states:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsStatusInfos
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StatusInfo'
+  '/maps/v1/metadata/states/{statusIds}':
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsStatusInfo
+      parameters:
+        - type: string
+          name: statusIds
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StatusInfo'
+  /maps/v1/metadata/settings:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsSettings
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/MapsSettings'
+  /maps/v1/metadata/types:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsTypesMetadata
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityType'
+  '/maps/v1/metadata/types/{entityTypeCdl}':
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsEntityTypeMetadata
+      parameters:
+        - type: string
+          name: entityTypeCdl
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityType'
+  '/maps/v1/metadata/filterProperties/{entityTypeCdl}':
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsFilterPropertyConfigsAll
+      parameters:
+        - type: string
+          name: entityTypeCdl
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DetailPropertyType'
+  /maps/v1/metadata/filterProperties:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsFilterPropertyConfigs
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DetailPropertyType'
+  '/maps/v1/metadata/types/{entityType}/properties':
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsEntityTypePropertiesMetadata
+      parameters:
+        - type: string
+          name: entityType
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DetailPropertyType'
+  /maps/v1/metadata/netobject:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsNetObjectsMetadata
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetObjectInfo'
+  '/maps/v1/metadata/netobject/{netobjectIds}':
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetMapsNetObjectMetadata
+      parameters:
+        - type: string
+          name: netobjectIds
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetObjectInfo'
+  /maps/v1/metadata/allowOrionMapsManagement:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetAllowOrionMapsManagement
+      responses:
+        '200':
+          x-nullable: false
+          description: ''
+          schema:
+            type: boolean
+  /maps/v1/metadata/allowUploadImagesToOrionMaps:
+    get:
+      tags:
+        - MapsMetadata
+      operationId: MapsMetadata_GetAllowUploadImagesToOrionMaps
+      responses:
+        '200':
+          x-nullable: false
+          description: ''
+          schema:
+            type: boolean
+  /maps/v1/graph:
+    get:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_BuildGraph
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/GraphResponse'
+    post:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_BuildGraphFromGraphDefinition
+      parameters:
+        - name: graphDefinition
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GraphDefinition'
+          x-nullable: true
+        - name: graphQueryParameters
+          in: path
+          required: false
+          schema:
+            $ref: '#/definitions/GraphQueryParameters'
+          x-nullable: true
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/GraphResponse'
+  '/maps/v1/graph/{graphId}/':
+    get:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_GetGraph
+      parameters:
+        - type: string
+          name: graphId
+          in: path
+          required: true
+          x-nullable: false
+        - type: boolean
+          name: related
+          in: query
+          required: false
+          default: false
+          x-nullable: true
+        - type: string
+          name: EdgeTypes
+          in: query
+          required: false
+          default: false
+          x-nullable: true
+      
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/GraphResponse'
+  /maps/v1/graph/edges:
+    post:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_CreateMapsEdgeDefinition
+      parameters:
+        - name: edgeDefinition
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EdgeDefinition'
+          x-nullable: true
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            type: string
+  '/maps/v1/graph/edges/{edgeIdsCdl}':
+    delete:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_DeleteMapsEdgeDefinition
+      parameters:
+        - type: string
+          name: edgeIdsCdl
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: false
+          description: ''
+          schema:
+            type: boolean
+  '/maps/v1/graph/{graphOpid}/snapshot':
+    get:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_GetGraphLatestSnapshot
+      parameters:
+        - type: string
+          name: graphOpid
+          in: path
+          required: true
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/GraphResponse'
+  '/maps/v1/graph/{graphOpid}/snapshot/{graphSnapshotId}':
+    get:
+      tags:
+        - MapsGraph
+      operationId: MapsGraph_GetGraphSnapshot
+      parameters:
+        - type: string
+          name: graphOpid
+          in: path
+          required: true
+          x-nullable: false
+        - type: integer
+          name: graphSnapshotId
+          in: path
+          required: true
+          format: int32
+          x-nullable: false
+      responses:
+        '200':
+          x-nullable: true
+          description: ''
+          schema:
+            $ref: '#/definitions/GraphResponse'
+definitions:
+  StatusInfo:
+    type: object
+    required:
+      - StatusId
+      - RollupType
+      - Ranking
+      - UiOrder
+      - ChildStatusMap
+      - CategoryStatusMap
+    properties:
+      StatusId:
+        type: integer
+        format: int32
+      StatusName:
+        type: string
+      ShortDescription:
+        type: string
+      RollupType:
+        type: integer
+        format: int32
+      Ranking:
+        type: integer
+        format: int32
+      UiOrder:
+        type: integer
+        format: int32
+      Color:
+        type: string
+      ColorName:
+        type: string
+      IconPostfix:
+        type: string
+      ChildStatusMap:
+        type: integer
+        format: int32
+      CategoryStatusMap:
+        type: integer
+        format: int32
+      DisplayProperties:
+        type: string
+  EntitiesResponse:
+    type: object
+    properties:
+      Data:
+        type: array
+        items:
+          $ref: '#/definitions/Entity'
+      Query:
+        $ref: '#/definitions/Query'
+  Entity:
+    type: object
+    required:
+      - Status
+      - IsContainer
+      - Frequency
+      - PollingEnabled
+      - UnManaged
+    properties:
+      Id:
+        type: string
+      Status:
+        type: integer
+        format: int32
+      StatusDescription:
+        type: string
+      StatusIconPostfix:
+        type: string
+      StatusColor:
+        type: string
+      InstanceType:
+        type: string
+      DisplayName:
+        type: string
+      GroupDisplayName:
+        type: string
+      Description:
+        type: string
+      DetailsUrl:
+        type: string
+      Uri:
+        type: string
+      IpAddress:
+        type: string
+      Icon:
+        type: string
+      SubIcon:
+        type: string
+      VendorIcon:
+        type: string
+      Details:
+        type: object
+        additionalProperties: {}
+      ConnectionDescription:
+        type: string
+      AncestorDisplayNames:
+        type: array
+        items:
+          type: string
+      AncestorIds:
+        type: array
+        items:
+          type: string
+      AncestorDetailsUrls:
+        type: array
+        items:
+          type: string
+      AliasTargetId:
+        type: string
+      IsContainer:
+        type: boolean
+      Frequency:
+        type: integer
+        format: int32
+      RollupType:
+        type: string
+      PollingEnabled:
+        type: boolean
+      UnManaged:
+        type: boolean
+      EntitySubType:
+        type: string
+  Query:
+    type: object
+    required:
+      - Length
+      - Offset
+      - Total
+      - Next
+      - Previous
+    properties:
+      Length:
+        type: integer
+        format: int32
+      Offset:
+        type: integer
+        format: int32
+      Total:
+        type: integer
+        format: int32
+      Next:
+        type: string
+        format: date-time
+      Previous:
+        type: string
+        format: date-time
+      Notices:
+        type: array
+        items:
+          $ref: '#/definitions/Notice'
+  Notice:
+    type: object
+    properties:
+      Description:
+        type: string
+  FilterProperty:
+    type: object
+    properties:
+      EntityType:
+        type: string
+      RefId:
+        type: string
+      Title:
+        type: string
+      Values:
+        type: array
+        items:
+          $ref: '#/definitions/FilterValue'
+  FilterValue:
+    type: object
+    properties:
+      Id:
+        type: string
+      Title:
+        type: string
+      Icon:
+        type: string
+  EntityType:
+    type: object
+    required:
+      - IsContainer
+      - KeyIndex
+    properties:
+      FullName:
+        type: string
+      Caption:
+        type: string
+      DisplayName:
+        type: string
+      DisplayNamePlural:
+        type: string
+      KeyName:
+        type: string
+      IsContainer:
+        type: boolean
+      KeyType:
+        type: string
+      KeyIndex:
+        type: integer
+        format: int32
+      NetObjectPrefix:
+        type: string
+      DetailProperties:
+        type: array
+        items:
+          $ref: '#/definitions/DetailPropertyType'
+  DetailPropertyType:
+    type: object
+    required:
+      - Reporting
+      - GroupBy
+      - FilterBy
+      - IsMetric
+    properties:
+      EntityName:
+        type: string
+      Name:
+        type: string
+      DisplayName:
+        type: string
+      Type:
+        type: string
+      Units:
+        type: string
+      MaxValue:
+        type: string
+      MinValue:
+        type: string
+      Reporting:
+        type: boolean
+      GroupBy:
+        type: boolean
+      FilterBy:
+        type: boolean
+      IsMetric:
+        type: boolean
+  MapEntitiesListFromBody:
+    type: object
+    properties:
+      EntityIds:
+        type: array
+        items:
+          $ref: '#/definitions/EntityDescription'
+      EdgeIds:
+        type: array
+        items:
+          type: string
+      ConnectionId:
+        type: string
+  EntityDescription:
+    type: object
+    required:
+      - SiteId
+      - EntityId
+    properties:
+      SiteId:
+        type: integer
+        format: int32
+      EntityId:
+        type: integer
+        format: int32
+      EntityType:
+        type: string
+      GetEntityDescription:
+        type: string
+  MapsSettings:
+    allOf:
+      - $ref: '#/definitions/SettingsBase'
+      - type: object
+        required:
+          - TimeTravelEnabled
+          - IncludeShadowNodes
+          - ShowL3Unknowns
+          - ShowL2Unknowns
+          - MapsEntityCacheRetentionMinutes
+          - MapsViewerRefreshIntervalMinutes
+          - MapsStatisticRetentionHours
+          - MapsHistoryRetentionDays
+          - MapsHistoryMaxEntities
+          - MapsHistoryMaxMaps
+          - MapsHistorySnapshotInterval
+          - MapsDefaultRefreshIntervalSeconds
+          - LiveUpdatesForceStatusRefreshInterval
+          - LiveUpdatesEnabled
+          - SwisIsFederated
+          - IsEoc
+          - IsAdmInstalled
+          - IsAdmQualityPollingEnabled
+          - IsTopologyInstalled
+          - IsVimInstalled
+          - IsVmanInstalled
+          - IsRecommendationsInstalled
+          - TimeTravelMapsCurrentCount
+        properties:
+          TimeTravelEnabled:
+            type: boolean
+          MapsEntitiesBlackList:
+            type: string
+          AppStackRelianceIgnoreList:
+            type: string
+          IncludeShadowNodes:
+            type: boolean
+          ShowL3Unknowns:
+            type: boolean
+          ShowL2Unknowns:
+            type: boolean
+          MapsEntityCacheRetentionMinutes:
+            type: integer
+            format: int32
+          MapsViewerRefreshIntervalMinutes:
+            type: integer
+            format: int32
+          MapsStatisticRetentionHours:
+            type: integer
+            format: int32
+          MapsHistoryRetentionDays:
+            type: integer
+            format: int32
+          MapsHistoryMaxEntities:
+            type: integer
+            format: int32
+          MapsHistoryMaxMaps:
+            type: integer
+            format: int32
+          MapsHistorySnapshotInterval:
+            type: integer
+            format: int32
+          MapsDefaultRefreshIntervalSeconds:
+            type: integer
+            format: int32
+          LiveUpdatesForceStatusRefreshInterval:
+            type: integer
+            format: int32
+          LiveUpdatesEnabled:
+            type: boolean
+          SwisIsFederated:
+            type: boolean
+          IsEoc:
+            type: boolean
+          IsAdmInstalled:
+            type: boolean
+          IsAdmQualityPollingEnabled:
+            type: boolean
+          IsTopologyInstalled:
+            type: boolean
+          IsVimInstalled:
+            type: boolean
+          IsVmanInstalled:
+            type: boolean
+          IsRecommendationsInstalled:
+            type: boolean
+          TimeTravelMapsCurrentCount:
+            type: integer
+            format: int32
+  SettingsBase:
+    type: object
+    x-abstract: true
+  NetObjectInfo:
+    type: object
+    properties:
+      EntityType:
+        type: string
+      Prefix:
+        type: string
+      KeyProperty:
+        type: string
+  GraphResponse:
+    type: object
+    required:
+      - Status
+    properties:
+      Id:
+        type: string
+      Status:
+        type: integer
+        format: int32
+      StatusDescription:
+        type: string
+      StatusIconPostfix:
+        type: string
+      DisplayName:
+        type: string
+      Description:
+        type: string
+      Nodes:
+        type: array
+        items:
+          $ref: '#/definitions/Entity'
+      Edges:
+        type: array
+        items:
+          $ref: '#/definitions/Edge'
+  Edge:
+    type: object
+    required:
+      - Type
+      - IsCustom
+      - IsDeletable
+      - AllOrion
+    properties:
+      Id:
+        type: string
+      SourceId:
+        type: string
+      DestinationId:
+        type: string
+      Type:
+        $ref: '#/definitions/EdgeType'
+      DestinationProcessName:
+        type: string
+      DetailsUrl:
+        type: string
+      Egress:
+        $ref: '#/definitions/ConnectionStateInfo'
+      Ingress:
+        $ref: '#/definitions/ConnectionStateInfo'
+      IsCustom:
+        type: boolean
+      IsDeletable:
+        type: boolean
+      AllOrion:
+        type: boolean
+  EdgeType:
+    type: integer
+    description: ''
+    x-enumNames:
+      - Unknown
+      - HasA
+      - DependsOn
+      - MemberOf
+      - ConnectionL2
+      - ConnectionL3
+      - ConnectionCustom
+      - AdmConnection
+      - IsA
+    enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+  ConnectionStateInfo:
+    type: object
+    required:
+      - Port
+      - Status
+      - Bandwidth
+      - Bps
+      - IsAdmQualityPollingEnabled
+      - InBandwidth
+      - InBps
+    properties:
+      DisplayName:
+        type: string
+      Port:
+        type: integer
+        format: int32
+      SourceEntity:
+        $ref: '#/definitions/Entity'
+      Status:
+        type: integer
+        format: int32
+      StatusColor:
+        type: string
+      Bandwidth:
+        type: number
+        format: double
+      Bps:
+        type: number
+        format: double
+      Stats:
+        type: array
+        items:
+          $ref: '#/definitions/Statistic'
+      IsAdmQualityPollingEnabled:
+        type: boolean
+      InBandwidth:
+        type: number
+        format: double
+      InBps:
+        type: number
+        format: double
+  Statistic:
+    type: object
+    required:
+      - Value
+      - Status
+    properties:
+      Name:
+        type: string
+      Value:
+        type: number
+        format: double
+      Units:
+        type: string
+      Status:
+        type: integer
+        format: int32
+      StatusColor:
+        type: string
+      StatusDescription:
+        type: string
+  GraphDefinition:
+    type: object
+    properties:
+      ContainerOpid:
+        type: string
+      ProjectId:
+        type: string
+      NodeRules:
+        type: array
+        items:
+          $ref: '#/definitions/NodeRule'
+      EdgeRules:
+        type: array
+        items:
+          $ref: '#/definitions/EdgeRule'
+  GraphQueryParameters:
+    type: object
+    properties:
+     DisplayName:
+       type: string
+     Details:
+       type: boolean
+     LimitationId:
+       type: integer
+     IsAdminUser:
+       type: boolean
+     AllowNodeManagement:
+       type: boolean
+     Status:
+       type: array
+       items:
+          type: string
+     Type:
+       type: array
+       items:
+          type: string
+     EdgeTypes:
+       type: array
+       items:
+          type: integer
+     ProjectId:
+       type: string
+     Ancestors:
+       type: boolean
+     Connections:
+       type: boolean
+     Children:
+       type: boolean
+     Related:
+       type: boolean
+     Connected:
+       type: boolean
+     Members:
+       type: boolean
+     ShadowNodes:
+       type: boolean
+     ShowL3Unknowns:
+       type: boolean
+     ShowL2Unknowns:
+       type: boolean
+     Add:
+       type: boolean
+     ShowManualConnetions:
+       type: boolean
+     ShowGeneratedConnetions:
+       type: boolean
+     Ids:
+       type: array
+       items:
+          type: string
+     MemberIds:
+       type: array
+       items:
+          type: string
+  NodeRule:
+    type: object
+    required:
+      - Type
+    properties:
+      Type:
+        $ref: '#/definitions/GraphNodeRuleType'
+      Opid:
+        type: string
+      Filter:
+        type: string
+  GraphNodeRuleType:
+    type: integer
+    description: ''
+    x-enumNames:
+      - AddEntity
+      - AddMembers
+      - AddAncestors
+      - AddDescendants
+      - AddConnected
+      - AddDependency
+    enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+  EdgeRule:
+    type: object
+    required:
+      - Type
+    properties:
+      Type:
+        $ref: '#/definitions/GraphEdgeRuleType'
+      Opids:
+        type: array
+        items:
+          type: string
+      Filter:
+        type: string
+  GraphEdgeRuleType:
+    type: integer
+    description: ''
+    x-enumNames:
+      - AddTopology
+      - AddMemberOf
+      - AddDependency
+      - AddAdm
+    enum:
+      - 0
+      - 1
+      - 2
+      - 3
+  EdgeDefinition:
+    type: object
+    required:
+      - AllOrion
+      - Type
+    properties:
+      ProjectId:
+        type: string
+      AllOrion:
+        type: boolean
+      SourceId:
+        type: string
+      DestinationId:
+        type: string
+      Type:
+        $ref: '#/definitions/EdgeType'
+      SourceDefinition:
+        $ref: '#/definitions/ConnectionDefinition'
+      DestinationDefinition:
+        $ref: '#/definitions/ConnectionDefinition'
+  ConnectionDefinition:
+    type: object
+    required:
+      - InterfaceMetricsInverted
+    properties:
+      EntityId:
+        type: string
+      InterfaceMetricsInverted:
+        type: boolean
+      PropertyDefinition:
+        type: array
+        items:
+          $ref: '#/definitions/PropertyDefinition'
+  PropertyDefinition:
+    type: object
+    properties:
+      EntityId:
+        type: string
+      Property:
+        type: string
