@@ -13,7 +13,10 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
             try
             {
                 var json = JsonConvert.SerializeObject(target);
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json,new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
             }
             catch (Exception e)
             {

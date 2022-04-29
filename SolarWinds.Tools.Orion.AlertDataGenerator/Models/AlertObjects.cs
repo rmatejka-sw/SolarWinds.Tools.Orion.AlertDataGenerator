@@ -48,11 +48,10 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
         }
 
 
-        public static AlertObjects CreateOrUpdate(DateTime triggerDate, AlertConfigurations alert, System_ManagedEntity entity)
+        public static AlertObjects CreateOrUpdate(DateTime triggerDate, AlertConfigurations alert, NetObjectTypes netObjectType, System_ManagedEntity entity)
         {
             try
             {
-                var netObjectType = NetObjectTypes.Get(AlertDataGenerator.WebApiClients.SwisClient, entity.InstanceType);
                 var entityId = entity.GetEntityId();
                 var netObjectId = netObjectType.GetNetObjectId(entityId);
                 AlertObjects alertObjects =
@@ -85,20 +84,6 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
                     alertObjects.TriggeredCount += 1;
                     DbConnectionManager.DbConnection.Update(alertObjects);
                 }
-                AlertActive alertActive =
-                    AlertActive.GetList<AlertActive>().FirstOrDefault(_ => _.AlertObjectID == alertObjects.AlertObjectID);
-                if (alertActive == null)
-                {
-                    alertActive = new AlertActive
-                    {
-                        AlertObjectID = (int)alertObjects.AlertObjectID,
-                        TriggeredDateTime = triggerDate,
-                        TriggeredMessage = FakerHelper.FakerMarker,
-                    };
-                    var result = DbConnectionManager.DbConnection.Insert<AlertActive>(alertActive);
-                    alertActive.AlertActiveID = (long)result;
-                }
-                CreateAlertHistories(triggerDate, alertObjects, alertActive);
                 return alertObjects;
             }
             catch (Exception e)
@@ -109,31 +94,12 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
             return null;
         }
 
-        private static void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
-        {
-            var lastEventType = AlertHistory.GetList<AlertHistory>(
-                $"SELECT TOP 1 EventType FROM AlertHistory WHERE AlertObjectID={alertObjects.AlertObjectID} and EventType in (0,1) order by TimeStamp DESC").FirstOrDefault()?.EventType??0;
-            var alertHistory = new AlertHistory
-            {
-                EventType = (short) (lastEventType == 0 ? 1 : 0),
-                Message = FakerHelper.FakerMarker,
-                TimeStamp = triggerDate,
-                AlertActiveID = alertActive.AlertActiveID,
-                AlertObjectID = (int) alertObjects.AlertObjectID
-            };
-            DbConnectionManager.DbConnection.Insert<AlertHistory>(alertHistory);
-            if (lastEventType == 0)
-            {
-                alertHistory.EventType = 0;
-                DbConnectionManager.DbConnection.Insert<AlertHistory>(alertHistory);
-            }
-        }
 
         private static System_ManagedEntity GetRelatedNode(System_ManagedEntity entity)
         {
             var nodeName = entity.AncestorDisplayNames.Last();
             var node = SwisEntity
-                        .GetManagedEntity(AlertDataGenerator.WebApiClients.SwisClient, "Orion.Nodes", null, nodeName)
+                        .GetManagedEntityByType("Orion.Nodes", null, nodeName)
                         .FirstOrDefault();
             return node;
         }

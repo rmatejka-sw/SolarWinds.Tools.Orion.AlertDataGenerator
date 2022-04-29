@@ -13,6 +13,7 @@ using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Helpers;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.CommandLineTool.Service;
+using SolarWinds.Tools.CommandLineTool.SwisEntities;
 
 namespace SolarWinds.Tools.CommandLineTool
 {
@@ -49,7 +50,7 @@ namespace SolarWinds.Tools.CommandLineTool
             {
                 foreach (var intervalTime in this.Options.NextInterval())
                 {
-                    if (!this.GenerateIntervalData(intervalTime)) break;
+                    this.GenerateIntervalData(intervalTime);
                 }
             }
             catch (Exception e)
@@ -73,20 +74,7 @@ namespace SolarWinds.Tools.CommandLineTool
             return wasParsed;
         }
 
-        protected WebApiClients GetWebApiClients(IOrionOptions options)
-        {
-            try
-            {
-                return new WebApiClients($"http://{options.OrionServerName}/",
-                    new OrionCredentials(options.OrionServerName, options.OrionUserName, options.OrionPassword));
-            }
-            catch (Exception e)
-            {
-                ConsoleLogger.Error(e);
-            }
 
-            return null;
-        }
 
     }
 }

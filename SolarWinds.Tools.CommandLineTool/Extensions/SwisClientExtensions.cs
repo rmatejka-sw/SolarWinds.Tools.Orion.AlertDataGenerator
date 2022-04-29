@@ -15,7 +15,7 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
             try
             {
                 var records = new List<T>();
-                var result = swisClient.QueryAsync(new QueryParam {Query = query}).Result.Result.ToList();
+                var result = swisClient.QueryAsync(new QueryParam {Query = query.ExpandAsteriskToPropList<T>()}).Result.Result.ToList();
                 foreach (object resultObject in result)
                 {
                     records.Add(resultObject.ToClass<T>());
@@ -38,7 +38,7 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
         {
             try
             {
-                var netObjectType = SwisEntity.Get<NetObjectTypes>(swisClient).FirstOrDefault(_ => _.EntityType == entityType);
+                var netObjectType = SwisEntity.Get<NetObjectTypes>().FirstOrDefault(_ => _.EntityType == entityType);
                 string query = $"SELECT TOP {maxRecords} {netObjectType.KeyProperty} as ID from {entityType}";
                 return swisClient.QueryList<IdResult>(query).Select(_ => _.ID).ToList();
 
@@ -50,5 +50,6 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
 
             return Enumerable.Empty<int>().ToList();
         }
+
     }
 }

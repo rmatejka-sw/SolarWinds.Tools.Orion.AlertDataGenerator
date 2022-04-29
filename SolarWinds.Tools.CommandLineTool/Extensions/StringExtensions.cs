@@ -52,6 +52,11 @@ namespace SolarWinds.Tools.CommandLineTool.Extensions
             }
         }
 
+        public static string ExpandAsteriskToPropList<T>(this string query)
+        {
+            return query.Replace("*", typeof(T).GetPropertyList());
+        }
+
         public static string Decrypt(this string encryptedText, string key)
         {
             try

@@ -31,31 +31,5 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator.Models
         public bool Hidden { get; set; }
         public string LicenseFeatureName { get; set; }
 
-        public static bool GenerateAlert(DateTime intervalDateTime)
-        {
-            try
-            {
-                var alert = DbConnectionManager.DbConnection.GetRandomRecord<AlertConfigurations>(alert=>alert.Enabled);
-                var entityType = NetObjectTypes.GetList(AlertDataGenerator.WebApiClients.SwisClient).FirstOrDefault(ot => ot.Name == alert.ObjectType)?.EntityType ?? null;
-                if (entityType == null) return false;
-                var entities = System_ManagedEntity.GetManagedEntity(AlertDataGenerator.WebApiClients.SwisClient, entityType);
-                if (entities.Count == 0)
-                {
-                    ConsoleLogger.Warning($"entityType not found {entityType}");
-                    return false;
-                }
-                var entity = entities.PickRandom();
-                var alertObject = AlertObjects.CreateOrUpdate(intervalDateTime, alert, entity);
-                // Create AlertObject
-                // Create AlertHistory
-                return true;
-            }
-            catch (Exception e)
-            {
-                ConsoleLogger.Error(e);;
-            }
-
-            return false;
-        }
-    }
+     }
 }

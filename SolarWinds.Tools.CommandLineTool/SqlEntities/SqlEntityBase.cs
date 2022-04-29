@@ -31,7 +31,7 @@ namespace SolarWinds.Tools.CommandLineTool.SqlEntities
         {
             try
             {
-                return DbConnectionManager.DbConnection.Query<T>(query.Replace("*", typeof(T).GetPropertyList())).ToList();
+                return DbConnectionManager.DbConnection.Query<T>(query.ExpandAsteriskToPropList<T>()).ToList();
             }
             catch (Exception e)
             {
