@@ -37,9 +37,9 @@ namespace SolarWinds.Tools.CommandLineTool
 
         }
 
-        protected virtual bool GenerateIntervalData(DateTime intervalTime)
+        protected virtual int GenerateIntervalData(DateTime intervalTime)
         {
-            return true;
+            return 0;
         }
 
         protected virtual RunStatus Run()
@@ -48,10 +48,20 @@ namespace SolarWinds.Tools.CommandLineTool
             DbConnectionManager.ConnectToDatabase(this.Options);
             try
             {
+                var totalAlerts = 0;
+                DateTime startTime = DateTime.MinValue;
+                DateTime endTime = startTime;
                 foreach (var intervalTime in this.Options.NextInterval())
                 {
-                    this.GenerateIntervalData(intervalTime);
+                    if (startTime == DateTime.MinValue)
+                    {
+                        startTime = intervalTime;
+                    }
+                    totalAlerts += this.GenerateIntervalData(intervalTime);
+                    endTime = intervalTime;
                 }
+                ConsoleLogger.Success(new string('=',100));
+                ConsoleLogger.Success($"Generated {totalAlerts} from {startTime} to {endTime}");
             }
             catch (Exception e)
             {

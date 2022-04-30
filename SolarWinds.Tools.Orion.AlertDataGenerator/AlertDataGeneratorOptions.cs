@@ -20,10 +20,10 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator
         public string OrionUserName { get; set; }
         public string OrionPassword { get; set; }
 
-        public int AlertPerInterval => this.AlertsPerHour * 60 / this.PollingInterval;
+        public int AlertPerInterval => this.AlertsPerHour / 60 / this.PollingInterval;
 
         public int AlertPerIntervalRandom =>
-            FakerHelper.Faker.Random.Int(1, AlertPerInterval);
+            FakerHelper.Faker.Random.Int(AlertPerInterval- AlertPerInterval/2, AlertPerInterval+ AlertPerInterval/2);
 
     }
 }

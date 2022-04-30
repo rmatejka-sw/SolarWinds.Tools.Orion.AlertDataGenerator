@@ -25,13 +25,14 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator
             this._netObjectTypeInstances = NetObjectTypes.GetInstances();
         }
 
-        protected override bool GenerateIntervalData(DateTime intervalTime)
+        protected override int GenerateIntervalData(DateTime intervalTime)
         {
             try
             {
                 var totalAlerts = this.Options.AlertPerIntervalRandom;
+                var alertsRemaining = totalAlerts;
                 ConsoleLogger.Info($"Generating {totalAlerts} alerts for interval {intervalTime}");
-                while (totalAlerts > 0)
+                while (alertsRemaining > 0)
                 {
                     var alert = DbConnectionManager.DbConnection.GetRandomRecord<AlertConfigurations>(
                         alert => alert.Enabled && this._netObjectTypeInstances.Any(_=>_.Name == alert.ObjectType));
@@ -42,16 +43,17 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator
                     var alertObjects = AlertObjects.CreateOrUpdate(intervalTime, alert, netObjectType, entity);
                     var alertActive = AlertActive.CreateOrUpdate(intervalTime, (int)alertObjects.AlertObjectID);
                     CreateAlertHistories(intervalTime, alertObjects, alertActive);
-                    totalAlerts -= 1;
+                    alertsRemaining -= 1;
                 }
-                ConsoleLogger.Success($"Generated {this.Options.AlertPerIntervalRandom} alerts for interval {intervalTime}");
+                ConsoleLogger.Success($"Generated {totalAlerts} alerts for interval {intervalTime}");
+                return totalAlerts;
             }
             catch (Exception e)
             {
                 ConsoleLogger.Error(e);
             }
 
-            return false;
+            return 0;
         }
 
         private void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
