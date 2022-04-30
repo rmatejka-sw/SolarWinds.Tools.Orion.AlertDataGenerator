@@ -8,10 +8,10 @@ namespace SolarWinds.Tools.CommandLineTool.Options
         [Option("pastDays", Default = 30, HelpText = "Total number of days into the past to generate data.")]
         int PastDays { get; set; }
 
-        [Option("futureDays", Default = 5, HelpText = "Total number of days into the future to generate data.")]
+        [Option("futureDays", Default = 0, HelpText = "Total number of days into the future to generate data.")]
         int FutureDays { get; set; }
 
-        [Option("pollingIntervalMinutes", Default = 10, HelpText = "Polling interval in minutes.")]
+        [Option("pollingIntervalMinutes", Default = 2, HelpText = "Polling interval in minutes.")]
         int PollingInterval { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace SolarWinds.Tools.Orion.AlertDataGenerator
 {
     public class AlertDataGeneratorOptions : IDatabaseOptions, ITimeRangeOptions, IOrionOptions
     {
-        [Option("alertsPerHour", Default = 10000, HelpText = "Total number of alerts to generate per hour.")]
+        [Option("alertsPerHour", Default = 20000, HelpText = "Total number of alerts to generate per hour.")]
         public int AlertsPerHour { get; set; }
         public string DbServerName { get; set; }
         public string DbName { get; set; }
