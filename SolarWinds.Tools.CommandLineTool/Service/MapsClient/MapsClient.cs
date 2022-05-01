@@ -949,6 +949,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsAlertsClient 
     {
@@ -1155,6 +1156,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsAssetsClient 
     {
@@ -1800,6 +1802,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsContainersClient 
     {
@@ -4566,6 +4569,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsMetadataClient 
     {

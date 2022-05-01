@@ -12,10 +12,12 @@
 #pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
 #pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
 
+/// <exclude/>
 namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
 {
     using System = global::System;
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PerfStackEntitiesClient 
     {
@@ -1580,7 +1582,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
             return result == null ? "" : result;
         }
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PerfStackMetadataClient 
     {
@@ -2482,7 +2485,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
             return result == null ? "" : result;
         }
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PerfStackMetricsClient 
     {
@@ -3350,7 +3354,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
             return result == null ? "" : result;
         }
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.14.8.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PerfStackProjectsClient 
     {
@@ -4421,6 +4426,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class StatusInfo 
     {
@@ -4462,7 +4468,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class EntitiesResponse 
     {
@@ -4474,7 +4481,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Entity 
     {
@@ -4522,7 +4530,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class DetailProperty 
     {
@@ -4537,13 +4546,15 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class MetricsList : System.Collections.ObjectModel.Collection<Metric>
     {
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Metric 
     {
@@ -4624,7 +4635,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public enum MetricType
     {
@@ -4645,7 +4657,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
         WaitTime = 7,
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public enum MetricDisplayType
     {
@@ -4666,7 +4679,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
         StateStacked = 7,
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Statistics 
     {
@@ -4693,7 +4707,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class ThresholdLevel 
     {
@@ -4708,7 +4723,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public enum ThresholdType
     {
@@ -4719,13 +4735,15 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
         Warning = 2,
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Measurements : System.Collections.ObjectModel.Collection<Measurement>
     {
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Measurement 
     {
@@ -4743,7 +4761,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class MetadataEntry 
     {
@@ -4770,7 +4789,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Query 
     {
@@ -4791,7 +4811,8 @@ namespace SolarWinds.Tools.CommandLineTool.Service.PerfStackClient
     
     
     }
-    
+
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class EntityType 
     {
