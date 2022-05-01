@@ -16,6 +16,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
 {
     using System = global::System;
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapProjectsClient 
     {
@@ -2367,6 +2368,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsGraphClient 
     {
@@ -3015,6 +3017,7 @@ namespace SolarWinds.Tools.CommandLineTool.Service.MapsClient
         }
     }
 
+    /// <exclude/>
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MapsEntitiesClient 
     {

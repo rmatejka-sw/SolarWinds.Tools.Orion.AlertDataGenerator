@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Security.Authentication.ExtendedProtection;
-using Bogus;
 using CommandLine;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
@@ -12,12 +9,18 @@ using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Helpers;
 using SolarWinds.Tools.CommandLineTool.Options;
-using SolarWinds.Tools.CommandLineTool.Service;
-using SolarWinds.Tools.CommandLineTool.SwisEntities;
 
 namespace SolarWinds.Tools.CommandLineTool
 {
-    public class CommandLineTool<TOptions> where TOptions : IDatabaseOptions, ITimeRangeOptions, new()
+    /// <summary>
+    /// Provides common support for command-line application with focus on data-generation for Orion.
+    /// Includes support for parsing command line options, Orion Authentication for WebApi access, and Orion
+    /// SQL server access.
+    /// </summary>
+    /// <typeparam name="TOptions">Option class that implement can implement IDatabaseOptions, ITimeRangeOptions, and IOrionOptions
+    ///as required for your application. See AlertDataGeneratorOptions for example usage.
+    /// </typeparam>
+    public class CommandLineTool<TOptions> where TOptions : IDatabaseOptions, ITimeRangeOptions, IOrionOptions, new()
     {
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
@@ -37,11 +40,24 @@ namespace SolarWinds.Tools.CommandLineTool
 
         }
 
+        /// <summary>
+        /// Called once per every interval as defined in ITimeRangeOptions. For example, -pastdays 5 and
+        /// -PollingInterval 10 minutes would result in 5*24*60/10= 720 calls to this method with the time
+        /// going from Now to 5 days in the past. Client should override to provide their implementation.
+        /// 
+        /// </summary>
+        /// <param name="intervalTime">DateTime for which data should be generated.</param>
+        /// <returns>Integer as defined by the client.</returns>
         protected virtual int GenerateIntervalData(DateTime intervalTime)
         {
             return 0;
         }
 
+        /// <summary>
+        /// Validates command line options, connects to SQl Server, and then begins calling GenerateIntervalData
+        /// for the total number of times determined from the ITimeRangeOptions.
+        /// </summary>
+        /// <returns>Status of run</returns>
         protected virtual RunStatus Run()
         {
             if (!this.IsValid) return RunStatus.ParameterValidationFailed;
