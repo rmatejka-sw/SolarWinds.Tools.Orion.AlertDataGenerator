@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SolarWinds.Tools.CommandLineTool\SolarWinds.Tools.CommandLineTool.csproj" />
+    <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj" />
+    <ProjectReference Include="..\SolarWinds.Tools.ModelGenerators\SolarWinds.Tools.ModelGenerators.csproj" />
+  </ItemGroup>
+
+</Project>

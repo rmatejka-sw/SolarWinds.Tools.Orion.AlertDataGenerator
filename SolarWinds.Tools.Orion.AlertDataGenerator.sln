@@ -5,15 +5,19 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{410295FC-3DA2-42FE-BD6F-1F7F30AFB941}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.Orion.AlertDataGenerator", "SolarWinds.Tools.Orion.AlertDataGenerator\SolarWinds.Tools.Orion.AlertDataGenerator.csproj", "{B8002646-65CB-4599-AFC4-1B111DC723AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.CommandLineTool", "SolarWinds.Tools.CommandLineTool\SolarWinds.Tools.CommandLineTool.csproj", "{EEB744E0-88BE-4F2B-96A9-8F18BD1E5011}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.DataGenerator.Plugin.NetGen", "..\..\..\Documents\GitHub\tools-auts-genericdatagenerator.plugin.netgen\Src\SolarWinds.DataGenerator.Plugin.NetGen\SolarWinds.DataGenerator.Plugin.NetGen.csproj", "{4E8FB39D-89EC-4480-9876-3B1C87321F01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.ModelGenerators", "SolarWinds.Tools.ModelGenerators\SolarWinds.Tools.ModelGenerators.csproj", "{34C59491-C877-4FB8-BDDB-9D48BFF8321B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.NetworkGenerator", "Solarwinds.Tools.NetworkGenerator\SolarWinds.Tools.NetworkGenerator.csproj", "{4A6F64CF-DC3B-40DA-B70D-170A689C0D9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.Helpers", "SolarWinds.Tools.DataGeneration.Helpers\SolarWinds.Tools.DataGeneration.Helpers.csproj", "{0972147D-6F24-4AC0-BE12-4BD89DBEF948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Tools.ModelGenerators", "SolarWinds.Tools.ModelGenerators\SolarWinds.Tools.ModelGenerators.csproj", "{34C59491-C877-4FB8-BDDB-9D48BFF8321B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.Services", "SolarWinds.Tools.DataGeneration.Services\SolarWinds.Tools.DataGeneration.Services.csproj", "{2DAD6942-85BA-4124-81A8-1E3CBA90F301}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.CommandLineTool.AlertDataGenerator", "SolarWinds.Tools.CommandLineTool.AlertDataGenerator\SolarWinds.Tools.CommandLineTool.AlertDataGenerator.csproj", "{9B7348E2-ECC2-4FD3-A5F5-674193FE26CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.CommandLineTool.NetworkGenerator", "SolarWinds.Tools.CommandLineTool.NetworkGenerator\SolarWinds.Tools.CommandLineTool.NetworkGenerator.csproj", "{BBC8E397-5C23-44E5-BDB7-DF2496C23ED6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.DAL", "SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj", "{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,26 +25,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B8002646-65CB-4599-AFC4-1B111DC723AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8002646-65CB-4599-AFC4-1B111DC723AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8002646-65CB-4599-AFC4-1B111DC723AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8002646-65CB-4599-AFC4-1B111DC723AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EEB744E0-88BE-4F2B-96A9-8F18BD1E5011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EEB744E0-88BE-4F2B-96A9-8F18BD1E5011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEB744E0-88BE-4F2B-96A9-8F18BD1E5011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEB744E0-88BE-4F2B-96A9-8F18BD1E5011}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E8FB39D-89EC-4480-9876-3B1C87321F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E8FB39D-89EC-4480-9876-3B1C87321F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E8FB39D-89EC-4480-9876-3B1C87321F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E8FB39D-89EC-4480-9876-3B1C87321F01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A6F64CF-DC3B-40DA-B70D-170A689C0D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A6F64CF-DC3B-40DA-B70D-170A689C0D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A6F64CF-DC3B-40DA-B70D-170A689C0D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A6F64CF-DC3B-40DA-B70D-170A689C0D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34C59491-C877-4FB8-BDDB-9D48BFF8321B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34C59491-C877-4FB8-BDDB-9D48BFF8321B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34C59491-C877-4FB8-BDDB-9D48BFF8321B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34C59491-C877-4FB8-BDDB-9D48BFF8321B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0972147D-6F24-4AC0-BE12-4BD89DBEF948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0972147D-6F24-4AC0-BE12-4BD89DBEF948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0972147D-6F24-4AC0-BE12-4BD89DBEF948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0972147D-6F24-4AC0-BE12-4BD89DBEF948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DAD6942-85BA-4124-81A8-1E3CBA90F301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DAD6942-85BA-4124-81A8-1E3CBA90F301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DAD6942-85BA-4124-81A8-1E3CBA90F301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DAD6942-85BA-4124-81A8-1E3CBA90F301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7348E2-ECC2-4FD3-A5F5-674193FE26CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7348E2-ECC2-4FD3-A5F5-674193FE26CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7348E2-ECC2-4FD3-A5F5-674193FE26CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7348E2-ECC2-4FD3-A5F5-674193FE26CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC8E397-5C23-44E5-BDB7-DF2496C23ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC8E397-5C23-44E5-BDB7-DF2496C23ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC8E397-5C23-44E5-BDB7-DF2496C23ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC8E397-5C23-44E5-BDB7-DF2496C23ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoBogus" Version="2.13.1" />
+    <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="DapperExtensions" Version="1.7.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tables\Orion\Core\Metrics\CPULoad_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\CPUMultiLoad_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\InterfaceAvailability_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\InterfaceErrors_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\InterfaceTrafficStatistics\" />
+    <Folder Include="Tables\Orion\Core\Metrics\InterfaceTrafficUtil\" />
+    <Folder Include="Tables\Orion\Core\Metrics\InterfaceTraffic_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\LoadAverage_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\ResponseTime_CS\" />
+    <Folder Include="Tables\Orion\Core\Metrics\VolumeUsage_CS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.Helpers\SolarWinds.Tools.DataGeneration.Helpers.csproj" />
+    <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.Services\SolarWinds.Tools.DataGeneration.Services.csproj" />
+  </ItemGroup>
+
+</Project>

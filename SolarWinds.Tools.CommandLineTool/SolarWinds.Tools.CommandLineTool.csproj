@@ -5,7 +5,7 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<ApiReferenceDocumentationOutputPath>.\api</ApiReferenceDocumentationOutputPath>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoBogus" Version="2.13.1" />
@@ -19,5 +19,11 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="ScrapySharp" Version="3.0.0" />
 		<PackageReference Include="DefaultDocumentation" Version="0.8.1" PrivateAssets="all" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Helpers\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj" />
 	</ItemGroup>
 </Project>

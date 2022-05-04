@@ -7,16 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
-using SolarWinds.Tools.CommandLineTool.Helpers;
 using SolarWinds.Tools.CommandLineTool.Options;
+using SolarWinds.Tools.DataGeneration.Helpers;
 
 namespace SolarWinds.Tools.CommandLineTool
 {
     /// <summary>
     /// Provides common support for command-line application with focus on data-generation for Orion.
-    /// Includes support for parsing command line options, Orion Authentication for WebApi access, and Orion
-    /// SQL server access.
-    /// </summary>
+     /// </summary>
     /// <typeparam name="TOptions">Option class that implement can implement IDatabaseOptions, ITimeRangeOptions, and IOrionOptions
     ///as required for your application. See AlertDataGeneratorOptions for example usage.
     /// </typeparam>
@@ -34,8 +32,7 @@ namespace SolarWinds.Tools.CommandLineTool
             var host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddMemoryCache())
                 .Build();
-            CacheManager.Cache =
-                host.Services.GetRequiredService<IMemoryCache>(); 
+            CacheManager.Initialize(host.Services.GetRequiredService<IMemoryCache>());
             this.IsValid = ValidateArguments(args);
 
         }
@@ -44,7 +41,6 @@ namespace SolarWinds.Tools.CommandLineTool
         /// Called once per every interval as defined in ITimeRangeOptions. For example, -pastdays 5 and
         /// -PollingInterval 10 minutes would result in 5*24*60/10= 720 calls to this method with the time
         /// going from Now to 5 days in the past. Client should override to provide their implementation.
-        /// 
         /// </summary>
         /// <param name="intervalTime">DateTime for which data should be generated.</param>
         /// <returns>Integer as defined by the client.</returns>
@@ -61,7 +57,7 @@ namespace SolarWinds.Tools.CommandLineTool
         protected virtual RunStatus Run()
         {
             if (!this.IsValid) return RunStatus.ParameterValidationFailed;
-            DbConnectionManager.ConnectToDatabase(this.Options);
+            DbConnectionManager.ConnectToDatabase(this.Options.DbServerName, this.Options.DbUserName, this.Options.DbPassword, this.Options.DbName);
             try
             {
                 var totalAlerts = 0;
