@@ -15,10 +15,10 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.Options
         [Option("MinNodes", HelpText = "Specifies the minimum number of total nodes to generate for the network. Actual total may be slightly higher.")]
         public int MinNodes { get; set; }
 
-        [Option("ShadowNodes", Default = "0", HelpText = "Percentage of nodes from 0-100 that should be Shadow Nodes. Default is no shadow nodes.")]
+        [Option("ShadowNodes", Default = 0, HelpText = "Percentage of nodes from 0-100 that should be Shadow Nodes. Default is no shadow nodes.")]
         public int ShadowNodes { get; set; }
 
-        [Option("MaxInternalNodes", Default = "0", HelpText = "The maximum number of nodes to generate for an internal subnet. Default is random up to 5.")]
+        [Option("MaxInternalNodes", Default = 0, HelpText = "The maximum number of nodes to generate for an internal subnet. Default is random up to 5.")]
         public int MaxInternalNodes { get; set; }
 
         [Option("MaxConnectionsBetweenNodes", Default = 1, HelpText = "Allows for generating multiple connections between nodes. Default is one connection between each node.")]

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SolarWinds.Tools.CommandLineTool.NetworkGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "generatenetwork"
+    }
+  }
+}

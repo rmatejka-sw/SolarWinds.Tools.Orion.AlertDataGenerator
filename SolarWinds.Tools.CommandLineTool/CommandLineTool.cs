@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CommandLine;
 using Microsoft.Extensions.Configuration;
@@ -9,20 +11,25 @@ using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Services;
 
 namespace SolarWinds.Tools.CommandLineTool
 {
     /// <summary>
     /// Provides common support for command-line application with focus on data-generation for Orion.
-     /// </summary>
-    /// <typeparam name="TOptions">Option class that implement can implement IDatabaseOptions, ITimeRangeOptions, and IOrionOptions
-    ///as required for your application. See AlertDataGeneratorOptions for example usage.
-    /// </typeparam>
-    public class CommandLineTool<TOptions> where TOptions : IDatabaseOptions, ITimeRangeOptions, IOrionOptions, new()
+    /// </summary>
+    public abstract class CommandLineTool
     {
+        public abstract IList<ICommandLineAction> Actions { get; }
+
+        protected ICommandLineOptions Options { get; private set; }
+        protected IDatabaseOptions DatabaseOptions => this.Options as IDatabaseOptions;
+        protected IOrionOptions OrionOptions => this.Options as IOrionOptions;
+        protected ITimeRangeOptions TimeRangeOptions => this.Options as ITimeRangeOptions;
+        protected ICommandLineAction Action { get; private set; }
+
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
-        public TOptions Options { get; set; }
         public CommandLineTool(string[] args)
         {
             ContentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -38,18 +45,6 @@ namespace SolarWinds.Tools.CommandLineTool
         }
 
         /// <summary>
-        /// Called once per every interval as defined in ITimeRangeOptions. For example, -pastdays 5 and
-        /// -PollingInterval 10 minutes would result in 5*24*60/10= 720 calls to this method with the time
-        /// going from Now to 5 days in the past. Client should override to provide their implementation.
-        /// </summary>
-        /// <param name="intervalTime">DateTime for which data should be generated.</param>
-        /// <returns>Integer as defined by the client.</returns>
-        protected virtual int GenerateIntervalData(DateTime intervalTime)
-        {
-            return 0;
-        }
-
-        /// <summary>
         /// Validates command line options, connects to SQl Server, and then begins calling GenerateIntervalData
         /// for the total number of times determined from the ITimeRangeOptions.
         /// </summary>
@@ -57,23 +52,27 @@ namespace SolarWinds.Tools.CommandLineTool
         protected virtual RunStatus Run()
         {
             if (!this.IsValid) return RunStatus.ParameterValidationFailed;
-            DbConnectionManager.ConnectToDatabase(this.Options.DbServerName, this.Options.DbUserName, this.Options.DbPassword, this.Options.DbName);
             try
             {
-                var totalAlerts = 0;
-                DateTime startTime = DateTime.MinValue;
-                DateTime endTime = startTime;
-                foreach (var intervalTime in this.Options.NextInterval())
+                this.Action.BeforeRun(this);
+                this.Action.Run();
+                if (this.TimeRangeOptions != null)
                 {
-                    if (startTime == DateTime.MinValue)
+                    DateTime startTime = DateTime.MinValue;
+                    DateTime endTime = startTime;
+                    foreach (var intervalTime in this.TimeRangeOptions.NextInterval())
                     {
-                        startTime = intervalTime;
+                        if (startTime == DateTime.MinValue)
+                        {
+                            startTime = intervalTime;
+                        }
+                        this.Action.Run(intervalTime);
+                        endTime = intervalTime;
                     }
-                    totalAlerts += this.GenerateIntervalData(intervalTime);
-                    endTime = intervalTime;
+                    ConsoleLogger.Success(new string('=', 100));
+                    ConsoleLogger.Success($"COMPLETED interval from {startTime} to {endTime}");
                 }
-                ConsoleLogger.Success(new string('=',100));
-                ConsoleLogger.Success($"Generated {totalAlerts} from {startTime} to {endTime}");
+                this.Action.AfterRun();
             }
             catch (Exception e)
             {
@@ -83,20 +82,59 @@ namespace SolarWinds.Tools.CommandLineTool
             return RunStatus.CommandError;
         }
 
-        protected bool ValidateArguments(string[] args)
+        /// <summary>
+        /// Called after arguments are validated and before calling BeforeRun.
+        /// </summary>
+        /// <returns>Returns true if no errors, false otherwise.</returns>
+        protected virtual bool InitializeServices()
         {
-            var wasParsed = false;
-            var nonNullArgs = args ?? new string[] { };
-            Parser.Default.ParseArguments<TOptions>(nonNullArgs)
-                .WithParsed<TOptions>(o =>
+            try
+            {
+                if (this.DatabaseOptions != null)
                 {
-                    this.Options = o;
-                    wasParsed = true;
-                });
-            return wasParsed;
+                    DbConnectionManager.ConnectToDatabase(this.DatabaseOptions.DbServerName, this.DatabaseOptions.DbUserName, this.DatabaseOptions.DbPassword, this.DatabaseOptions.DbName);
+                }
+                if (this.OrionOptions != null)
+                {
+                    WebApiManager.InitializeWebApiClients(this.OrionOptions.OrionServerName, this.OrionOptions.OrionUserName, this.OrionOptions.OrionPassword);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return false;
         }
 
+        protected Type[] SupportedVerbs => this.Actions.Select(action => action.GetType()).ToArray();
 
+        protected bool ValidateArguments(string[] args)
+        {
+
+            try
+            {
+                var wasParsed = false;
+                var nonNullArgs = args ?? new string[] { };
+                Parser.Default.ParseArguments(args, this.SupportedVerbs)
+                    .WithParsed(action =>
+                    {
+                        this.Options = action as ICommandLineOptions;
+                        this.Action = action as ICommandLineAction;
+                        this.InitializeServices();
+                        wasParsed = true;
+                    });
+                return wasParsed;
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return false;
+        }
 
     }
 }

@@ -6,56 +6,29 @@ using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
-using SolarWinds.Tools.DataGeneration.Services;
 
 
 namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 {
-    public class AlertDataGenerator : CommandLineTool<AlertDataGeneratorOptions>
+    public class AlertDataGenerator : CommandLineTool
     {
+        private IList<System_ManagedEntity> managedEntityInstances;
+        private IList<NetObjectTypes> netObjectTypeInstances;
 
-        private IList<System_ManagedEntity> _managedEntityInstances;
-        private IList<NetObjectTypes> _netObjectTypeInstances;
-
+        public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
+        {
+            new GenerateAlertsAction()
+        };
         public AlertDataGenerator(string[] args) : base(args)
         {
-            WebApiManager.InitializeWebApiClients(this.Options.OrionServerName, this.Options.OrionUserName, this.Options.OrionPassword);
-            this._managedEntityInstances = SwisEntity.GetInstanceEntities();
-            this._netObjectTypeInstances = NetObjectTypes.GetInstances();
         }
 
-        protected override int GenerateIntervalData(DateTime intervalTime)
-        {
-            try
-            {
-                var totalAlerts = this.Options.AlertPerIntervalRandom;
-                var alertsRemaining = totalAlerts;
-                ConsoleLogger.Info($"Generating {totalAlerts} alerts for interval {intervalTime}");
-                while (alertsRemaining > 0)
-                {
-                    var alert = DbConnectionManager.DbConnection.GetRandomRecord<AlertConfigurations>(
-                        alert => alert.Enabled && this._netObjectTypeInstances.Any(_=>_.Name == alert.ObjectType));
-                    var netObjectType = _netObjectTypeInstances.FirstOrDefault(ot => ot.Name == alert.ObjectType);
-                    if (netObjectType == null) continue;
-                    var entityType = netObjectType.EntityType;
-                    var entity = _managedEntityInstances.PickRandom();
-                    var alertObjects = AlertObjects.CreateOrUpdate(intervalTime, alert, netObjectType, entity);
-                    var alertActive = AlertActive.CreateOrUpdate(intervalTime, (int)alertObjects.AlertObjectID);
-                    CreateAlertHistories(intervalTime, alertObjects, alertActive);
-                    alertsRemaining -= 1;
-                }
-                ConsoleLogger.Success($"Generated {totalAlerts} alerts for interval {intervalTime}");
-                return totalAlerts;
-            }
-            catch (Exception e)
-            {
-                ConsoleLogger.Error(e);
-            }
+        public IList<System_ManagedEntity> ManagedEntityInstances =>
+            managedEntityInstances ??= SwisEntity.GetInstanceEntities();
+        public IList<NetObjectTypes> NetObjectTypeInstances => netObjectTypeInstances ??= NetObjectTypes.GetInstances();
 
-            return 0;
-        }
 
-        private void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
+        public void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
         {
             var lastEventType = AlertHistory.GetList<AlertHistory>(
                 $"SELECT TOP 1 EventType FROM AlertHistory WHERE AlertObjectID={alertObjects.AlertObjectID} and EventType in (0,1) order by TimeStamp DESC").FirstOrDefault()?.EventType ?? 0;

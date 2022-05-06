@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using SolarWinds.Tools.CommandLineTool.Options;
 
-namespace SolarWinds.Tools.NetworkGenerator.Options
+namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options
 {
     /// <summary>
     /// Called on an existing network of fakes. Updates status for all entities to new faked values

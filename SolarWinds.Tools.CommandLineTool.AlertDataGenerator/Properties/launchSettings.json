@@ -1,7 +1,8 @@
 {
   "profiles": {
     "OrionAlertDataGenerator": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "generateAlerts --pastDays 30"
     }
   }
 }

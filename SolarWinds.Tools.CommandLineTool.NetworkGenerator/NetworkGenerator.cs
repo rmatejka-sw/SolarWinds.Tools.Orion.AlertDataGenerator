@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using DapperExtensions;
-using SolarWinds.Tools.CommandLineTool;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
-using SolarWinds.Tools.NetworkGenerator.Options;
 
-namespace SolarWinds.DataGenerator.Plugin.NetGen
+namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 {
-    public class NetworkGenerator : CommandLineTool<NetworkGeneratorOptions>
+    public class NetworkGenerator : CommandLineTool
     {
         public const long GigaBytes = 1024 ^ 3;
+
+        public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
+        {
+
+        };
 
         //10% of auto edges also has manual edges
         private const int AutoEdgeVsManualEdgeRatio = 10;
@@ -30,14 +33,13 @@ namespace SolarWinds.DataGenerator.Plugin.NetGen
             CreateNetworkElements();
 
         }
-
-        public IQueryable<AlertObjects> AlertObjects { get; set; }
-
-        protected override int GenerateIntervalData(DateTime intervalTime)
+        private static int Main(string[] args)
         {
-            return (int)RunStatus.Success;
+            var app = new NetworkGenerator(args);
+            return 0;
         }
 
+        public IQueryable<AlertObjects> AlertObjects { get; set; }
 
         public void CreateAlertForAnomaly(Events anomalyEvent)
         {
@@ -213,5 +215,6 @@ namespace SolarWinds.DataGenerator.Plugin.NetGen
                 Console.WriteLine($"DeleteFakes failed: {ex.Message}");
             }
         }
+
     }
 }

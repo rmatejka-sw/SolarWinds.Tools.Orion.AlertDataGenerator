@@ -2,7 +2,7 @@
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
 
-namespace SolarWinds.Tools.NetworkGenerator.Options
+namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options
 {
     [Verb("GenerateNetwork")]
     public class NetworkGeneratorOptions : IInternetGeneratorOptions, IDatabaseOptions, ITimeRangeOptions, IOrionOptions

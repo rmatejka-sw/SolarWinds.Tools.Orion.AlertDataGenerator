@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using SolarWinds.Tools.CommandLineTool.Options;
 
-namespace SolarWinds.Tools.NetworkGenerator.Options
+namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options
 {
     /// <summary>
     /// Deletes any fake data generated from previous runs.
