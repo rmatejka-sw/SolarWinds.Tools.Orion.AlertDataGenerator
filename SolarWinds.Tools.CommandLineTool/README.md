@@ -29,6 +29,46 @@ One of the primary goals on the CommandLineTool was to minimize the time require
 ### Step 1: Create Core Comman Line project
 The first step is to create an ASP.NET Core Console App
 ![Create Core App](images/CreateCoreApp.png)
-### Step 2: Create Application Class
-The second step is to create your application class that inherits from CommandLineTool:
+### Step 2: Create Action Class
+The next step is to define one or more classes that implement the ICommandLineAction and IDatabaseOptions interface. The function of the action class is two-fold. First, it provides a Run method that will perform the work associated with the action. 
 
+Second, it defines properties for any settings that the user will be able to change via the command line arguments. Each property that you want to use as a command line argument should have an [Option]() attribute and the Action class should use the [Verb]() attribute. See the AlertDataGenerator [GenerateAlertsAction](https://github.com/rmatejka-sw/SolarWinds.Tools.Orion.AlertDataGenerator/blob/master/SolarWinds.Tools.CommandLineTool.AlertDataGenerator/GenerateAlertsAction.cs) class for a complete example and [Defining Command Line Options](#defining-command-line-options) below. 
+### Step 3: Create Application Class
+The final step is to create your application class that inherits from CommandLineTool and implements a static main method that creates an instance of your class and calls the Run method. In addition to teh main method, you must define an Actions methos which returns a list of the actions you defined for yoru generator.
+````
+public class MyDataGenerator : CommandLineTool
+    {
+
+        private static int Main(string[] args)
+        {
+            return (int)new MyDataGenerator().Run(args);
+        }
+
+        public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
+        {
+            new MyAction()
+        };
+    }
+````
+### Defining Command Line Options
+The [Command Line Parser Library](https://github.com/commandlineparser/commandline) is used for handling the parsing and generation of help page for the command line tool. These attributes will be used when you define an Action class that implements the [ICommandLineAction](https://github.com/rmatejka-sw/SolarWinds.Tools.Orion.AlertDataGenerator/blob/master/SolarWinds.Tools.CommandLineTool/ICommandLineAction.cs) interface.
+
+#### Using Predefined Options Interfaces
+Three predefined interfaces exists that define the options and associated command-line properties for Orion database access, SWIS access, and Time Range specification as defined below.
+
+##### IDatabaseOptions
+You Action class should implement IDatabaseOptions if you require access to an Orion Database. It provides the following options:
+````
+        [Option("server", Default = "localhost", HelpText = "Name of database server to which records will be added.")]
+        string DbServerName { get; set; }
+
+        [Option("db", Default = "SolarWindsOrion", HelpText = "Name of database to which records will be added.")]
+        string DbName { get; set; }
+
+        [Option('u', "username", Default = "SolarWindsOrionDatabaseUser ", HelpText = "Database user name")]
+        string DbUserName { get; set; }
+
+        [Option("pass", Default = "123", HelpText = "Database user password")]
+        string DbPassword { get; set; }
+````
+When used in yoru application, access to the Ortion Database is done usng

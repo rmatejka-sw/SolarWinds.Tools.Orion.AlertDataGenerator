@@ -21,9 +21,6 @@
 		<PackageReference Include="DefaultDocumentation" Version="0.8.1" PrivateAssets="all" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Helpers\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj" />
 	</ItemGroup>
 </Project>
