@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using DapperExtensions;
+using SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -17,7 +18,9 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 
         public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
         {
-
+            new DeleteFakesAction(),
+            new GenerateNetworkAction(),
+            new UpdateStatusAction()
         };
 
         //10% of auto edges also has manual edges
@@ -28,15 +31,13 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         private readonly List<DeviceInterface> deviceInterfaces = new List<DeviceInterface>();
         private readonly List<DeviceConnection> deviceConnections = new List<DeviceConnection>();
 
-        public NetworkGenerator(string[] args) : base(args)
+        public NetworkGenerator() 
         {
-            CreateNetworkElements();
-
         }
+
         private static int Main(string[] args)
         {
-            var app = new NetworkGenerator(args);
-            return 0;
+            return new NetworkGenerator().Run(args);
         }
 
         public IQueryable<AlertObjects> AlertObjects { get; set; }
@@ -48,8 +49,6 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 var eventAlerts = this.AlertObjects.Select(ao => ao.EntityNetObjectId == $"{anomalyEvent.NetObjectType}:{anomalyEvent.NetObjectID}").ToList();
             }
             catch (Exception e)
-
-
             {
                 Console.WriteLine($"CreateAlertForAnomaly: {e.Message}");
             }
@@ -78,9 +77,9 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             }
         }
 
-        private int CreateNetworkElements()
+        public int CreateNetworkElements(GenerateNetworkAction options)
         {
-            var internet = new InternetNetworkGenerator(this.Options);
+            var internet = new InternetNetworkGenerator(options);
             this.deviceConnections.Clear();
             this.deviceInterfaces.Clear();
             this.deviceConnections.AddRange(internet.DeviceConnections);
@@ -198,7 +197,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                         command.AppendLine($"DELETE dbo.{table} where NodeID={nodeID};");
                     }
                     command.AppendLine($"DELETE dbo.TopologyConnections where SourceNodeID={nodeID} or MappedNodeID={nodeID};");
-                   // DbConnectionManager.DbConnection.ExecuteNonQuery(command.ToString());
+                    DbConnectionManager.DbConnection.Execute(command.ToString());
                     command.Clear();
                 }
                 command.AppendLine($"DELETE dbo.AIIM_AnomalyHistory;");
@@ -208,11 +207,11 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 command.AppendLine($"DELETE dbo.Events where EventType={Events.AnomalyDetectedTypeId};");
                 command.AppendLine($"DELETE dbo.Events where EventType={Events.AnomalyDetectedTypeId};");
                 command.AppendLine($"DELETE dbo.Volumes where VolumeDescription like'%{FakerHelper.FakeName}%';");
-                //DbConnectionManager.DbConnection.ExecuteNonQuery(command.ToString());
+                DbConnectionManager.DbConnection.Execute(command.ToString());
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"DeleteFakes failed: {ex.Message}");
+                ConsoleLogger.Error($"DeleteFakes failed: {ex.Message}");
             }
         }
 

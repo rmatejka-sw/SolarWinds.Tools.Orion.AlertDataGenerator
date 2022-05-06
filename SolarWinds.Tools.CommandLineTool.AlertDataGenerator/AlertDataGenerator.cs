@@ -15,11 +15,17 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
         private IList<System_ManagedEntity> managedEntityInstances;
         private IList<NetObjectTypes> netObjectTypeInstances;
 
+        private static int Main(string[] args)
+        {
+            return (int)new AlertDataGenerator().Run(args);
+        }
+
         public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
         {
             new GenerateAlertsAction()
         };
-        public AlertDataGenerator(string[] args) : base(args)
+
+        public AlertDataGenerator() 
         {
         }
 
@@ -47,12 +53,8 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
                 DbConnectionManager.DbConnection.Insert<AlertHistory>(alertHistory);
             }
         }
-        private static int Main(string[] args)
-        {
-            var alertDataGenerator = new AlertDataGenerator(args);
-            return (int)alertDataGenerator.Run();
-        }
 
+ 
 
     }
 }

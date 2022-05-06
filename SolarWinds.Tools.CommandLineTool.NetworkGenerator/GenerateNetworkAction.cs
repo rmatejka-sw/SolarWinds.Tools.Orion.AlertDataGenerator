@@ -1,11 +1,14 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 using SolarWinds.Tools.CommandLineTool.Options;
+using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
 
 namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options
 {
     [Verb("GenerateNetwork")]
-    public class NetworkGeneratorOptions : IInternetGeneratorOptions, IDatabaseOptions, ITimeRangeOptions, IOrionOptions
+    public class GenerateNetworkAction : ActionBase, ICommandLineAction, IInternetGeneratorOptions, IDatabaseOptions, ITimeRangeOptions,
+    IOrionOptions
     {
         public int MaxHops { get; set; }
         public int MinNodes { get; set; }
@@ -23,5 +26,33 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options
         public string OrionServerName { get; set; }
         public string OrionUserName { get; set; }
         public string OrionPassword { get; set; }
+        
+        public RunStatus Run(DateTime? timeInterval = null)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return RunStatus.CommandError;
+        }
+
+        public void AfterRun()
+        {
+        }
+
+        public void BeforeRun(CommandLineTool commandLineTool)
+        {
+            this.NetworkGenerator = commandLineTool as NetworkGenerator;
+            if (this.NetworkGenerator == null)
+            {
+                ConsoleLogger.Error("BeforeRun failed to cast commandLineTool to NetworkGenerator");
+                return;
+            }
+            this.NetworkGenerator.CreateNetworkElements(this);
+        }
     }
 }

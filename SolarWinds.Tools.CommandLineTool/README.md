@@ -24,5 +24,11 @@ The CommandLineTool was designed as a base-class that includes the following too
         IList<AlertHistory> alertHistory = SwisEntity.GetList<AlertHistory>() 
 - [System_ManagedEntity](https://github.com/rmatejka-sw/SolarWinds.Tools.Orion.AlertDataGenerator/blob/master/SolarWinds.Tools.CommandLineTool/SwisEntities/System_ManagedEntity.cs) class for querying accessing commonly used ManagedEntities properties for any managed entity instances 
 
-## 
+## Usage
+One of the primary goals on the CommandLineTool was to minimize the time required in order to get up-and-running with your data generation task. To achieve this goal, there are only three steps required as outlined below.
+### Step 1: Create Core Comman Line project
+The first step is to create an ASP.NET Core Console App
+![Create Core App](images/CreateCoreApp.png)
+### Step 2: Create Application Class
+The second step is to create your application class that inherits from CommandLineTool:
 

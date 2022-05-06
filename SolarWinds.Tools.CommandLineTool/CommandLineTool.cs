@@ -30,17 +30,10 @@ namespace SolarWinds.Tools.CommandLineTool
 
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
-        public CommandLineTool(string[] args)
+        
+        public CommandLineTool()
         {
             ContentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(ContentDirectory)
-                .AddJsonFile("appsettings.json");
-            var host = Host.CreateDefaultBuilder(args)
-                .ConfigureServices(services => services.AddMemoryCache())
-                .Build();
-            CacheManager.Initialize(host.Services.GetRequiredService<IMemoryCache>());
-            this.IsValid = ValidateArguments(args);
 
         }
 
@@ -49,13 +42,15 @@ namespace SolarWinds.Tools.CommandLineTool
         /// for the total number of times determined from the ITimeRangeOptions.
         /// </summary>
         /// <returns>Status of run</returns>
-        protected virtual RunStatus Run()
+        protected virtual int Run(string[] args)
         {
-            if (!this.IsValid) return RunStatus.ParameterValidationFailed;
             try
             {
+                if (!ValidateArguments(args)) return (int)RunStatus.ParameterValidationFailed;
+                this.InitializeServices(args);
                 this.Action.BeforeRun(this);
                 this.Action.Run();
+                int totalIntervals = 0;
                 if (this.TimeRangeOptions != null)
                 {
                     DateTime startTime = DateTime.MinValue;
@@ -68,28 +63,37 @@ namespace SolarWinds.Tools.CommandLineTool
                         }
                         this.Action.Run(intervalTime);
                         endTime = intervalTime;
+                        totalIntervals++;
                     }
                     ConsoleLogger.Success(new string('=', 100));
-                    ConsoleLogger.Success($"COMPLETED interval from {startTime} to {endTime}");
+                    ConsoleLogger.Success($"COMPLETED {totalIntervals} intervals from {startTime} to {endTime}");
                 }
                 this.Action.AfterRun();
+                return (int)RunStatus.Success;
             }
             catch (Exception e)
             {
                 ConsoleLogger.Error(e);
             }
 
-            return RunStatus.CommandError;
+            return (int)RunStatus.CommandError;
         }
 
         /// <summary>
         /// Called after arguments are validated and before calling BeforeRun.
         /// </summary>
         /// <returns>Returns true if no errors, false otherwise.</returns>
-        protected virtual bool InitializeServices()
+        protected virtual bool InitializeServices(string[] args)
         {
             try
             {
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(ContentDirectory)
+                    .AddJsonFile("appsettings.json");
+                var host = Host.CreateDefaultBuilder(args)
+                    .ConfigureServices(services => services.AddMemoryCache())
+                    .Build();
+                CacheManager.Initialize(host.Services.GetRequiredService<IMemoryCache>());
                 if (this.DatabaseOptions != null)
                 {
                     DbConnectionManager.ConnectToDatabase(this.DatabaseOptions.DbServerName, this.DatabaseOptions.DbUserName, this.DatabaseOptions.DbPassword, this.DatabaseOptions.DbName);
@@ -123,7 +127,6 @@ namespace SolarWinds.Tools.CommandLineTool
                     {
                         this.Options = action as ICommandLineOptions;
                         this.Action = action as ICommandLineAction;
-                        this.InitializeServices();
                         wasParsed = true;
                     });
                 return wasParsed;
