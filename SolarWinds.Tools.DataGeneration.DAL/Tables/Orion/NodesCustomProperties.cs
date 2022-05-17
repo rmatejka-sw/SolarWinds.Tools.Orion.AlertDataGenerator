@@ -1,22 +1,32 @@
 using System;
+using Dapper.Contrib.Extensions;
 using SolarWinds.Tools.DataGeneration.DAL.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class NodesCustomProperties : TableBase
+    [Table("NodesCustomProperties")]
+    public class NodesCustomProperties : TableBase<NodesCustomProperties>
     {
         public NodesCustomProperties()
         {
+        }
+
+        public NodesCustomProperties Populate(NodesData node)
+        {
+            base.Populate();
             var f = FakerHelper.Faker;
+            this.NodeID = (int)node.NodeID;
             this.City = f.City();
             this.Department = f.Department();
             this.Comments = f.Sentence(250);
             this.PurchasePrice = f.Random.Float(0, 1000F);
             this.PONumber = f.Finance.Iban();
             this.AssetTag = f.System.AndroidId();
+            return this;
         }
 
+        [ExplicitKey]
         public int NodeID { get; set; }
 
         public string City { get; set; }

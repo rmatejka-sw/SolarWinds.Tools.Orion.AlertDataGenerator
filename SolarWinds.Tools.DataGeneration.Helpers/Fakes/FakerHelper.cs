@@ -1,6 +1,6 @@
 ﻿using Bogus;
 
-namespace SolarWinds.Tools.DataGeneration.Helpers
+namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
     public static class FakerHelper
     {

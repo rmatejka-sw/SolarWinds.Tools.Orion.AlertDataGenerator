@@ -9,10 +9,10 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.Options
     public interface IInternetGeneratorOptions : ICommandLineOptions
     {
 
-        [Option("MaxHops", HelpText = "Specifies the maximum number of hops between a the start and ending node for a network path.")]
+        [Option("MaxHops", Default=10, HelpText = "Specifies the maximum number of hops between a the start and ending node for a network path.")]
         public int MaxHops { get; set; }
 
-        [Option("MinNodes", HelpText = "Specifies the minimum number of total nodes to generate for the network. Actual total may be slightly higher.")]
+        [Option("MinNodes", Default=100, HelpText = "Specifies the minimum number of total nodes to generate for the network. Actual total may be slightly higher.")]
         public int MinNodes { get; set; }
 
         [Option("ShadowNodes", Default = 0, HelpText = "Percentage of nodes from 0-100 that should be Shadow Nodes. Default is no shadow nodes.")]

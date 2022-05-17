@@ -1,58 +1,53 @@
 using System;
-using System.Linq;
+using Dapper.Contrib.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class NodesStatistics : TableBase
+    [Table("NodesStatistics")]
+    public class NodesStatistics : TableBase<NodesStatistics>
     {
-        public NodesStatistics()
+        public NodesStatistics Populate(NodesData node)
         {
+            var f = FakerHelper.Faker;
+            base.Populate();
+            this.NodeID = (int)node.NodeID;
+            this.LastBoot = f.Date.Past();
+            this.SystemUpTime = f.Random.Float(1, 30000);
+            this.LastSystemUpTimePollUtc = f.Date.Recent();
+            this.ResponseTime = f.Random.Short(1, 1000);
+            this.PercentLoss = f.Random.Float(1, 100);
+            this.AvgResponseTime = f.Random.Short(1, 1000);
+            this.MinResponseTime = f.Random.Short(0, this.ResponseTime.Value);
+            this.MaxResponseTime = f.Random.Short(this.ResponseTime.Value, 2000);
+            this.NextPoll = f.Date.Soon();
+            this.LastSync = f.Date.Recent();
+            this.NextRediscovery = f.Date.Soon();
+            this.CPUCount = f.Random.Short(1, 10);
+            this.CPULoad = f.Random.Short(1, 100);
+            this.PercentMemoryUsed = f.Random.Int(1, 80);
+            this.MemoryUsed = node.TotalMemory * (this.PercentMemoryUsed / 100f);
+            this.CustomPollerLastStatisticsPoll = f.Date.Recent();
+            this.CustomPollerLastStatisticsPollSuccess = f.Date.Recent(); return this;
         }
+
+        [ExplicitKey]
         public int NodeID { get; set; }
 
-        // [FakeDateTimeData(DaysFromNow = 365)]
         public DateTime? LastBoot { get; set; }
-
-        // [FakeFloatingPointData(Min = 1, Max = 30000)]
         public Single? SystemUpTime { get; set; }
-
-        // [FakeDateTimeData(DaysFromNow = 1)]
         public DateTime? LastSystemUpTimePollUtc { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 1000)]
         public short? ResponseTime { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 100)]
         public Single? PercentLoss { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 1000)]
         public short? AvgResponseTime { get; set; }
-
-        // [FakeIntegerFromProperties(MinConst = 0, Max = nameof(ResponseTime))]
         public short? MinResponseTime { get; set; }
-
-        // [FakeIntegerFromProperties(Min = nameof(ResponseTime), MaxConst = 2000)]
         public short? MaxResponseTime { get; set; }
-
-        // [FakeDateTimeData(DaysBeyondNow = 1)]
         public DateTime? NextPoll { get; set; }
-
-        // [FakeDateTimeData(DaysFromNow = 1)]
         public DateTime? LastSync { get; set; }
-
-        // [FakeDateTimeData(DaysBeyondNow = 1)]
         public DateTime? NextRediscovery { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 10)]
         public short? CPUCount { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 100)]
         public short? CPULoad { get; set; }
-
-        // [FakeIntegerData(Min = NetworkGenerator.GigaBytes, Max = 999 * NetworkGenerator.GigaBytes)]
         public Single? MemoryUsed { get; set; }
-
-        // [FakeIntegerData(Min = 1, Max = 80)]
         public int? PercentMemoryUsed { get; set; }
 
         public Single? BufferNoMemThisHour { get; set; }
@@ -70,11 +65,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
         public Single? LoadAverage1 { get; set; }
         public Single? LoadAverage5 { get; set; }
         public Single? LoadAverage15 { get; set; }
-
-        // [FakeDateTimeData(DaysFromNow = 1)]
         public DateTime CustomPollerLastStatisticsPoll { get; set; }
-
-        // [FakeDateTimeData(DaysFromNow = 1)]
         public DateTime CustomPollerLastStatisticsPollSuccess { get; set; }
     }
 }

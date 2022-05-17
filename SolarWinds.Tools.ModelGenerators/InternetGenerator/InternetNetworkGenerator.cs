@@ -30,8 +30,8 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
         private int minInternalNodes;
         private int maxInternalNodes;
         private int maxConnectionsBetweenNodes;
+        private IInternetGeneratorOptions options;
 
-        
         public InternetNetworkGenerator(IInternetGeneratorOptions options)
         {
             this.maxInternalNodes = options.MaxInternalNodes > 0 ? options.MaxInternalNodes : 5;
@@ -41,7 +41,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
             this.minNodes = options.MinNodes > 0 ? options.MinNodes : 100;
 
             this.includeInternalMachines = !options.ExcludeIntranetDevices;
-
+            this.options = options;
             this.faker = new Bogus.Faker();
         }
 
@@ -148,7 +148,8 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
                 AsNumber = isInternal ? 0 : this.currentAsNumber,
                 CidrPrefix = isInternal ? null : this.currentNetworkCidrPrefix,
                 DomainName = isInternal ? internalDomainName : this.currentDomainName,
-                NetworkId = this.currentNetworkId
+                NetworkId = this.currentNetworkId,
+                IsShadowNode = faker.Random.Bool(this.options.ShadowNodes/100f)
             };
         }
 

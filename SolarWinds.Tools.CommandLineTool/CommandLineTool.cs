@@ -30,11 +30,18 @@ namespace SolarWinds.Tools.CommandLineTool
 
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
-        
+
+        /// <summary>
+        /// Called before initializing services. Use to configure custom Dapper mappings.
+        /// </summary>
+        public virtual void PreInitializeServices()
+        {
+
+        }
+
         public CommandLineTool()
         {
             ContentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
         }
 
         /// <summary>
@@ -47,6 +54,7 @@ namespace SolarWinds.Tools.CommandLineTool
             try
             {
                 if (!ValidateArguments(args)) return (int)RunStatus.ParameterValidationFailed;
+                this.PreInitializeServices();
                 this.InitializeServices(args);
                 this.Action.BeforeRun(this);
                 this.Action.Run();

@@ -1,47 +1,29 @@
+
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class Interfaces : TableBase
+    public class Interfaces : TableBase<Interfaces>
     {
-           //Since the OrionNodeID property is written on the Devices of the NetworkGenerator when the NodesData items are generated, we need to have an IEnumerable to NodesData
-        //in our ctor even if we don't use it.
         public Interfaces()
         {
-            //var interfaces = networkGenerator.Interfaces.OrderBy(i => i.DeviceIndex);
-            //this.RowCount = interfaces.Count();
-            //this.CurrentEntityId = networkGenerator.SqlProvider.ExecuteScalar<int>("SELECT ISNULL(MAX(InterfaceID),1) from Interfaces");
-            //AddEnumeratedSource(interfaces);
-            //this.allNodes = nodesData;
-            //var devices = interfaces.Select(i => networkGenerator.Devices.FirstOrDefault(d => d.DeviceIndex == i.DeviceIndex));
-            //AddEnumeratedSource(devices);
         }
-        public int CurrentEntityId { get; set; }
-        
-        private static float StatusToInterfaceErrorsPerHour(Status status)
-        {
-            switch (status)
-            {
-                case Tables.Status.Down:
-                    return 2600.0f;
-                case Tables.Status.Up:
-                    return 0.0f;
-                case Tables.Status.Warning:
-                    return 1002.0f;
-            }
 
+        private static float StatusToInterfaceErrorsPerHour(OrionStatusInfo status)
+        {
+            if (status == OrionStatusInfo.Down) return 2600.0f;
+            if (status == OrionStatusInfo.Up) return 0.0f;
+            if (status == OrionStatusInfo.Warning) return 1002.0f;
             return 0.0f;
         }
 
-        public int NodeID { get; set; }
+        public long NodeID { get; set; }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int InterfaceID { get; set; }
+        public long InterfaceID { get; set; }
 
         public string ObjectSubType { get; set; }
 
@@ -65,10 +47,8 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 
         public bool? UnManaged { get; set; }
 
-        //Always a Null value.
         public DateTime? UnManageFrom { get; set; }
 
-        //Always a Null value.
         public DateTime? UnManageUntil { get; set; }
 
         public short? AdminStatus { get; set; }
@@ -125,7 +105,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 
         public Single? InDiscardsToday { get; set; }
 
-         public Single? InErrorsThisHour { get; set; }
+        public Single? InErrorsThisHour { get; set; }
 
         public Single? InErrorsToday { get; set; }
 
@@ -135,7 +115,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 
         public Single? OutErrorsThisHour { get; set; }
 
-       public Single? OutErrorsToday { get; set; }
+        public Single? OutErrorsToday { get; set; }
 
         public Single? MaxInBpsToday { get; set; }
 
@@ -188,5 +168,86 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 
         public string Comments { get; set; }
 
+
+        public Interfaces Populate(long nodeId, string name, int interfaceIndex)
+        {
+            var f = FakerHelper.Faker;
+            var status = f.Orion().Status();
+            var inBandwidth = f.Random.Rate(MetricPrefix.Giga, 1, 10000);
+            var inUsage = new CapacityUsageInfo(inBandwidth);
+            var outUsage = new CapacityUsageInfo(inBandwidth);
+            this.NodeID = nodeId;
+            this.ObjectSubType = "SNMP";
+            this.InterfaceName = name;
+            this.InterfaceIndex = interfaceIndex;
+            this.InterfaceType = 6;
+            this.InterfaceTypeName = "ethernetCsmacd";
+            this.InterfaceTypeDescription = "Ethernet";
+            this.InterfaceSpeed = f.Random.Rate(MetricPrefix.Giga, 1, 1000);
+            this.InterfaceMTU = 1500;
+            this.InterfaceLastChange = f.Date.Past();
+            this.PhysicalAddress = f.Random.Int(100000, 999999).ToString("X");
+            this.UnManaged = false;
+            this.UnManageFrom = null;
+            this.UnManageUntil = null;
+            this.AdminStatus = (short)status.StatusId;
+            this.OperStatus = (short)status.StatusId;
+            this.InBandwidth = inBandwidth;
+            this.OutBandwidth = this.InBandwidth;
+            this.Caption = this.InterfaceName;
+            this.PollInterval = Int32.MaxValue;
+            this.RediscoveryInterval = Int32.MaxValue;
+            this.FullName = this.InterfaceName;
+            this.Status = status.StatusText;
+            this.StatusLED = status.StatusLED;
+            this.AdminStatusLED = status.StatusLED;
+            this.OperStatusLED = status.StatusLED;
+            this.InterfaceIcon = "6.gif";
+            this.Outbps = (float)outUsage.Used;
+            this.Inbps = (float)inUsage.Used;
+            this.OutPercentUtil = outUsage.PercentUsed / 100.0f;
+            this.InPercentUtil = inUsage.PercentUsed / 100.0f;
+            this.OutPps = this.Outbps / 148.0f;
+            this.InPps = this.Inbps / 254.0f;
+            this.InPktSize = (short)254;
+            this.OutPktSize = (short)148;
+            this.OutUcastPps = 1.0f;
+            this.OutMcastPps = 1.0f;
+            this.InUcastPps = 1.0f;
+            this.InMcastPps = 1.0f;
+            this.InDiscardsThisHour = StatusToInterfaceErrorsPerHour(status);
+            this.InDiscardsToday = StatusToInterfaceErrorsPerHour(status);
+            this.InErrorsThisHour = StatusToInterfaceErrorsPerHour(status);
+            this.InErrorsToday = StatusToInterfaceErrorsPerHour(status);
+            this.OutDiscardsThisHour = StatusToInterfaceErrorsPerHour(status);
+            this.OutDiscardsToday = StatusToInterfaceErrorsPerHour(status);
+            this.OutErrorsThisHour = StatusToInterfaceErrorsPerHour(status);
+            this.OutErrorsToday = StatusToInterfaceErrorsPerHour(status);
+            this.MaxInBpsToday = f.Random.Float(0, this.Inbps??0);
+            this.MaxInBpsTime = null;
+            this.MaxOutBpsToday = f.Random.Float(0, this.Inbps ?? 0);
+            this.MaxOutBpsTime = null;
+            this.NextRediscovery = f.Date.Future(1000);
+            this.NextPoll = f.Date.Future(1000);
+            this.Counter64 = "N";
+            this.StatCollection = (short) 9;
+            this.LastSync = f.Date.Past();
+            this.InterfaceAlias = String.Empty;
+            this.IfName = $"eth{this.InterfaceIndex}";
+            this.Severity = 1;
+            this.CustomBandwidth = false;
+            this.UnPluggable = false;
+            this.CustomPollerLastStatisticsPoll = f.Date.Past();
+            this.InterfaceSubType = 0;
+            this.CollectAvailability = true;
+            this.DuplexMode = 0;
+            this.LateCollisionsThisHour = 0;
+            this.CRCAlignErrorsThisHour = 0;
+            this.LateCollisionsToday = 0;
+            this.CRCAlignErrorsToday = 0;
+            this.CarrierName = null;
+            this.Comments = FakerHelper.FakeMarker;       
+            return this;
+        }
     }
 }

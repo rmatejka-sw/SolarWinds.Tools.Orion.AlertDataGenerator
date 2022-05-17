@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.Helpers.Extensions
 {

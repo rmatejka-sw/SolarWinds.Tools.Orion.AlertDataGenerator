@@ -4,6 +4,7 @@ using System.Linq;
 using DapperExtensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.Helpers.Extensions
 {

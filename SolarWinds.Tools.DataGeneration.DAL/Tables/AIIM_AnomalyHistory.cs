@@ -5,7 +5,7 @@ using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
-    public class AIIM_AnomalyHistory : TableBase
+    public class AIIM_AnomalyHistory : TableBase<AIIM_AnomalyHistory>
     {
        
         private static Regex eventDetails = new Regex(@"on node \((?<nodeId>[0-9]+)\)", RegexOptions.Compiled);

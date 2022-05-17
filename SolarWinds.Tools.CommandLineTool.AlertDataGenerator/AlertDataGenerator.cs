@@ -5,7 +5,7 @@ using DapperExtensions;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 
 namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
@@ -36,7 +36,7 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 
         public void CreateAlertHistories(DateTime triggerDate, AlertObjects alertObjects, AlertActive alertActive)
         {
-            var lastEventType = AlertHistory.GetList<AlertHistory>(
+            var lastEventType = AlertHistory.GetList(
                 $"SELECT TOP 1 EventType FROM AlertHistory WHERE AlertObjectID={alertObjects.AlertObjectID} and EventType in (0,1) order by TimeStamp DESC").FirstOrDefault()?.EventType ?? 0;
             var alertHistory = new AlertHistory
             {

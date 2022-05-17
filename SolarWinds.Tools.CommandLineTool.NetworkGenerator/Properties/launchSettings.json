@@ -2,7 +2,7 @@
   "profiles": {
     "SolarWinds.Tools.CommandLineTool.NetworkGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "generatenetwork"
+      "commandLineArgs": "GenerateNetwork -d --ShadowNodes 20"
     }
   }
 }

@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using DapperExtensions;
 using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
     [Table("AlertActive")]
-    public class AlertActive : TableBase
+    public class AlertActive : TableBase<AlertActive>
     {
         [Key]
         public long AlertActiveID { get; set; }
@@ -27,7 +28,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
         public static AlertActive CreateOrUpdate(DateTime triggerDate, int alertObjectId)
         {
             AlertActive alertActive =
-                AlertActive.GetList<AlertActive>().FirstOrDefault(_ => _.AlertObjectID == alertObjectId);
+                AlertActive.GetList().FirstOrDefault(_ => _.AlertObjectID == alertObjectId);
             if (alertActive == null)
             {
                 alertActive = new AlertActive

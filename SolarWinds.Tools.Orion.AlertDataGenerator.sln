@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.CommandLin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.DAL", "SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj", "{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Tools.DataGeneration.Tests", "SolarWinds.Tools.DataGeneration.Tests\SolarWinds.Tools.DataGeneration.Tests.csproj", "{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

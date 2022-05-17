@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core
 {
     [Table("Events")]
-    public class Events : TableBase
+    public class Events : TableBase<Events>
     {
 
         public const short AnomalyDetectedTypeId = 9000;

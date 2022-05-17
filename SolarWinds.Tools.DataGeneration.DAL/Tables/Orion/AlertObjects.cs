@@ -7,11 +7,12 @@ using DapperExtensions;
 using Microsoft.Extensions.Caching.Memory;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
     [Table("AlertObjects")]
-    public class AlertObjects : TableBase
+    public class AlertObjects : TableBase<AlertObjects>
     {
         [Key]
         public long AlertObjectID { get; set; }

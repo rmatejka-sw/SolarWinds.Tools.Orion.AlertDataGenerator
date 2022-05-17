@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
     [Table("AlertHistory")]
-    public class AlertHistory : TableBase
+    public class AlertHistory : TableBase<AlertHistory>
     {
         [Key]
         public long AlertHistoryID { get; set; }

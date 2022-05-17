@@ -5,6 +5,7 @@ using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 {

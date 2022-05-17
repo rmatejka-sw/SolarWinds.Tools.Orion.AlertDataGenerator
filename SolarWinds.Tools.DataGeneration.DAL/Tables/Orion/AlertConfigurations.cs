@@ -2,7 +2,7 @@ using System;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class AlertConfigurations : TableBase
+    public class AlertConfigurations : TableBase<AlertConfigurations>
     {
         
         public int AlertID { get; set; }

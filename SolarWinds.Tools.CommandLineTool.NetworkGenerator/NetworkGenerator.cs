@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using DapperExtensions;
-using SolarWinds.Tools.CommandLineTool.NetworkGenerator.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 
 namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 {
     public class NetworkGenerator : CommandLineTool
     {
-        public const long GigaBytes = 1024 ^ 3;
 
         public override IList<ICommandLineAction> Actions => new List<ICommandLineAction>
         {
@@ -25,14 +24,17 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 
         //10% of auto edges also has manual edges
         private const int AutoEdgeVsManualEdgeRatio = 10;
-        private readonly char pathDelimiter = '-';
-        private string[] paths;
         private readonly Dictionary<int, Device> devicesByIndex = new Dictionary<int, Device>();
         private readonly List<DeviceInterface> deviceInterfaces = new List<DeviceInterface>();
         private readonly List<DeviceConnection> deviceConnections = new List<DeviceConnection>();
 
-        public NetworkGenerator() 
+        public NetworkGenerator()
         {
+        }
+
+        public override void PreInitializeServices()
+        {
+            base.PreInitializeServices();
         }
 
         private static int Main(string[] args)
@@ -80,6 +82,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         public int CreateNetworkElements(GenerateNetworkAction options)
         {
             var internet = new InternetNetworkGenerator(options);
+            internet.CreateNetworks();
             this.deviceConnections.Clear();
             this.deviceInterfaces.Clear();
             this.deviceConnections.AddRange(internet.DeviceConnections);
@@ -94,57 +97,6 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         }
 
 
-        private void CreateDevice(int deviceId, int shadowNodes)
-        {
-            if (this.devicesByIndex.ContainsKey(deviceId))
-            {
-                return;
-            }
-
-            var shadowNodePercentage = shadowNodes;
-
-            this.devicesByIndex.Add(
-                deviceId,
-                new Device
-                {
-                    DeviceIndex = deviceId,
-                    IpAddress = FakerHelper.Faker.Internet.Ip(),
-                    NodeName = FakerHelper.Faker.Internet.DomainName(),
-                    IsShadowNode = FakerHelper.Faker.Random.Int(1, 100) <= shadowNodePercentage
-                });
-        }
-
-        private void ConnectDevices(int sourceDeviceId, int targetDeviceId)
-        {
-            var source = this.devicesByIndex[sourceDeviceId];
-            var target = this.devicesByIndex[targetDeviceId];
-            if (this.deviceConnections.Any(c => c.SourceDeviceIndex == source.DeviceIndex && c.TargetDeviceIndex == targetDeviceId))
-            {
-                return;
-            }
-
-            this.deviceConnections.Add(
-                new DeviceConnection
-                {
-                    SourceDeviceIndex = sourceDeviceId,
-                    TargetDeviceIndex = targetDeviceId,
-                    SourceDeviceInterfaceIndex = source.IsShadowNode ? 0 : CreateDeviceInterface(source).InterfaceIndex,
-                    TargetDeviceInterfaceIndex = target.IsShadowNode ? 0 : CreateDeviceInterface(target).InterfaceIndex
-                });
-        }
-
-        private DeviceInterface CreateDeviceInterface(Device device)
-        {
-            int totalInterfaces = this.deviceInterfaces.Count(di => di.DeviceIndex == device.DeviceIndex);
-            var deviceInterface = new DeviceInterface
-            {
-                DeviceIndex = device.DeviceIndex,
-                InterfaceIndex = totalInterfaces + 1,
-                Name = $"{device.NodeName} - eth{totalInterfaces}"
-            };
-            this.deviceInterfaces.Add(deviceInterface);
-            return deviceInterface;
-        }
 
         public void DeleteFakes()
         {

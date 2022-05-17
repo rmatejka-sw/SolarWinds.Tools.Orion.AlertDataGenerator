@@ -1,31 +1,78 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Dapper.Contrib.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class NodesData : TableBase
+    [Table("NodesData")]
+    public class NodesData : TableBase<NodesData>
     {
 
         public NodesData()
         {
-            //networkGenerator.SqlProvider = sqlProvider;
-            //var nodes = networkGenerator.Devices.Where(d => !d.IsShadowNode);
-            //this.CurrentEntityId = networkGenerator.SqlProvider.ExecuteScalar<int>("SELECT ISNULL(MAX(NodeID),1) from NodesData");
-            //this.RowCount = nodes.Count();
-            //AddEnumeratedSource(nodes);
         }
 
-        public int CurrentEntityId { get; set; }
+        public override NodesData Populate()
+        {
+            var f = FakerHelper.Faker;
+            var domainName = f.Internet.DomainName();
+            var status = f.Orion().Status();
+            var memory = f.Orion().Memory();
+            base.Populate();
+            this.ObjectSubType = "ICMP";
+            this.IPAddress = f.Internet.Ip();
+            this.IPAddressType = "IPV4";
+            this.UnManaged = false;
+            this.UnManageFrom = null;
+            this.UnManageUntil = null;
+            this.Caption = $"{domainName}-{FakerHelper.FakeMarker}";
+            this.SysName = $"{domainName}";
+            this.Community = "public";
+            this.RWCommunity = String.Empty;
+            this.Vendor = f.Orion().Vendor;
+            this.Description = this.Caption;
+            this.Location = f.Address.City();
+            this.Contact = f.Internet.Email(provider: domainName);
+            this.RediscoveryInterval = null;
+            this.PollInterval = short.MaxValue;
+            this.VendorIcon = f.Orion().VendorIcon;
+            this.IOSImage = FakerHelper.FakeMarker;
+            this.IOSVersion = String.Empty;
+            this.Status = $"{status.StatusId}";
+            this.GroupStatus = f.Orion().StatusImage(status.StatusId);
+            this.StatusDescription = $"Node is {status.StatusName}";
+            this.StatusLED = this.GroupStatus;
+            this.PolledStatus = 1;
+            this.ChildStatus = f.Orion().Status().StatusId;
+            this.EngineID = 1;
+            this.MachineType = f.Orion().MachineType;
+            this.IsServer = f.Random.Bool();
+            this.Severity = 0;
+            this.StatCollection = 10;
+            this.Allow64BitCounters = true;
+            this.SNMPV2Only = false;
+            this.SNMPVersion = 2;
+            this.AgentPort = String.Empty;
+            this.TotalMemory = (float?) memory.Capacity;
+            this.External = false;
+            this.EntityType = "Orion.Nodes";
+            this.CMTS = "N";
+            this.BlockUntil = System.Data.SqlTypes.SqlDateTime.MinValue.Value;
+            this.IPAddressGUID = null;
+            this.CustomStatus = false;
+            this.Category = f.Random.Int(1, 2);
+            return this as NodesData;
+        }
 
         [Key]
-        public int NodeID { get; set; }
+        public long NodeID { get; set; }
 
         public string ObjectSubType { get; set; }
 
-        public string IP_Address { get; set; }
+        public string IPAddress { get; set; }
 
-        public string IP_Address_Type { get; set; }
+        public string IPAddressType { get; set; }
 
         //Always a Null value.
         public bool? DynamicIP { get; set; }
@@ -52,114 +99,69 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 
         public string SysObjectID { get; set; }
 
-        //[FormattedString("{0}-{1}", nameof(DeviceNodeName), nameof(DeviceNetworkId))]
         public string Description { get; set; }
 
-        //[FakeAddressCityData]
         public string Location { get; set; }
 
-        //[FakeEmailAddressData]
         public string Contact { get; set; }
 
-        //Always a Null value.
         public int? RediscoveryInterval { get; set; }
 
-        //[FakeIntegerData(Min = short.MaxValue, Max = short.MaxValue)]
         public short? PollInterval { get; set; }
 
-        //[FormattedString("{0}.gif", nameof(VendorIconIdGen))]
         public string VendorIcon { get; set; }
 
-        //[FakeStringData(Const = NetworkGenerator.FakeMarker)]
         public string IOSImage { get; set; }
 
-        //[FakeStringData(Const = stringEmpty)]
         public string IOSVersion { get; set; }
 
-        //[FormattedString("{0}.gif", nameof(StatusEnumValue))]
         public string GroupStatus { get; set; }
 
-        //[FormattedString("Node is {0}", nameof(Status))]
         public string StatusDescription { get; set; }
 
-        //[FakeNetworkStatus]
         public string Status { get; set; }
 
-        //[CopiedFromProperty(PropertyName = nameof(GroupStatus), Order = 10)]
         public string StatusLED { get; set; }
 
-        //[FakeIntegerData(Const = 1)]
         public int? PolledStatus { get; set; }
 
-        // [FakeNetworkStatus]
         public int ChildStatus { get; set; }
 
-        // [FakeIntegerData(Const = 1)]
         public int? EngineID { get; set; }
 
-        // [FakeMachineTypeData]
         public string MachineType { get; set; }
 
         public bool? IsServer { get; set; }
 
-        // [FakeIntegerData(Const = 0)]
         public int? Severity { get; set; }
 
-        // [FakeIntegerData(Const = 10)]
         public short? StatCollection { get; set; }
 
-        // [FakeBooleanData(Const = true)]
         public bool? Allow64BitCounters { get; set; }
 
-        // [FakeBooleanData(Const = false)]
         public bool? SNMPV2Only { get; set; }
 
-        // [FakeStringData(Const = stringEmpty)]
         public string AgentPort { get; set; }
 
-        // [FakeIntegerData(Const = 2)]
         public byte? SNMPVersion { get; set; }
 
-        // [FakeFloatingPointData(Min = 4e9f, Max = 64e9f)]
         public Single? TotalMemory { get; set; }
 
-        // [FakeBooleanData(Const = false)]
         public bool? External { get; set; }
 
-        // [FakeStringData(Const = "Orion.Nodes")]
         public string EntityType { get; set; }
 
-        // [FakeStringData(Const = "N")]
         public string CMTS { get; set; }
 
-        // [FakeDateTimeData(Const = nullDate)]
         public DateTime BlockUntil { get; set; }
 
-        //Always a Null value.
         public Guid? IPAddressGUID { get; set; }
 
-        // [FakeBooleanData(Const = false)]
         public bool CustomStatus { get; set; }
 
         public int? Category { get; set; }
 
-        //Always a Null value.
         public int? CustomCategory { get; set; }
-
-        //Always a Null value. Computer column - not needed
-        // public int? EffectiveCategory { get; set; }
-
-        //////////
-        //Properties below this point, aren't stored into the database.
-        //////////
-
-        [NotMapped]
-        // [FakeDomainNameData]
-        public string DomainName { get; set; }
-
-        [NotMapped]
-        // [FakeIntegerData(Min = 1, Max = 800)]
-        public int VendorIconIdGen { get; set; }
 
     }
 }

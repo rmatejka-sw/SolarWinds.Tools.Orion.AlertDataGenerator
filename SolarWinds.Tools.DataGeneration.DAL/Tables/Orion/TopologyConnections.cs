@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class TopologyConnections : TableBase
+    public class TopologyConnections : TableBase<TopologyConnections>
     {
         public TopologyConnections()
         {

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using AutoBogus;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using DapperExtensions;
 using Microsoft.Extensions.Caching.Memory;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -9,9 +12,9 @@ using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
-    public class TableBase
+    public class TableBase<T> where T : class, new()
     {
-        public static IList<T> GetList<T>() where T : class, new()
+        public static IList<T> GetList() 
         {
             try
             {
@@ -25,7 +28,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
             return null;
         }
 
-        public static IList<T> GetList<T>(string query) where T : class, new()
+        public static IList<T> GetList(string query) 
         {
             try
             {
@@ -37,6 +40,34 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
             }
 
             return Enumerable.Empty<T>().ToList();
+        }
+
+        public static int GetMaxId(string columnName)
+        {
+            try
+            {
+                var tableAttribute = typeof(T).GetCustomAttributes().FirstOrDefault(a=>a.GetType() == typeof(TableAttribute)) as TableAttribute;
+                var tableName = tableAttribute != null ? tableAttribute.Name : typeof(T).Name;
+                return (int) DbConnectionManager.DbConnection.Query<int>($"SELECT MAX({columnName}) from {tableName}")
+                    .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return 0;
+        }
+
+        public virtual T Populate() 
+        {
+            new AutoFaker<T>().Populate(this as T);
+            return this as T;
+        }
+        public virtual T Populate(long relatedId)
+        {
+            new AutoFaker<T>().Populate(this as T);
+            return this as T;
         }
 
     }

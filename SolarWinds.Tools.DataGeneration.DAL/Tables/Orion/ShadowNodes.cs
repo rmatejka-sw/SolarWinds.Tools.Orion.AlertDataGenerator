@@ -1,28 +1,35 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using Dapper.Contrib.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
-    public class ShadowNodes : TableBase
+    [Table("ShadowNodes")]
+    public class ShadowNodes : TableBase<ShadowNodes>
     {
         public ShadowNodes()
         {
         }
 
-        [Key]
-        // [FakeIntegerData(Min = 1, Distribution = FakeDataDistribustionType.Increasing)]
         public int NodeId { get; set; }
 
         public string IPAddress { get; set; }
 
         public string NodeName { get; set; }
 
-        // [FakeMacAddressData]
         public string MACAddress { get; set; }
 
-        // [FakeGuidData]
         public Guid? IPAddressGUID { get; set; }
 
- 
+        public override ShadowNodes Populate()
+        {
+            var f = FakerHelper.Faker;
+            var domainName = f.Internet.DomainName();
+            base.Populate();
+            this.MACAddress = f.Internet.Mac();
+            this.NodeName = $"{domainName}-{FakerHelper.FakeMarker}";
+            this.IPAddress = f.Internet.Ip();
+            return this;
+        }
     }
 }

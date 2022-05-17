@@ -9,7 +9,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
     /// Deletes any fake data generated from previous runs.
     /// </summary>
     [Verb("DeleteFakes")]
-    public class DeleteFakesAction : ICommandLineOptions, ICommandLineAction
+    public class DeleteFakesAction : ICommandLineOptions, ICommandLineAction, IDatabaseOptions
     {
         protected NetworkGenerator NetworkGenerator { get; set; }
 
@@ -36,5 +36,10 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         {
             this.NetworkGenerator = commandLineTool as NetworkGenerator;
         }
+
+        public string DbServerName { get; set; }
+        public string DbName { get; set; }
+        public string DbUserName { get; set; }
+        public string DbPassword { get; set; }
     }
 }
