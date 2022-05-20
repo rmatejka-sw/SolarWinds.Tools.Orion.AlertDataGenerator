@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.CommandLin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.DAL", "SolarWinds.Tools.DataGeneration.DAL\SolarWinds.Tools.DataGeneration.DAL.csproj", "{ED866CF6-2156-4FDE-BA09-3A074AC2C9F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Tools.DataGeneration.Tests", "SolarWinds.Tools.DataGeneration.Tests\SolarWinds.Tools.DataGeneration.Tests.csproj", "{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Tools.DataGeneration.Tests", "SolarWinds.Tools.DataGeneration.Tests\SolarWinds.Tools.DataGeneration.Tests.csproj", "{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Tools.CommandLineTool.OrionDataExporter", "SolarWinds.Tools.CommandLineTool.OrionDataExporter\SolarWinds.Tools.CommandLineTool.OrionDataExporter.csproj", "{8D1811F1-64B8-4FFA-BEB2-DC13D77441D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D16EB376-4CB8-4C10-8E4F-4DE0EFE027C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D1811F1-64B8-4FFA-BEB2-DC13D77441D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1811F1-64B8-4FFA-BEB2-DC13D77441D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1811F1-64B8-4FFA-BEB2-DC13D77441D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1811F1-64B8-4FFA-BEB2-DC13D77441D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

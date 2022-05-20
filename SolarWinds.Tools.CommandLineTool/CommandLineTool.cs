@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CommandLine;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
@@ -39,7 +38,7 @@ namespace SolarWinds.Tools.CommandLineTool
 
         }
 
-        public CommandLineTool()
+        protected CommandLineTool()
         {
             ContentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
@@ -53,13 +52,16 @@ namespace SolarWinds.Tools.CommandLineTool
         {
             try
             {
-                if (!ValidateArguments(args)) return (int)RunStatus.ParameterValidationFailed;
+                if (!ValidateArguments(args)) return (int) RunStatus.ParameterValidationFailed;
                 this.PreInitializeServices();
-                this.InitializeServices(args);
+                if (!this.InitializeServices(args))
+                {
+                    return (int) RunStatus.ParameterValidationFailed;
+                }
                 this.Action.BeforeRun(this);
                 this.Action.Run();
                 int totalIntervals = 0;
-                if (this.TimeRangeOptions != null)
+                if (this.TimeRangeOptions?.PastDays> 0 || this.TimeRangeOptions?.FutureDays > 0)
                 {
                     DateTime startTime = DateTime.MinValue;
                     DateTime endTime = startTime;
@@ -69,22 +71,25 @@ namespace SolarWinds.Tools.CommandLineTool
                         {
                             startTime = intervalTime;
                         }
+
                         this.Action.Run(intervalTime);
                         endTime = intervalTime;
                         totalIntervals++;
                     }
+
                     ConsoleLogger.Success(new string('=', 100));
-                    ConsoleLogger.Success($"COMPLETED {totalIntervals} intervals from {startTime} to {endTime}");
+                    ConsoleLogger.Success($"Generated {this.TimeRangeOptions.PastDays + this.TimeRangeOptions.FutureDays} days ({totalIntervals} intervals) from {startTime} to {endTime}");
                 }
+
                 this.Action.AfterRun();
-                return (int)RunStatus.Success;
+                return (int) RunStatus.Success;
             }
             catch (Exception e)
             {
                 ConsoleLogger.Error(e);
             }
 
-            return (int)RunStatus.CommandError;
+            return (int) RunStatus.CommandError;
         }
 
         /// <summary>
@@ -95,20 +100,25 @@ namespace SolarWinds.Tools.CommandLineTool
         {
             try
             {
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(ContentDirectory)
-                    .AddJsonFile("appsettings.json");
                 var host = Host.CreateDefaultBuilder(args)
                     .ConfigureServices(services => services.AddMemoryCache())
                     .Build();
                 CacheManager.Initialize(host.Services.GetRequiredService<IMemoryCache>());
                 if (this.DatabaseOptions != null)
                 {
-                    DbConnectionManager.ConnectToDatabase(this.DatabaseOptions.DbServerName, this.DatabaseOptions.DbUserName, this.DatabaseOptions.DbPassword, this.DatabaseOptions.DbName);
+                    DbConnectionManager.ConnectToDatabase(this.DatabaseOptions.DbServerName,
+                        this.DatabaseOptions.DbUserName, this.DatabaseOptions.DbPassword, this.DatabaseOptions.DbName);
                 }
+
                 if (this.OrionOptions != null)
                 {
-                    WebApiManager.InitializeWebApiClients(this.OrionOptions.OrionServerName, this.OrionOptions.OrionUserName, this.OrionOptions.OrionPassword);
+                    var initialized = WebApiManager.InitializeWebApiClients(this.OrionOptions.OrionServerName,
+                        this.OrionOptions.OrionUserName, this.OrionOptions.OrionPassword, this.OrionOptions.UseHttps);
+                    if (!initialized)
+                    {
+                        ConsoleLogger.Error($"Failed to login to Orion using supplied credentials: {WebApiManager.AuthenticationError}");
+                        return false;
+                    }
                 }
 
                 return true;
@@ -121,6 +131,10 @@ namespace SolarWinds.Tools.CommandLineTool
             return false;
         }
 
+        protected string DefaultVerb =>
+            (this.Actions.FirstOrDefault().GetType().GetCustomAttributes(typeof(VerbAttribute))
+                .FirstOrDefault() as VerbAttribute).Name;
+
         protected Type[] SupportedVerbs => this.Actions.Select(action => action.GetType()).ToArray();
 
         protected bool ValidateArguments(string[] args)
@@ -129,8 +143,14 @@ namespace SolarWinds.Tools.CommandLineTool
             try
             {
                 var wasParsed = false;
-                var nonNullArgs = args ?? new string[] { };
-                Parser.Default.ParseArguments(args, this.SupportedVerbs)
+                if (this.Actions == null || this.Actions.Count == 0)
+                {
+                    ConsoleLogger.Error(">>>>>>>> Implementation Error <<<<<<<<<");
+                    ConsoleLogger.Error("You must define Actions in your CommandLine class: Actions => new List<ICommandLineAction> { new YourAction() };");
+                    return false;
+                }
+                var nonNullArgs = args?.Length == 0 ? new string[] { this.DefaultVerb } : args;
+                Parser.Default.ParseArguments(nonNullArgs, this.SupportedVerbs)
                     .WithParsed(action =>
                     {
                         this.Options = action as ICommandLineOptions;

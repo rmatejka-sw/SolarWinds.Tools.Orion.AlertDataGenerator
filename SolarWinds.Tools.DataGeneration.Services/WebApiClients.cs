@@ -1,8 +1,8 @@
 ﻿using SolarWinds.Tools.DataGeneration.Services.MapsClient;
-using SolarWinds.Tools.DataGeneration.Services.PerfStackClient;
 using System;
 using System.Net;
 using System.Net.Http;
+using SolarWinds.Tools.CommandLineTool.Service;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services.OrionSWISQueryClient;
 
@@ -21,6 +21,7 @@ namespace SolarWinds.Tools.DataGeneration.Services
             this.Authenticator.AuthenticateRestClient();
             this.PerfStackEntitiesClient = new PerfStackEntitiesClient(serviceUrl, this.Authenticator.HttpClient);
             this.PerfStackMetadataClient = new PerfStackMetadataClient(serviceUrl, this.Authenticator.HttpClient);
+            this.PerfStackMetricsClient = new PerfStackMetricsClient(serviceUrl, this.Authenticator.HttpClient);
             this.MapsEntitiesClient = new MapsEntitiesClient(serviceUrl, this.Authenticator.HttpClient);
             this.MapsGraphClient = new MapsGraphClient(serviceUrl, this.Authenticator.HttpClient);
             this.SwisClient = new SwisClient(serviceUrl, this.Authenticator.HttpClient);
@@ -33,7 +34,7 @@ namespace SolarWinds.Tools.DataGeneration.Services
                 var response = this.Authenticator.HttpClient.GetAsync(this._serverUrl, HttpCompletionOption.ResponseHeadersRead).Result;
                 return response != null && response.StatusCode == HttpStatusCode.OK;
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 ConsoleLogger.Error(ex);
             }
@@ -43,6 +44,7 @@ namespace SolarWinds.Tools.DataGeneration.Services
         public OrionAuthenticator Authenticator { get; }
         public PerfStackEntitiesClient PerfStackEntitiesClient { get; }
         public PerfStackMetadataClient PerfStackMetadataClient { get; }
+        public PerfStackMetricsClient PerfStackMetricsClient { get; }
         public MapsEntitiesClient MapsEntitiesClient { get; }
         public MapsGraphClient MapsGraphClient { get; set; }
         public SwisClient SwisClient { get; set; }

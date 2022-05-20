@@ -1,0 +1,2218 @@
+﻿{
+  "x-generator": "NSwag v13.9.4.0 (NJsonSchema v10.3.1.0 (Newtonsoft.Json v11.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/perfstack/v2/entities/states": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetStatusInfos",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetStatusInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetManagedEntities",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "type",
+            "in": "query",
+            "default": "",
+            "x-nullable": true
+          },
+		  {
+            "type": "integer",
+            "name": "length",
+            "in": "query",
+            "default": "",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/types": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityTypesGroupsMetricsMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/types/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityGroupsMetricsMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/{entityIdsCdl}/": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": false,
+           "default": "",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/{entityIdsCdl}/metrics": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetAvailableMetricsForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/metrics/realtime/availability": {
+      "post": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_IsAnyRealTimeMetricAvailableForEntity",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MetricsAvailabilityRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/metrics": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetAvailableMetricsForEntityList",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/{entityIdsCdl}/relationships": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetRelationshipsForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/relationships": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetRelationshipsForEntityIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/entities/top/{entityType}/{propertyName}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetTopEntitiesByProperty",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "propertyName",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/states": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetStatusInfosV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetStatusInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetManagedEntitiesV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/types": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityTypesGroupsMetricsMetadataV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/types/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityGroupsMetricsMetadataV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/{entityIdsCdl}/": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetEntityInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": false,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/{entityIdsCdl}/metrics": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetAvailableMetricsForEntityV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": true,
+           }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Metric"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/entities/{entityIdsCdl}/relationships": {
+      "get": {
+        "tags": [
+          "Entities"
+        ],
+        "operationId": "Entities_GetRelationshipsForEntityV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/states": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetStatusInfos",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetStatusInfo",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/settings": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetPerfStackSettings",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PerfStackSettings"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/types": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetEntityTypesGroupsMetricsMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/metrics": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetMetricsMetadata",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metadata/types/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetEntityGroupsMetricsMetadata",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metadata/states": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetStatusInfosV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metadata/states/{statusIds}": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetStatusInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "statusIds",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StatusInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metadata/types": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetEntityTypesGroupsMetricsMetadataV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metadata/metrics": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetMetricsMetadataV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metadata/types/{entityTypeCdl}": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "Metadata_GetEntityGroupsMetricsMetadataV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityTypeCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EntityType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForMetricIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/{id}/{limitationId}": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForEntityMetricId",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "limitationId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Metric"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/{id}": {
+      "post": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForEntityMetricId2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MeasurementForEntityRequest"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Metric"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/observations": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetObservationsForMetricIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ObservationsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/{entityId}/groups": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetGroupsForEntity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MetricGroup"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/{entityId}/groups/{groupId}": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForGroup",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/metrics/realtime": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetRealTimeMeasurementForMetricIds",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metrics/{id}/{limitationId}": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForEntityV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "limitationId",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "in": "query",
+            "name": "startTime",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "in": "query",
+            "name": "endTime",
+            "required": true,
+            "type": "string",
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Metric"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metrics/{entityId}/groups": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetGroupsForEntityV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MetricGroup"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/metrics/{entityId}/groups/{groupId}": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "operationId": "Metrics_GetMeasurementForGroupV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MetricsList"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_ListPerfStackProjects",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_CreatePerfStackProject",
+        "parameters": [
+          {
+            "name": "project",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/recent/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_ListPerfStackRecentProjects",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/projects/{projectIdsCdl}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_GetPerfStackProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_DeletePerfStackProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/perfstack/v2/projects/{projectId}": {
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_UpdatePerfStackProject",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "project",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/v2/projects/views/{projectId}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_GetProjectViews",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_ListPerfStackProjectsV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_CreatePerfStackProjectV1",
+        "parameters": [
+          {
+            "name": "project",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/recent/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_ListPerfStackRecentProjectsV1",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      }
+    },
+    "/perfstack/projects/{projectIdsCdl}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_GetPerfStackProjectV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProjectResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_DeletePerfStackProjectV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectIdsCdl",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/perfstack/projects/{projectId}": {
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "operationId": "Projects_UpdatePerfStackProjectV1",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "project",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            },
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StatusInfo": {
+      "type": "object",
+      "required": [
+        "StatusId",
+        "RollupType",
+        "Ranking",
+        "UiOrder",
+        "ChildStatusMap",
+        "CategoryStatusMap"
+      ],
+      "properties": {
+        "StatusId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusName": {
+          "type": "string"
+        },
+        "ShortDescription": {
+          "type": "string"
+        },
+        "RollupType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Ranking": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "UiOrder": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Color": {
+          "type": "string"
+        },
+        "IconPostfix": {
+          "type": "string"
+        },
+        "ChildStatusMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DefaultIconName": {
+          "type": "string"
+        },
+        "CategoryStatusMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DisplayProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "EntitiesResponse": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        }
+      }
+    },
+    "Entity": {
+      "type": "object",
+      "required": [
+        "Status"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "StatusDescription": {
+          "type": "string"
+        },
+        "StatusIconPostfix": {
+          "type": "string"
+        },
+        "InstanceType": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "GroupDisplayName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DetailsUrl": {
+          "type": "string"
+        },
+        "Details": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/DetailProperty"
+          }
+        },
+        "Metrics": {
+          "$ref": "#/definitions/MetricsList"
+        },
+        "Relations": {
+          "type": "string"
+        },
+        "AncestorDisplayNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "RealtimeMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "DetailProperty": {
+      "type": "object",
+      "properties": {
+        "DisplayName": {
+          "type": "string"
+        },
+        "Units": {
+          "type": "string"
+        },
+        "Value": {}
+      }
+    },
+    "MetricsList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Metric"
+      }
+    },
+    "Metric": {
+      "type": "object",
+      "required": [
+        "Type",
+        "DisplayType",
+        "PollingInterval",
+        "RealTime",
+        "IsAfterRealtimeLimit",
+        "IsHidden"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Type": {
+          "$ref": "#/definitions/MetricType"
+        },
+        "DisplayType": {
+          "$ref": "#/definitions/MetricDisplayType"
+        },
+        "EntityId": {
+          "type": "string"
+        },
+        "EntityDisplayName": {
+          "type": "string"
+        },
+        "EntityUrl": {
+          "type": "string"
+        },
+        "AncestorDisplayNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "GroupId": {
+          "type": "string"
+        },
+        "GroupDisplayName": {
+          "type": "string"
+        },
+        "MetricId": {
+          "type": "string"
+        },
+        "PollingInterval": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Units": {
+          "type": "string"
+        },
+        "Subtitle": {
+          "type": "string"
+        },
+        "Statistics": {
+          "$ref": "#/definitions/Statistics"
+        },
+        "Measurements": {
+          "$ref": "#/definitions/Measurements"
+        },
+        "LatestDetailMeasurement": {
+          "$ref": "#/definitions/Measurement"
+        },
+        "SubMetrics": {
+          "$ref": "#/definitions/MetricsList"
+        },
+        "AggregationMethod": {
+          "type": "string"
+        },
+        "ColorType": {
+          "type": "string"
+        },
+        "RealTime": {
+          "type": "boolean"
+        },
+        "KeyNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "IsAfterRealtimeLimit": {
+          "type": "boolean"
+        },
+        "IsHidden": {
+          "type": "boolean"
+        },
+        "ThresholdName": {
+          "type": "string"
+        }
+      }
+    },
+    "MetricType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Undefined",
+        "Gauge",
+        "Counter",
+        "Event",
+        "Alert",
+        "State",
+        "MultiGauge",
+        "WaitTime"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "MetricDisplayType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Undefined",
+        "Line",
+        "Bar",
+        "BarStacked",
+        "Area",
+        "AreaStacked",
+        "State",
+        "StateStacked"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "Statistics": {
+      "type": "object",
+      "required": [
+        "Min",
+        "Max",
+        "Mean",
+        "Median",
+        "Percentile95",
+        "SumOfSquares"
+      ],
+      "properties": {
+        "Min": {
+          "type": "number",
+          "format": "double"
+        },
+        "Max": {
+          "type": "number",
+          "format": "double"
+        },
+        "Mean": {
+          "type": "number",
+          "format": "double"
+        },
+        "Median": {
+          "type": "number",
+          "format": "double"
+        },
+        "Percentile95": {
+          "type": "number",
+          "format": "double"
+        },
+        "SumOfSquares": {
+          "type": "number",
+          "format": "double"
+        },
+        "ThresholdLevels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ThresholdLevel"
+          }
+        }
+      }
+    },
+    "ThresholdLevel": {
+      "type": "object",
+      "required": [
+        "Start",
+        "End",
+        "Type"
+      ],
+      "properties": {
+        "Start": {
+          "type": "number",
+          "format": "double"
+        },
+        "End": {
+          "type": "number",
+          "format": "double"
+        },
+        "Type": {
+          "$ref": "#/definitions/ThresholdType"
+        }
+      }
+    },
+    "ThresholdType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Ok",
+        "Error",
+        "Warning"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "Measurements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Measurement"
+      }
+    },
+    "Measurement": {
+      "type": "object",
+      "required": [
+        "DateTimeStamp",
+        "Value",
+        "Resolution"
+      ],
+      "properties": {
+        "DateTimeStamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Value": {
+          "type": "number",
+          "format": "double"
+        },
+        "Resolution": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Metadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataEntry"
+          }
+        }
+      }
+    },
+    "MetadataEntry": {
+      "type": "object",
+      "required": [
+        "DateTimeStamp",
+        "Id",
+        "SeverityCode",
+        "RuleStatusCode"
+      ],
+      "properties": {
+        "DateTimeStamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Message": {
+          "type": "string"
+        },
+        "Severity": {
+          "type": "string"
+        },
+        "SeverityCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Color": {
+          "type": "string"
+        },
+        "RuleStatusCode": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Query": {
+      "type": "object",
+      "required": [
+        "Length",
+        "Offset",
+        "Total",
+        "Next",
+        "Previous"
+      ],
+      "properties": {
+        "Length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Next": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Previous": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EntityType": {
+      "type": "object",
+      "properties": {
+        "FullName": {
+          "type": "string"
+        },
+        "Caption": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "DisplayNamePlural": {
+          "type": "string"
+        },
+        "MetricGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricGroup"
+          }
+        }
+      }
+    },
+    "MetricGroup": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "DisplayNamePlural": {
+          "type": "string"
+        },
+        "Metrics": {
+          "$ref": "#/definitions/MetricsList"
+        }
+      }
+    },
+    "MetricsAvailabilityRequest": {
+      "type": "object",
+      "properties": {
+        "Opid": {
+          "type": "string"
+        },
+        "Metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PerfStackSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SettingsBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "MaxRealtimeMetricsCount",
+            "MaxRealtimeMetricsPerPerfStackCount",
+            "MinutesToRealtimePoll",
+            "RealtimePollRateSecondsNodes",
+            "RealtimePollRateSecondsInterfaces",
+            "RealtimePollRateSecondsVolumes",
+            "RealtimePollRateSeconds",
+            "MinutesToCacheRealtimePollMetrics",
+            "MaxEntitiesQueryLength",
+            "SwisIsFederated",
+            "IsEoc",
+            "IsNcm",
+            "IsNpm",
+            "IsScm",
+            "IsOlmInstalled",
+            "IsPolicyEngineInstalled",
+            "IsOlmDetailPageSupported",
+            "IsOlmVMwareEventsEntryTypeInstalled",
+            "IsVimInstalled",
+            "PerfStackStatisticRetensionHours"
+          ],
+          "properties": {
+            "MaxRealtimeMetricsCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MaxRealtimeMetricsPerPerfStackCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MinutesToRealtimePoll": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "RealtimePollRateSecondsNodes": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "RealtimePollRateSecondsInterfaces": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "RealtimePollRateSecondsVolumes": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "RealtimePollRateSeconds": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "MinutesToCacheRealtimePollMetrics": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "PerfStackEntitiesBlackList": {
+              "type": "string"
+            },
+            "MaxEntitiesQueryLength": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "SwisIsFederated": {
+              "type": "boolean"
+            },
+            "IsEoc": {
+              "type": "boolean"
+            },
+            "IsNcm": {
+              "type": "boolean"
+            },
+            "IsNpm": {
+              "type": "boolean"
+            },
+            "IsScm": {
+              "type": "boolean"
+            },
+            "IsOlmInstalled": {
+              "type": "boolean"
+            },
+            "IsPolicyEngineInstalled": {
+              "type": "boolean"
+            },
+            "IsOlmDetailPageSupported": {
+              "type": "boolean"
+            },
+            "IsOlmVMwareEventsEntryTypeInstalled": {
+              "type": "boolean"
+            },
+            "IsVimInstalled": {
+              "type": "boolean"
+            },
+            "PerfStackStatisticRetensionHours": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "SettingsBase": {
+      "type": "object",
+      "x-abstract": true
+    },
+    "MeasurementForEntityRequest": {
+      "type": "object",
+      "properties": {
+        "StartTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "EndTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Resolution": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "SwisFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SwisFilter"
+          }
+        },
+        "LimitationId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SwisFilter": {
+      "type": "object",
+      "required": [
+        "Entity",
+        "Condition"
+      ],
+      "properties": {
+        "Entity": {
+          "$ref": "#/definitions/SwisFilterEntity"
+        },
+        "Condition": {
+          "$ref": "#/definitions/SwisFilterCondition"
+        }
+      }
+    },
+    "SwisFilterEntity": {
+      "type": "object",
+      "required": [
+        "InstanceType",
+        "InstanceSiteId"
+      ],
+      "properties": {
+        "InstanceType": {
+          "type": "string"
+        },
+        "InstanceSiteId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SwisFilterCondition": {
+      "type": "object",
+      "required": [
+        "Property"
+      ],
+      "properties": {
+        "Property": {
+          "type": "string"
+        },
+        "Values": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "ObservationsResponse": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/Observations"
+        },
+        "MetricMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Metric"
+          }
+        },
+        "FilterMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "SearchMetadata": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        },
+        "DisplayNames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Observations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Observation"
+      }
+    },
+    "Observation": {
+      "type": "object",
+      "required": [
+        "DateTimeStamp",
+        "Value"
+      ],
+      "properties": {
+        "DateTimeStamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Value": {
+          "type": "number",
+          "format": "double"
+        },
+        "MetricId": {
+          "type": "string"
+        },
+        "PropertyBag": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "ProjectResponse": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
+        },
+        "Query": {
+          "$ref": "#/definitions/Query"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "required": [
+        "UpdateDateTime",
+        "CreateDateTime",
+        "Favorite",
+        "ChartCount",
+        "MetricCount"
+      ],
+      "properties": {
+        "Owner": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "DisplayName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "UpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "CreateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Data": {
+          "type": "string"
+        },
+        "Favorite": {
+          "type": "boolean"
+        },
+        "ChartCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "MetricCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "MetricTypes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

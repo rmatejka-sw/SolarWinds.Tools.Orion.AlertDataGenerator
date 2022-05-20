@@ -40,6 +40,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
             return 0;
         }
 
+        public string GetOpid() => $"{InstanceSiteId}_{InstanceType}_{GetEntityId()}";
     }
 
 

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "SolarWinds.Tools.CommandLineTool.OrionDataExporter": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -24,6 +24,7 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
         public int FutureDays { get; set; }
         public int PollingInterval { get; set; }
         public string OrionServerName { get; set; }
+        public bool UseHttps { get; set; }
         public string OrionUserName { get; set; }
         public string OrionPassword { get; set; }
 

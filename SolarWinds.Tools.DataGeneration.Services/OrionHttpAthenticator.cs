@@ -25,17 +25,11 @@ namespace SolarWinds.Tools.DataGeneration.Services
 
         public HttpClient HttpClient { get; set; }
 
-        //private class UntrustedCertClientFactory : DefaultHttpClientFactory
-        //{
+        public bool IsAuthenticated { get; private set; }
 
-        //    public override HttpMessageHandler CreateMessageHandler()
-        //    {
-        //        s_httpClientMessageHandler = base.CreateMessageHandler() as HttpClientHandler;
-        //        //s_httpClientMessageHandler.CookieContainer = new CookieContainer(10);
-        //        s_httpClientMessageHandler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-        //        return s_httpClientMessageHandler;
-        //    }
-        //}
+        public string AuthenticationError { get; private set; }
+
+        public string LoginUrl { get; private set; }
 
         public OrionAuthenticator(string orionUrl, string userName, string password)
         {
@@ -73,17 +67,10 @@ namespace SolarWinds.Tools.DataGeneration.Services
         {
             try
             {
-                var loginUrl = $"{this.orionUrl}{LoginSegment}";
+                var loginUrl = this.LoginUrl = $"{this.orionUrl}{LoginSegment}";
                 var loginResponse = this.HttpClient.GetStringAsync(new Uri(loginUrl)).Result;
                 Dictionary<string, string> parameters = ParseLoginPage(loginResponse);
                 PostLoginAsync(parameters);
-                //var uri = new Uri(this.orionUrl);
-                //foreach (var cookie in cookies)
-                //{
-                //    var cookieName = cookie.Name;// == xfsrToken ? $"X-{xfsrToken}" : xfsrToken;
-                //    var httpClientCookie = new Cookie(cookieName, cookie.Value);
-                //    httpClientCookie.Domain = uri.Host;
-                //}
             }
             catch (Exception e)
             {
@@ -145,9 +132,14 @@ namespace SolarWinds.Tools.DataGeneration.Services
                 var url = $"{this.orionUrl}{LoginSegment}";
                 var loginResponse = this.HttpClient
                     .PostAsync(url, new FormUrlEncodedContent(postParameters)).Result;
-                if (loginResponse.RequestMessage.RequestUri.AbsoluteUri == url)
+                this.IsAuthenticated = loginResponse.RequestMessage.RequestUri.AbsoluteUri != url;
+                if (!this.IsAuthenticated)
                 {
-                    throw new WebException("Incorrect credentials for log in.");
+                    var message = loginResponse.Content.ReadAsStringAsync().Result;
+                    var form = new HtmlDocument();
+                    form.LoadHtml(message);
+                    var loginFailure = form.DocumentNode.CssSelect("#ctl00_BodyContent_phMessage");
+                    this.AuthenticationError = loginFailure.FirstOrDefault().InnerText;
                 }
             }
             catch (Exception ex)
