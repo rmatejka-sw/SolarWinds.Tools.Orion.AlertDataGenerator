@@ -24,7 +24,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
 
                 }
                 return CacheManager.Cache.GetOrCreate(
-                    typeof(T),
+                    query,
                     cacheEntry => WebApiManager.Swis.QueryList<T>(query)
                 );
             }

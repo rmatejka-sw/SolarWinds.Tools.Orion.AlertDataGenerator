@@ -42,8 +42,8 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
         [Option("PastDays", Default = 21, HelpText = "Number of days of historic data to export.")]
         public int PastDays { get; set; }
 
-        [Option('m', "Metrics", Separator = '|')]
-        public IEnumerable<string> Metrics { get; set; }
+        [Option('m', "EntityMetrics", Separator = '|', HelpText = "List of Entity Metrics to export. Format is EntityType-MetricId with '|' to separate multiple Entity Metrics. Default is 'Orion.Nodes-Orion.CPULoad.AvgLoad|Orion.Nodes-")]
+        public IEnumerable<string> EntityMetrics { get; set; }
 
         [Option("MaxNodes", Default = 3, HelpText = "Total number of nodes from which metrics will be exported.")]
         public int MaxNodes { get; set; }
@@ -52,27 +52,28 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
         {
             try
             {
-                var nodes = WebApiManager.PerfStackEntities.GetManagedEntitiesAsync("Orion.Nodes", 200).Result.Data;
-                var alertObjectsQuery = @"SELECT DISTINCT ao.EntityNetObjectId
-FROM Orion.AlertHistory ah
-JOIN Orion.AlertObjects ao on ao.AlertObjectID=ah.AlertObjectId
-WHERE ao.EntityType = 'Orion.Nodes'
-ORDER BY ao.TriggeredCount DESC";
-                var alertObjects = SwisEntity.Get<AlertObjects>(alertObjectsQuery);
-
-                if (!Metrics.Any())
+                if (!EntityMetrics.Any())
                 {
-                    Metrics = new List<string>()
+                    EntityMetrics = new List<string>()
                     {
-                        "Orion.CPULoad.AvgLoad",
-                        "Orion.ResponseTime.AvgResponseTime"
+                        "Orion.Nodes-Orion.CPULoad.AvgLoad",
+                        "Orion.Nodes-Orion.ResponseTime.AvgResponseTime",
+                        "Orion.Volumes-Orion.VolumePerformanceHistory.AvgDiskReads"
                     };
                 }
                 this.archiveRoot = this.OrionServerName.Replace(".", "_");
                 var now = DateTime.UtcNow;
-                foreach (var metricId in Metrics)
+                foreach (var entityTypeMetricId in EntityMetrics)
                 {
                     var exportedEntities = 0;
+                    var entityType = entityTypeMetricId.Split('-')[0];
+                    var metricId = entityTypeMetricId.Split('-')[1];
+                    var alertObjectsQuery = @$"SELECT DISTINCT ao.EntityNetObjectId
+FROM Orion.AlertHistory ah
+JOIN Orion.AlertObjects ao on ao.AlertObjectID=ah.AlertObjectId
+WHERE ao.EntityType = '{entityType}'
+ORDER BY ao.TriggeredCount DESC";
+                    var alertObjects = SwisEntity.Get<AlertObjects>(alertObjectsQuery);
                     foreach (var alertObject in alertObjects)
                     {
                         var opid = NetObjectTypes.NetObjectIdToOpid(alertObject.EntityNetObjectId);
