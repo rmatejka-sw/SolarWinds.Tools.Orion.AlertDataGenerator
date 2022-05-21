@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using SolarWinds.Tools.DataGeneration.DAL.Models;
+using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services.OrionSWISQueryClient;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
@@ -31,6 +35,28 @@ namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
         {
             var instanceTypes = SwisEntity.GetInstanceTypes();
             return GetList().Where(_ => instanceTypes.Contains(_.EntityType)).ToList();
+        }
+
+        public static Opid NetObjectIdToOpid(string netObjectId, int siteId=0)
+        {
+            try
+            {
+                var prefix = netObjectId.Split(separator)[0];
+                var entityId = Int32.Parse(netObjectId.Split(separator)[1]);
+                var entityType = GetInstances().FirstOrDefault(_ => _.Prefix == prefix).EntityType;
+                return new Opid
+                {
+                    SiteId = siteId,
+                    EntityId = entityId,
+                    EntityType = entityType
+                };
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+
+            return null;
         }
     }
 }

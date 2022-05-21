@@ -16,7 +16,8 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Extensions
             try
             {
                 var records = new List<T>();
-                var result = Enumerable.ToList<object>(swisClient.QueryAsync(new QueryParam {Query = query.ExpandAsteriskToPropList<T>()}).Result.Result);
+                query = query.ExpandAsteriskToPropList<T>();
+                var result = Enumerable.ToList<object>(swisClient.QueryAsync(new QueryParam {Query = query}).Result.Result);
                 foreach (object resultObject in result)
                 {
                     records.Add(resultObject.ToClass<T>());
@@ -25,7 +26,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Extensions
             }
             catch (Exception e)
             {
-                ConsoleLogger.Error(e);
+                ConsoleLogger.Error($"Query failed: {query} - {e.Message}");
             }
 
             return Enumerable.Empty<T>().ToList();

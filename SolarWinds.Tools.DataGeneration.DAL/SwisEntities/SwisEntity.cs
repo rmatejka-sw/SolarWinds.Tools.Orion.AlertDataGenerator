@@ -14,11 +14,15 @@ namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
 
         protected abstract string SwisEntityType { get; }
         
-        public static IList<T> Get<T>() where T : class, new()
+        public static IList<T> Get<T>(string query="") where T : class, new()
         {
             try
             {
-                var query = @$"SELECT * FROM {(new T() as SwisEntity).SwisEntityType}";
+                if (String.IsNullOrEmpty(query))
+                {
+                    query = @$"SELECT * FROM {(new T() as SwisEntity).SwisEntityType}";
+
+                }
                 return CacheManager.Cache.GetOrCreate(
                     typeof(T),
                     cacheEntry => WebApiManager.Swis.QueryList<T>(query)

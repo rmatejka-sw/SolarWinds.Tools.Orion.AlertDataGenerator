@@ -7,6 +7,8 @@ using System.Text;
 using CommandLine;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.CommandLineTool.Service;
+using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
+using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services;
 
@@ -51,6 +53,13 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
             try
             {
                 var nodes = WebApiManager.PerfStackEntities.GetManagedEntitiesAsync("Orion.Nodes", 200).Result.Data;
+                var alertObjectsQuery = @"SELECT DISTINCT ao.EntityNetObjectId
+FROM Orion.AlertHistory ah
+JOIN Orion.AlertObjects ao on ao.AlertObjectID=ah.AlertObjectId
+WHERE ao.EntityType = 'Orion.Nodes'
+ORDER BY ao.TriggeredCount DESC";
+                var alertObjects = SwisEntity.Get<AlertObjects>(alertObjectsQuery);
+
                 if (!Metrics.Any())
                 {
                     Metrics = new List<string>()
@@ -64,10 +73,12 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
                 foreach (var metricId in Metrics)
                 {
                     var exportedEntities = 0;
-                    foreach (var node in nodes)
+                    foreach (var alertObject in alertObjects)
                     {
-                        var entityMetricId = $"{node.Id}-{metricId}";
-                        var records = LoadMeasurements(node, entityMetricId, now);
+                        var opid = NetObjectTypes.NetObjectIdToOpid(alertObject.EntityNetObjectId);
+                        if (opid == null) continue;
+                        var entityMetricId = $"{opid}-{metricId}";
+                        var records = LoadMeasurements(entityMetricId, now);
                         if (records == null)
                         {
                             ConsoleLogger.Warning($"Skipped {entityMetricId}: no measurements found for date range.");
@@ -83,7 +94,7 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
                             ConsoleLogger.Warning($"Skipped {entityMetricId}: Over 50% of the records are zero.");
                             continue;
                         }
-                        this.CreateArchiveEntry(node.Id, metricId, $"{entityMetricId}");
+                        this.CreateArchiveEntry(opid.ToString(), metricId, $"{entityMetricId}");
                         foreach (var record in records)
                         {
                             this.currentArchiveEntryStreamWriter.WriteLine($"{record.TimeStamp},{record.Value}");
@@ -93,7 +104,7 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
                         if (exportedEntities >= this.MaxNodes) break;
                     }
                 }
-                this.currentArchiveEntryStreamWriter.Close();
+                this.currentArchiveEntryStreamWriter?.Close();
             }
             catch (Exception e)
             {
@@ -103,7 +114,7 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
             return RunStatus.CommandError;
         }
 
-        private IList<AiOpsDataRecord> LoadMeasurements(Entity node, string entityMetricId, DateTime now)
+        private IList<AiOpsDataRecord> LoadMeasurements(string entityMetricId, DateTime now)
         {
             var records = new List<AiOpsDataRecord>();
             var resolution = (int)TimeSpan.FromMinutes(10).TotalSeconds;
@@ -119,7 +130,7 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
                     startTime.ToUniversalTime().ToString("o"),
                     endTime.ToUniversalTime().ToString("o"),
                     resolution).Result;
-                if (result.Measurements == null && daysIndex == 0)
+                if (result?.Measurements == null && daysIndex == 0)
                 {
                     return null;
                 };

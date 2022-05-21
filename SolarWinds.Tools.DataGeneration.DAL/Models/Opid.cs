@@ -6,6 +6,10 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Models
     {
         private char opidSeparator = '_';
 
+        public Opid()
+        {
+
+        }
         public Opid(string opid)
         {
             var parts = opid.Split(opidSeparator, StringSplitOptions.TrimEntries);
@@ -17,5 +21,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Models
         public int SiteId { get; set; }
         public string EntityType { get; set; }
         public int EntityId { get; set; }
+
+        public override string ToString() => $"{SiteId}{opidSeparator}{EntityType}{opidSeparator}{EntityId}";
     }
 }
