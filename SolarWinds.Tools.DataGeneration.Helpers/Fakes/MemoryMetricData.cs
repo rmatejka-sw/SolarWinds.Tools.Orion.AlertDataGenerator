@@ -17,5 +17,6 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
             (6*256D).To( MetricPrefix.Giga),
             (8*256D).To( MetricPrefix.Giga),
         };
+        public override Units Units => new ByteUnits();
     }
 }

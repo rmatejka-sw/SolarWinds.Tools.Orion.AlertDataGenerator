@@ -2,7 +2,9 @@
 using System.Linq;
 using CommandLine;
 using DapperExtensions;
+using SolarWinds.Tools.CommandLineTool.Extensions;
 using SolarWinds.Tools.CommandLineTool.Options;
+using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -17,7 +19,9 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
     {
         [Option('d', "DeleteFakesBefore", Default = false, HelpText = "Delete any previously generated fakes before generating new fakes.")]
         public bool DeleteFakesBefore { get; set; }
-        
+        [Option("IncludeAiimAnomalies", Default = false, HelpText = "If true, populates AIIM anomaly history table (AIIM_AnomalyHistory).")]
+        public bool IncludeAiimAnomalies { get; set; }
+
         public int MaxHops { get; set; }
         public int MinNodes { get; set; }
         public int ShadowNodes { get; set; }
@@ -43,10 +47,14 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 if (timeInterval == null)
                 {
                     if (this.DeleteFakesBefore)
-                    {
-                        this.NetworkGenerator.DeleteFakes();
+                    { 
+                        DeleteFakesAction.DeleteFakes();
                     }
                     this.GenerateStaticData();
+                }
+                else
+                {
+                    this.GenerateHistoricData(timeInterval.Value);
                 }
             }
             catch (Exception e)
@@ -72,6 +80,18 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             this.NetworkGenerator.CreateNetworkElements(this);
         }
 
+        private void GenerateHistoricData(DateTime timeInterval)
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                ConsoleLogger.Error(e);
+            }
+        }
+
         private void GenerateStaticData()
         {
             try
@@ -79,6 +99,10 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 this.GenerateNodesForDevices();
                 this.GenerateInterfacesForDevices();
                 this.GenerateVolumesForDevices();
+                if (this.IncludeAiimAnomalies)
+                {
+                    this.GenerateAiimAnomalies();
+                }
             }
             catch (Exception e)
             {
@@ -122,6 +146,29 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                     catch (Exception ex)
                     {
                         ConsoleLogger.Error(ex);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogger.Error(ex);
+            }
+        }
+
+        private void GenerateAiimAnomalies()
+        {
+            try
+            {
+                var f = FakerHelper.Faker;
+                var anomalyObjects = AIIM_AlertConditionEntityProperty.Get<AIIM_AlertConditionEntityProperty>(
+                    "SELECT DISTINCT * from Orion.AIIM.AlertConditionEntityProperty where IsAnomalyCondition = true");
+                var source = f.PickRandom<AIIM_AlertConditionEntityProperty>(anomalyObjects);
+                foreach (var interval in this.NextInterval())
+                {
+                    for (int i = 0; i < f.Random.Int(1,10); i++)
+                    {
+                        var aiimAnomalyHistory = new AIIM_AnomalyHistory().Populate(interval, source);
+                        DbConnectionManager.DbConnection.Insert(aiimAnomalyHistory);
                     }
                 }
             }

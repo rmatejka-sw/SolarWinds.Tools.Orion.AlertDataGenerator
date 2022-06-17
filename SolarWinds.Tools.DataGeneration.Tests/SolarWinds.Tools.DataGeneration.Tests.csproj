@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.Helpers\SolarWinds.Tools.DataGeneration.Helpers.csproj" />
+    <ProjectReference Include="..\SolarWinds.Tools.ModelGenerators\SolarWinds.Tools.ModelGenerators.csproj" />
   </ItemGroup>
 
 </Project>

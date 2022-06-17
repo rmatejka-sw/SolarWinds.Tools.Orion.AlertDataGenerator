@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
+using DapperExtensions;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -16,6 +18,8 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 
         [Option("alertsPerHour", Default = 20000, HelpText = "Total number of alerts to generate per hour.")]
         public int AlertsPerHour { get; set; }
+        [Option("alertIds", Separator = ',', HelpText = "Comma-delimited list of alert Ids to use. Default is random alerts.")]
+        public IEnumerable<int> AlertIds { get; set; }
         public string DbServerName { get; set; }
         public string DbName { get; set; }
         public string DbUserName { get; set; }
@@ -31,7 +35,7 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
         public int AlertPerInterval => this.AlertsPerHour / 60 / this.PollingInterval;
 
         public int AlertPerIntervalRandom =>
-            FakerHelper.Faker.Random.Int(AlertPerInterval- AlertPerInterval/2, AlertPerInterval+ AlertPerInterval/2);
+            FakerHelper.Faker.Random.Int(AlertPerInterval - AlertPerInterval / 2, AlertPerInterval + AlertPerInterval / 2);
 
 
         public RunStatus Run(DateTime? timeInterval)
@@ -42,11 +46,22 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
                 var intervalTime = timeInterval.Value;
                 var totalAlerts = this.AlertPerIntervalRandom;
                 var alertsRemaining = totalAlerts;
+                var alertIdCount = this.AlertIds?.Count();
+                var alertConfigurations = DbConnectionManager.DbConnection.GetList<AlertConfigurations>().ToList();
                 ConsoleLogger.Info($"Generating {totalAlerts} alerts for interval {intervalTime}");
                 while (alertsRemaining > 0)
                 {
-                    var alert = DbConnectionManager.DbConnection.GetRandomRecord<AlertConfigurations>(
-                        alert => alert.Enabled && this.AlertDataGenerator.NetObjectTypeInstances.Any(_ => _.Name == alert.ObjectType));
+                    AlertConfigurations alert = null;
+                    if (alertIdCount > 0)
+                    {
+                        var alertId = FakerHelper.Faker.PickRandom(this.AlertIds);
+                        alert = alertConfigurations.FirstOrDefault(_ => _.AlertID == alertId);
+                    }
+                    else
+                    {
+                        alert = FakerHelper.Faker.PickRandom( alertConfigurations.Where(
+                            alert => alert.Enabled && this.AlertDataGenerator.NetObjectTypeInstances.Any(_ => _.Name == alert.ObjectType)));
+                    }
                     var netObjectType = this.AlertDataGenerator.NetObjectTypeInstances.FirstOrDefault(ot => ot.Name == alert.ObjectType);
                     if (netObjectType == null) continue;
                     var entityType = netObjectType.EntityType;

@@ -6,7 +6,7 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
     /// Represents Metric Data that has a physical capacity like memory, disk space,
     /// and bandwidth. Base MetricData will be bounded by the Capacity.
     /// </summary>
-    public abstract class CapacityMetricData : MetricData
+    public abstract class CapacityMetricData : MetricData, ICapacity
     {
         private double? capacity;
 
@@ -22,7 +22,11 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         /// </summary>
         public abstract IList<double> PhysicalCapacities { get; }
 
+        double ICapacity.Capacity { get; set; }
+
         public double Capacity => capacity ??= FakerHelper.Faker.PickRandom(PhysicalCapacities);
-        public double CapacityPercentage => Current / Capacity * 100.0;
+        public double PercentUsed => Used / Capacity * 100.0;
+        public double Available => Capacity - Used;
+        public double Used => Current;
     }
 }

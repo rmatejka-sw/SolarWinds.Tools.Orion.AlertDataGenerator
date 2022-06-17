@@ -2,7 +2,7 @@
   "profiles": {
     "OrionAlertDataGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "generateAlerts --pastDays 30"
+      "commandLineArgs": "generateAlerts --pastDays 1 --futureDays 7 --alertIds 231,228,229,230,227"
     }
   }
 }

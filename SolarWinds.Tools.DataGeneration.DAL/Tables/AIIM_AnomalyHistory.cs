@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
@@ -50,42 +53,26 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 
         public string MetricDisplayName { get; set; }
 
-        public AIIM_AnomalyHistory()
-        {
-            //var eventData = this.allEvents[(int)recordIndex];
-            //var eventInfos = eventData.Message.Split(':');
-            //var instance = eventInfos[0];
-            //this.SourceInstanceType = $"Orion.{instance}s";
-            //this.MetricId = eventInfos[1];
-            //this.SourceId = eventData.NetObjectID ?? 0;
-            //this.SourceOpid = $"1_{this.SourceInstanceType}_{this.SourceId}";
-            //this.SourceUri = GetSourceUri(eventData.Message, machineName, instance);
-            //this.TimeStampUtc = (eventData.EventTime ?? DateTime.Now).ToUniversalTime();
-            //this.MeasurementTimeUtc = this.TimeStampUtc;
-            //this.ValidUntilUtc = this.TimeStampUtc + TimeSpan.FromMinutes(10);
-            //this.SourceDetailsUrl = "#";
-            //this.SourceDisplayName = "";
-            //this.SourceIcon = "network-device";
-            //this.SourceStatusIcon = "up";
-            //this.MetricDisplayName = this.MetricId.Replace("_", " ");
-            //this.MetricValue = double.Parse(eventData.Message.Split(new string[] { "value=" }, StringSplitOptions.None)[1]);
-        }
 
-        private string GetSourceUri(string eventMessage, string machineName, string instance)
+        public AIIM_AnomalyHistory Populate(DateTime interval, AIIM_AlertConditionEntityProperty source )
         {
-            if (instance != "Node")
-            {
-                // For child: anomaly for Volume 2 on node to-23.alessandro.name-FAKE10 on node (12) to-23.alessandro.name-FAKE10 value=100
-                var eventInfo = eventMessage.Split(':')[1];
-                var match = eventDetails.Match(eventInfo);
-                if (match.Success)
-                {
-                    // SAMPLE: swis://ENG-AUS-COR-055./Orion/Orion.Nodes/NodeID=2/Volumes/VolumeID=3
-                    return  $"swis://{machineName}/Orion/Orion.Nodes/NodeID={match.Groups["nodeId"].Value}/{this.SourceInstanceType.Split('.')[1]}/{instance}ID={this.SourceId}";
-                }
-
-            }
-            return  $"swis://{machineName}/Orion/{this.SourceInstanceType}/{instance}ID={this.SourceId}";
+            var f = FakerHelper.Faker;
+            var entityInstance = f.PickRandom<System_ManagedEntity>(System_ManagedEntity.GetManagedEntityByType(source.AnomalyEntityType));
+            this.SourceInstanceType = $"{source.AnomalyEntityType}";
+            this.MetricId = source.AnomalyEntityProperty;
+            this.SourceId = entityInstance.GetEntityId();
+            this.SourceOpid = entityInstance.GetOpid();
+            this.SourceUri = entityInstance.Uri;
+            this.TimeStampUtc = interval;
+            this.MeasurementTimeUtc = this.TimeStampUtc;
+            this.ValidUntilUtc = this.TimeStampUtc + TimeSpan.FromMinutes(10);
+            this.SourceDetailsUrl = entityInstance.DetailsUrl;
+            this.SourceDisplayName = entityInstance.DisplayName;
+            this.SourceIcon = "network-device";
+            this.SourceStatusIcon = entityInstance.StatusLED.Replace(".gif","").ToLower();
+            this.MetricDisplayName = source.AnomalyEntityProperty;
+            this.MetricValue = f.Random.Double(1, 1000);
+            return this;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
             var f = FakerHelper.Faker;
             var statusInfo = f.Orion().Status();
             var volumeTypeInfo = new VolumeTypeInfo(volumeIndex);
-            var volumeUsage = new CapacityUsageInfo(f.Orion().VolumeSize);
+            var volumeUsage = new VolumeMetricData();
             base.Populate();
             this.NodeID = nodeId;
             this.VolumeIndex = volumeIndex;
@@ -64,9 +64,10 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
             this.VolumeAllocationFailuresToday = this.VolumeAllocationFailuresThisHour * f.Random.Int(1, 3);
             this.FullName = $"{nodeName}-{volumeTypeInfo.Caption}";
             this.VolumeSize = volumeUsage.Capacity;
-            this.VolumePercentUsed = volumeUsage.PercentUsed;
+            this.VolumePercentUsed = (float)volumeUsage.PercentUsed;
             this.VolumeSpaceAvailable = volumeUsage.Available;
             this.VolumeSpaceUsed = volumeUsage.Used;
+            if (FullName.Length > 255) this.FullName = FullName.Substring(0, 255);
             return this;
         }
     }

@@ -69,10 +69,10 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
                     var entityType = entityTypeMetricId.Split('-')[0];
                     var metricId = entityTypeMetricId.Split('-')[1];
                     var alertObjectsQuery = @$"SELECT DISTINCT ao.EntityNetObjectId
-FROM Orion.AlertHistory ah
-JOIN Orion.AlertObjects ao on ao.AlertObjectID=ah.AlertObjectId
-WHERE ao.EntityType = '{entityType}'
-ORDER BY ao.TriggeredCount DESC";
+                        FROM Orion.AlertHistory ah
+                        JOIN Orion.AlertObjects ao on ao.AlertObjectID=ah.AlertObjectId
+                        WHERE ao.EntityType = '{entityType}'
+                        ORDER BY ao.TriggeredCount DESC";
                     var alertObjects = SwisEntity.Get<AlertObjects>(alertObjectsQuery);
                     foreach (var alertObject in alertObjects)
                     {

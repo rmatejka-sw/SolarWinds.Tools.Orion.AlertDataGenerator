@@ -174,8 +174,8 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
             var f = FakerHelper.Faker;
             var status = f.Orion().Status();
             var inBandwidth = f.Random.Rate(MetricPrefix.Giga, 1, 10000);
-            var inUsage = new CapacityUsageInfo(inBandwidth);
-            var outUsage = new CapacityUsageInfo(inBandwidth);
+            var inUsage = new BandwidthMetricRate();
+            var outUsage = new BandwidthMetricRate();
             this.NodeID = nodeId;
             this.ObjectSubType = "SNMP";
             this.InterfaceName = name;
@@ -203,10 +203,10 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
             this.AdminStatusLED = status.StatusLED;
             this.OperStatusLED = status.StatusLED;
             this.InterfaceIcon = "6.gif";
-            this.Outbps = (float)outUsage.Used;
-            this.Inbps = (float)inUsage.Used;
-            this.OutPercentUtil = outUsage.PercentUsed / 100.0f;
-            this.InPercentUtil = inUsage.PercentUsed / 100.0f;
+            //this.Outbps = (float)outUsage.;
+            //this.Inbps = (float)inUsage.Used;
+            this.OutPercentUtil = (float)outUsage.PercentUsed / 100.0f;
+            this.InPercentUtil = (float)inUsage.PercentUsed / 100.0f;
             this.OutPps = this.Outbps / 148.0f;
             this.InPps = this.Inbps / 254.0f;
             this.InPktSize = (short)254;

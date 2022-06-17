@@ -1,17 +1,10 @@
-﻿namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
-{
-    public class MetricRate<TMetricData> where TMetricData : MetricData
-    {
-        public MetricRate(TMetricData metricData, float rate, TimeUnit timeUnits)
-        {
-            this.Rate = rate;
-            this.TimeUnits = timeUnits; 
-            this.MetricData = metricData;
-        }
+﻿using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
 
-        public TMetricData MetricData { get; set; }
-        public float Rate { get; set; }
-        public TimeUnit TimeUnits { get; set; }
+namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
+{
+    public abstract class MetricRate : MetricData, IRate {
+ 
+        public abstract TimeUnit TimeUnits { get;  }
 
     }
 }

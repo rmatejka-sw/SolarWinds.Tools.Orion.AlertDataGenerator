@@ -1,0 +1,96 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+using System.Threading;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+
+namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
+{
+    /// <summary>
+    /// Defines a single segment of a workload. The duration of the segment
+    /// is defined in terms of polling intervals. 
+    /// </summary>
+    public class WorkloadSegment
+    {
+        private Regex definitionPattern = new Regex(@"(?<intervals>\d+)@(?<rate>-?\d+)");
+        private double? startPercent;
+        private double? endPercent;
+
+        /// <summary>
+        /// Description of the segment having the following format:
+        /// TotalIntervals@Rate
+        /// For example, 5@0.5 describes a segment that is 5 intervals long
+        /// and increases at a rate of 0.5 percent per interval/
+        /// </summary>
+        /// <param name="definition"></param>
+        public WorkloadSegment(string definition)
+        {
+            var groups = definitionPattern.Matches(definition).FirstOrDefault()?.Groups;
+            if (groups == null)
+            {
+                this.TotalIntervals = 1;
+                this.PercentChangePerInterval = 0;
+                return;
+            }
+            this.TotalIntervals = Int32.TryParse(groups["intervals"].Value, out int intervals) ? intervals : 1;
+            this.PercentChangePerInterval = double.TryParse(groups["rate"].Value, out double rate) ? rate : 0;
+        }
+
+        /// <summary>
+        /// Defines a workload segment lasting totalIntervals and changing by
+        /// percentChangePerInterval each interval.
+        /// </summary>
+        /// <param name="totalIntervals"></param>
+        /// <param name="percentChangePerInterval"></param>
+        public WorkloadSegment(int totalIntervals, double percentChangePerInterval)
+        {
+            this.TotalIntervals = totalIntervals;
+            this.PercentChangePerInterval = percentChangePerInterval;
+        }
+
+        /// <summary>
+        /// Defines a workload segment lasting totalIntervals and from startPercent
+        /// to endPercent.
+        /// </summary>
+        /// <param name="totalIntervals"></param>
+        /// <param name="startPercent"></param>
+        /// <param name="endPercent"></param>
+        public WorkloadSegment(int totalIntervals, double startPercent, double endPercent)
+        {
+            this.TotalIntervals = totalIntervals;
+            this.StartPercent = startPercent;
+            this.EndPercent = endPercent;
+            this.PercentChangePerInterval = (this.EndPercent - this.StartPercent) / this.TotalIntervals;
+        }
+
+        public int TotalIntervals { get; }
+        public double? PercentChangePerInterval { get; }
+        public double? EndPercent { get => endPercent; private set => endPercent = Math.Max(Math.Min(value ?? 0, 100.0), 0.0); }
+
+        public double? StartPercent
+        {
+            get => startPercent;
+            private set
+            {
+                startPercent = MetricData.Clamp(value ?? 0, 0, 100.0);
+                this.EndPercent = value + this.TotalIntervals * PercentChangePerInterval;
+            }
+
+        }
+
+        public IEnumerable<double> WorkloadLevels(double startPercent = 0, int? repeat = null, int durationMultiplier = 1)
+        {
+            StartPercent = startPercent;
+            double currentPercent = startPercent;
+            for (int interval = 1; interval <= TotalIntervals; interval++)
+            {
+                currentPercent = MetricData.Clamp(currentPercent + PercentChangePerInterval ?? 0, 0, 100);
+                yield return currentPercent;
+            }
+
+        }
+    }
+}
