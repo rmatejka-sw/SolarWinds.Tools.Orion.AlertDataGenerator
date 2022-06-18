@@ -1,4 +1,5 @@
 ﻿using System;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 
 namespace SolarWinds.Tools.CommandLineTool
@@ -14,8 +15,9 @@ namespace SolarWinds.Tools.CommandLineTool
         /// going from Now to 5 days in the past.
         /// </summary>
         /// <param name="timeInterval">Current time interval</param>
+        /// <param name="timeRange">Time range being iterated to generate the timeInterval</param>
         /// <returns>Status of operation</returns>
-        RunStatus Run(DateTime? timeInterval = null);
+        RunStatus Run(DateTime? timeInterval = null, TimeRange timeRange = null);
 
         /// <summary>
         /// Called by CommandLineTool prior to calling Run

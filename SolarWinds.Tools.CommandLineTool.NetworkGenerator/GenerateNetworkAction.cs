@@ -3,12 +3,14 @@ using System.Linq;
 using CommandLine;
 using DapperExtensions;
 using SolarWinds.Tools.CommandLineTool.Extensions;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
 
 namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
@@ -40,21 +42,22 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         public string OrionUserName { get; set; }
         public string OrionPassword { get; set; }
 
-        public RunStatus Run(DateTime? timeInterval = null)
+
+        public RunStatus Run(DateTime? timeInterval = null, TimeRange timeRange = null)
         {
             try
             {
                 if (timeInterval == null)
                 {
                     if (this.DeleteFakesBefore)
-                    { 
+                    {
                         DeleteFakesAction.DeleteFakes();
                     }
                     this.GenerateStaticData();
+                    this.NetworkGenerator.PopulateMetrics(timeRange);
                 }
                 else
                 {
-                    this.GenerateHistoricData(timeInterval.Value);
                 }
             }
             catch (Exception e)
@@ -78,18 +81,6 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 return;
             }
             this.NetworkGenerator.CreateNetworkElements(this);
-        }
-
-        private void GenerateHistoricData(DateTime timeInterval)
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                ConsoleLogger.Error(e);
-            }
         }
 
         private void GenerateStaticData()
@@ -122,7 +113,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                         if (device.IsShadowNode)
                         {
                             var shadowNode = new ShadowNodes().Populate();
-                            shadowNode.NodeId = TableBase<ShadowNodes>.GetMaxId("NodeId")+1;
+                            shadowNode.NodeId = TableBase<ShadowNodes>.GetMaxId("NodeId") + 1;
                             DbConnectionManager.DbConnection.Insert(shadowNode);
                         }
                         else
@@ -165,7 +156,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 var source = f.PickRandom<AIIM_AlertConditionEntityProperty>(anomalyObjects);
                 foreach (var interval in this.NextInterval())
                 {
-                    for (int i = 0; i < f.Random.Int(1,10); i++)
+                    for (int i = 0; i < f.Random.Int(1, 10); i++)
                     {
                         var aiimAnomalyHistory = new AIIM_AnomalyHistory().Populate(interval, source);
                         DbConnectionManager.DbConnection.Insert(aiimAnomalyHistory);

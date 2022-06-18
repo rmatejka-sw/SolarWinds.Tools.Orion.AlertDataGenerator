@@ -1,5 +1,6 @@
 ﻿using System;
 using CommandLine;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
 
@@ -12,7 +13,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
     public class UpdateStatusAction : ActionBase, ICommandLineOptions, ICommandLineAction
     {
 
-        public RunStatus Run(DateTime? timeInterval = null)
+        public RunStatus Run(DateTime? timeInterval = null, TimeRange timeRange = null)
         {
             try
             {

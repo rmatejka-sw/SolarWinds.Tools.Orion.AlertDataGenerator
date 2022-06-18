@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using CommandLine;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.CommandLineTool.Service;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
@@ -48,7 +49,7 @@ namespace SolarWinds.Tools.CommandLineTool.OrionDataExporter
         [Option("MaxNodes", Default = 3, HelpText = "Total number of nodes from which metrics will be exported.")]
         public int MaxNodes { get; set; }
 
-        public RunStatus Run(DateTime? timeInterval = null)
+        public RunStatus Run(DateTime? timeInterval = null, TimeRange timeRange = null)
         {
             try
             {

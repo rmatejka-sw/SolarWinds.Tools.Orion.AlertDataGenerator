@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 using DapperExtensions;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -36,12 +37,14 @@ namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 
         public int AlertPerIntervalRandom =>
             FakerHelper.Faker.Random.Int(AlertPerInterval - AlertPerInterval / 2, AlertPerInterval + AlertPerInterval / 2);
+        
+        public TimeRange GeneratorTimeRange { get; private set; }
 
-
-        public RunStatus Run(DateTime? timeInterval)
+        public RunStatus Run(DateTime? timeInterval, TimeRange timeRange = null)
         {
             try
             {
+                this.GeneratorTimeRange = timeRange; 
                 if (!timeInterval.HasValue) return RunStatus.Success;
                 var intervalTime = timeInterval.Value;
                 var totalAlerts = this.AlertPerIntervalRandom;

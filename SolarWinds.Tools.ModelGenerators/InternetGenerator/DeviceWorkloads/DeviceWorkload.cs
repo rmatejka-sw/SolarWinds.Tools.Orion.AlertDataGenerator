@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dates.Recurring.Type;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads

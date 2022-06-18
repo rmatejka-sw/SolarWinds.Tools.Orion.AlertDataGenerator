@@ -15,28 +15,42 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
     /// </summary>
     public class WorkloadSegment
     {
-        private Regex definitionPattern = new Regex(@"(?<intervals>\d+)@(?<rate>-?\d+)");
+        private Regex rateDefinitionPattern = new Regex(@"(?<intervals>\d+)@(?<rate>-?\d+)");
+        private Regex endPercentDefinitionPattern = new Regex(@"(?<intervals>\d+)>(?<endPercent>-?\d+)");
         private double? startPercent;
         private double? endPercent;
+        private bool isEndPercent = false;
 
         /// <summary>
         /// Description of the segment having the following format:
         /// TotalIntervals@Rate
         /// For example, 5@0.5 describes a segment that is 5 intervals long
-        /// and increases at a rate of 0.5 percent per interval/
+        /// and increases at a rate of 0.5 percent per interval.
+        /// Alternately, an absolute ending worklevel can be given using the syntax
+        /// TotalIntervals>WorkLevel
         /// </summary>
         /// <param name="definition"></param>
         public WorkloadSegment(string definition)
         {
-            var groups = definitionPattern.Matches(definition).FirstOrDefault()?.Groups;
+            var groups = rateDefinitionPattern.Matches(definition).FirstOrDefault()?.Groups;
             if (groups == null)
             {
-                this.TotalIntervals = 1;
-                this.PercentChangePerInterval = 0;
-                return;
+                groups = endPercentDefinitionPattern.Matches(definition).FirstOrDefault()?.Groups;
+                if (groups == null)
+                {
+                    this.TotalIntervals = 1;
+                    this.PercentChangePerInterval = 0;
+                    return;
+                }
+
+                this.isEndPercent = true;
+                this.EndPercent = double.TryParse(groups["endPercent"].Value, out double rate) ? rate : 0;
+            }
+            else
+            {
+                this.PercentChangePerInterval = double.TryParse(groups["rate"].Value, out double rate) ? rate : 0;
             }
             this.TotalIntervals = Int32.TryParse(groups["intervals"].Value, out int intervals) ? intervals : 1;
-            this.PercentChangePerInterval = double.TryParse(groups["rate"].Value, out double rate) ? rate : 0;
         }
 
         /// <summary>
@@ -67,7 +81,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
         }
 
         public int TotalIntervals { get; }
-        public double? PercentChangePerInterval { get; }
+        public double? PercentChangePerInterval { get; private set; }
         public double? EndPercent { get => endPercent; private set => endPercent = Math.Max(Math.Min(value ?? 0, 100.0), 0.0); }
 
         public double? StartPercent
@@ -76,7 +90,14 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
             private set
             {
                 startPercent = MetricData.Clamp(value ?? 0, 0, 100.0);
-                this.EndPercent = value + this.TotalIntervals * PercentChangePerInterval;
+                if (this.isEndPercent)
+                {
+                    this.PercentChangePerInterval = (this.EndPercent - this.StartPercent) / this.TotalIntervals;
+                }
+                else
+                {
+                    this.EndPercent = value + this.TotalIntervals * PercentChangePerInterval;
+                }
             }
 
         }

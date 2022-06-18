@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
+namespace SolarWinds.Tools.CommandLineTool.Models
 {
     public class TimeRange
     {

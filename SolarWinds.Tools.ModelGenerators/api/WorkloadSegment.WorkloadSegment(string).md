@@ -6,7 +6,9 @@
 Description of the segment having the following format:  
 TotalIntervals@Rate  
 For example, 5@0.5 describes a segment that is 5 intervals long  
-and increases at a rate of 0.5 percent per interval/
+and increases at a rate of 0.5 percent per interval.  
+Alternately, an absolute ending worklevel can be given using the syntax  
+TotalIntervals>WorkLevel
 
 ```csharp
 public WorkloadSegment(string definition);

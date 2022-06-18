@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {
@@ -86,6 +89,32 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
                 {
                     ConnectDevices(lastDevice, this.Devices.Last());
                 }
+            }
+        }
+
+        /// <summary>
+        /// TEMPORARY HACK!!!! This will be replaced by BusinessProcess model
+        /// when I have time to complete which will allow for the creation of more varied
+        /// and realistic data having dependencies between devices.
+        /// For now it uses a hard-wire seasons pattern for a fictional business day
+        /// along with some variability
+        /// </summary>
+        public void PopulateMetrics(TimeRange timeRange)
+        {
+            try
+            {
+                var workWeek = new WorkWeek((int) timeRange.PollingInterval.TotalMinutes);
+                foreach (var interval in timeRange.PollingIntervals())
+                {
+                    foreach (var device in Devices)
+                    {
+                        device.GenerateObservation(interval, timeRange, workWeek);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 

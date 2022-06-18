@@ -4,6 +4,12 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
     public class UtilizationMetricData : MetricData
     {
+        public UtilizationMetricData()
+        {
+            this.Max = 100.0;
+            this.Min = 0.0;
+        }
+
         public override Units Units => new PercentUnits();
 
         public override double Current

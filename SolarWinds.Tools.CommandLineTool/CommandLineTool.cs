@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services;
@@ -26,7 +27,7 @@ namespace SolarWinds.Tools.CommandLineTool
         protected IOrionOptions OrionOptions => this.Options as IOrionOptions;
         protected ITimeRangeOptions TimeRangeOptions => this.Options as ITimeRangeOptions;
         protected ICommandLineAction Action { get; private set; }
-
+        protected TimeRange TimeRange { get; private set; }
         public string ContentDirectory { get; set; }
         public bool IsValid { get; set; }
 
@@ -63,22 +64,14 @@ namespace SolarWinds.Tools.CommandLineTool
                 int totalIntervals = 0;
                 if (this.TimeRangeOptions?.PastDays> 0 || this.TimeRangeOptions?.FutureDays > 0)
                 {
-                    DateTime startTime = DateTime.MinValue;
-                    DateTime endTime = startTime;
-                    foreach (var intervalTime in this.TimeRangeOptions.NextInterval())
+                    this.TimeRange = this.TimeRangeOptions.TimeRange();
+                    foreach (var intervalTime in this.TimeRange.PollingIntervals())
                     {
-                        if (startTime == DateTime.MinValue)
-                        {
-                            startTime = intervalTime;
-                        }
-
-                        this.Action.Run(intervalTime);
-                        endTime = intervalTime;
+                        this.Action.Run(intervalTime, this.TimeRange);
                         totalIntervals++;
                     }
-
                     ConsoleLogger.Success(new string('=', 100));
-                    ConsoleLogger.Success($"Generated {this.TimeRangeOptions.PastDays + this.TimeRangeOptions.FutureDays} days ({totalIntervals} intervals) from {startTime} to {endTime}");
+                    ConsoleLogger.Success($"Generated {this.TimeRangeOptions.PastDays + this.TimeRangeOptions.FutureDays} days ({totalIntervals} intervals) from {this.TimeRange.StartDate} to {this.TimeRange.EndDate}");
                 }
 
                 this.Action.AfterRun();

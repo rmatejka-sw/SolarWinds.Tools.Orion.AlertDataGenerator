@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 
@@ -36,8 +37,20 @@ namespace SolarWinds.Tools.DataGeneration.Tests
             segment.PercentChangePerInterval.Should().Be(rate);
         }
 
+        [TestCase("5>0", 5, 0)]
+        [TestCase("2>3.0", 2, 3.0)]
+        [TestCase("xxxx", 1, 0)]
+        public void WorkloadSegmentEndValue_Test(string segmentDefinition, int intervals, double endPercent)
+        {
+            var segment = new WorkloadSegment(segmentDefinition);
+            segment.TotalIntervals.Should().Be(intervals);
+            segment.EndPercent.Should().Be(null);
+        }
+
+
         [TestCase("1@1|5@0|1@-1", "1,1,1,1,1,1,0")]
         [TestCase("5@5|1@-10|1@10|1@-10|5@30|1@-100", "5,10,15,20,25,15,25,15,45,75,100,100,100,0")]
+        [TestCase("1>1|5>6|1>0", "1,2,3,4,5,6,0")]
         public void WorkloadDefinition_Test(string segmentDefinitionList, string workLevelList)
         {
             var segmentDefinitions = segmentDefinitionList.Split('|');

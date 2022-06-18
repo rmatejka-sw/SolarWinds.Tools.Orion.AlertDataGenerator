@@ -1,4 +1,7 @@
-﻿using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+﻿using System;
+using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {
@@ -19,5 +22,9 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
         /// </summary>
         ComponentType ComponentType { get; }
 
+        /// <summary>
+        /// Generates and records observation for the component based on the workWeek workLevel
+        /// </summary>
+        void GenerateObservation(DateTime interval, TimeRange timaRange, WorkWeek workLevel );
     }
 }

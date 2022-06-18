@@ -5,17 +5,12 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
     /// <summary>
     /// Represents memory for a device
     /// </summary>
-    public class DeviceMemory: IDeviceComponent<MemoryMetricData>
+    public class DeviceMemory: DeviceComponent<MemoryMetricData>
     {
 
-        public DeviceMemory()
+        public DeviceMemory() : base(ComponentType.Memory)
         {
             this.MetricData = new MemoryMetricData();
         }
-
-        public double Capacity { get; }
-        public MemoryMetricData MetricData { get; }
-        public int DeviceIndex { get; set; }
-        public ComponentType ComponentType { get; } = ComponentType.Memory;
     }
 }

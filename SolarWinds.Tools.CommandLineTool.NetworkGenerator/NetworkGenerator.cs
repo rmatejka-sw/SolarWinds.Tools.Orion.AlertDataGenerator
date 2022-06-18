@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using DapperExtensions;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -27,7 +28,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         private readonly Dictionary<int, Device> devicesByIndex = new Dictionary<int, Device>();
         private readonly List<DeviceInterface> deviceInterfaces = new List<DeviceInterface>();
         private readonly List<DeviceConnection> deviceConnections = new List<DeviceConnection>();
-
+        private InternetNetworkGenerator internetNetworkGenerator;
         public NetworkGenerator()
         {
         }
@@ -81,21 +82,26 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 
         public int CreateNetworkElements(GenerateNetworkAction options)
         {
-            var internet = new InternetNetworkGenerator(options);
-            internet.CreateNetworks();
+            internetNetworkGenerator = new InternetNetworkGenerator(options);
+            internetNetworkGenerator.CreateNetworks();
             this.deviceConnections.Clear();
             this.deviceInterfaces.Clear();
-            this.deviceConnections.AddRange(internet.DeviceConnections);
-            this.deviceInterfaces.AddRange(internet.DeviceInterfaces);
+            this.deviceConnections.AddRange(internetNetworkGenerator.DeviceConnections);
+            this.deviceInterfaces.AddRange(internetNetworkGenerator.DeviceInterfaces);
             this.devicesByIndex.Clear();
-            foreach (var device in internet.Devices)
+            foreach (var device in internetNetworkGenerator.Devices)
             {
                 this.devicesByIndex[device.DeviceIndex] = device;
             }
 
-            return internet.TotalNetworks;
+            return internetNetworkGenerator.TotalNetworks;
         }
 
+
+        public void PopulateMetrics(TimeRange timeRange)
+        {
+            internetNetworkGenerator.PopulateMetrics(timeRange);
+        }
 
     }
 }

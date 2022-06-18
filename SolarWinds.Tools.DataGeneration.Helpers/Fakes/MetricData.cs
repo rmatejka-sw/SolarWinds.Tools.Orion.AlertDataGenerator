@@ -21,10 +21,12 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         public double Min { get; set; }
         public double Max { get; set; }
         public double Average { get; set; }
+        public double Span => this.Max - this.Min;
+
         public void RecordObservation(DateTime pollingInterval, double current)
         {
-            this.Current = current;
-            this.Observations.Add(new MetricDataObservation(pollingInterval, current));
+            this.Current = Clamp(current, this.Min, this.Max);
+            this.Observations.Add(new MetricDataObservation(pollingInterval, this.Current));
         }
 
         public IList<MetricDataObservation> Observations { get; }

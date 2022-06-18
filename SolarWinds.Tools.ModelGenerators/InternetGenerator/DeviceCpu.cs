@@ -1,21 +1,16 @@
 ﻿using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using System;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {
     /// <summary>
     /// Represents Overall CPU for a device
     /// </summary>
-    public class DeviceCpu : IDeviceComponent<UtilizationMetricData>
+    public class DeviceCpu : DeviceComponent<UtilizationMetricData>
     {
-        public DeviceCpu()
+        public DeviceCpu() : base(ComponentType.Cpu)
         {
             this.MetricData = new UtilizationMetricData();
-
         }
-        public int DeviceIndex { get; set; }
-
-        public ComponentType ComponentType { get; } = ComponentType.Cpu;
-        public UtilizationMetricData MetricData { get;  }
-
     }
 }

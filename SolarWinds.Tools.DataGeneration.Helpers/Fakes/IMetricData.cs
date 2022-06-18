@@ -10,6 +10,7 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         double Min { get; set; }
         double Max { get; set; }
         double Average { get; set; }
+        double Span { get; }
         void RecordObservation(DateTime pollingInterval, double current);
 
         IList<MetricDataObservation> Observations { get; }

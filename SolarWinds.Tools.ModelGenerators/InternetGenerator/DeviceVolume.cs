@@ -2,10 +2,12 @@
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {
-    public class DeviceVolume : IDeviceComponent<VolumeMetricData>
+    public class DeviceVolume : DeviceComponent<VolumeMetricData>
     {
-        public VolumeMetricData MetricData { get; }
-        public int DeviceIndex { get; set; }
-        public ComponentType ComponentType { get; }
+        public DeviceVolume() : base(ComponentType.Volume)
+        {
+            this.MetricData = new VolumeMetricData();
+
+        }
     }
 }

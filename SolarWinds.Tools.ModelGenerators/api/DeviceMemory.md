@@ -6,10 +6,7 @@
 Represents memory for a device
 
 ```csharp
-public class DeviceMemory :
-SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData>
+public class DeviceMemory : SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent<SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData>
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; DeviceMemory
-
-Implements [SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent&lt;](IDeviceComponent_TMetricData_.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>')[SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData 'SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData')[&gt;](IDeviceComponent_TMetricData_.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>')
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent&lt;](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent-1 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent`1')[SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData 'SolarWinds.Tools.DataGeneration.Helpers.Fakes.MemoryMetricData')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent-1 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponent`1') &#129106; DeviceMemory

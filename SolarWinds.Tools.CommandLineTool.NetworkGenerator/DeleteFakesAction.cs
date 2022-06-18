@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using CommandLine;
 using Dapper;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -18,7 +19,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
     {
         protected NetworkGenerator NetworkGenerator { get; set; }
 
-        public RunStatus Run(DateTime? timeInterval = null)
+        public RunStatus Run(DateTime? timeInterval = null, TimeRange timeRange = null)
         {
             try
             {

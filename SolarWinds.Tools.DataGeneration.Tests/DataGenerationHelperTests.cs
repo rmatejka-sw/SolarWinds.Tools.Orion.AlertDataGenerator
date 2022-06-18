@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
+using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.BusinessProcesses;
