@@ -6,8 +6,5 @@
 Options for generating a topology typical of the Internet.
 
 ```csharp
-public interface IInternetGeneratorOptions :
-SolarWinds.Tools.CommandLineTool.Options.ICommandLineOptions
+public interface IInternetGeneratorOptions
 ```
-
-Implements [SolarWinds.Tools.CommandLineTool.Options.ICommandLineOptions](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.CommandLineTool.Options.ICommandLineOptions 'SolarWinds.Tools.CommandLineTool.Options.ICommandLineOptions')

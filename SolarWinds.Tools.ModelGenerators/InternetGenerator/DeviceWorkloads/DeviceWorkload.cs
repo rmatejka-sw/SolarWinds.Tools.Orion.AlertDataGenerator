@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dates.Recurring.Type;
-using SolarWinds.Tools.CommandLineTool.Models;
 using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
 {
@@ -88,7 +87,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
             foreach(var component in device.VolumeDevices)
             {
                 var affects = this.ComponentAffects.FirstOrDefault(_ => (_.ComponentTypes & ComponentType.Volume) != 0);
-                component.MetricData.RecordObservation(pollingInterval, workLevel * affects?.AffectWeight??0);
+                component.VolumeUsage.MetricData.RecordObservation(pollingInterval, workLevel * affects?.AffectWeight??0);
             }
         }
 

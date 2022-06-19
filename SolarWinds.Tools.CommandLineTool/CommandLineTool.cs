@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services;
@@ -59,12 +59,16 @@ namespace SolarWinds.Tools.CommandLineTool
                 {
                     return (int) RunStatus.ParameterValidationFailed;
                 }
-                this.Action.BeforeRun(this);
-                this.Action.Run();
-                int totalIntervals = 0;
-                if (this.TimeRangeOptions?.PastDays> 0 || this.TimeRangeOptions?.FutureDays > 0)
+
+                if (this.TimeRangeOptions?.PastDays > 0 || this.TimeRangeOptions?.FutureDays > 0)
                 {
                     this.TimeRange = this.TimeRangeOptions.TimeRange();
+                }
+                this.Action.BeforeRun(this);
+                this.Action.Run(null, this.TimeRange);
+                int totalIntervals = 0;
+                if (this.TimeRange != null)
+                {
                     foreach (var intervalTime in this.TimeRange.PollingIntervals())
                     {
                         this.Action.Run(intervalTime, this.TimeRange);

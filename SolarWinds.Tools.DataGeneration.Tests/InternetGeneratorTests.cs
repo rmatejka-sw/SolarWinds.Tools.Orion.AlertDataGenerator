@@ -1,12 +1,9 @@
 using System;
-using Bogus.DataSets;
 using FluentAssertions;
 using NUnit.Framework;
-using SolarWinds.Tools.CommandLineTool.Models;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using SolarWinds.Tools.ModelGenerators.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
-using SolarWinds.Tools.ModelGenerators.InternetGenerator.BusinessProcesses;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
 
@@ -84,7 +81,7 @@ namespace SolarWinds.Tools.DataGeneration.Tests
                     var normalized = testTime.ToTimeInterval(pollingInterval);
                     normalized.Should().Be(interval);
                     var intervalIndex = noTimeRange
-                        ? testTime.ToTimeIntervalIndex(null, minutesPerInterval)
+                        ? testTime.ToTimeIntervalIndex(minutesPerInterval)
                         : testTime.ToTimeIntervalIndex(timeRange);
                     intervalIndex.Should().Be(index);
                 }
@@ -104,7 +101,7 @@ namespace SolarWinds.Tools.DataGeneration.Tests
             var totalIntervals = 0;
             foreach (var interval in timeRange.PollingIntervals())
             {
-                var index = interval.ToTimeIntervalIndex(null, minutesPerInterval);
+                var index = interval.ToTimeIntervalIndex(minutesPerInterval);
                 index.Should().Be(totalIntervals);
                 var workLevel = workDay.GetWorkLevelForInterval(interval, pollingInterval);
                 workLevel.Should().Be(workDay.WorkLevels[index]);

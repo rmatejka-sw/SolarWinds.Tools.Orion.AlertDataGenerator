@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.BusinessProcesses;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 
 namespace SolarWinds.Tools.DataGeneration.Tests
@@ -27,7 +27,7 @@ namespace SolarWinds.Tools.DataGeneration.Tests
                     {
                         CpuDevices = {new DeviceCpu()},
                         MemoryDevices = {new DeviceMemory()},
-                        VolumeDevices = { new DeviceVolume() }
+                        VolumeDevices = { new DeviceVolume(0) }
                     }
                 },
                 DeviceWorkloads =

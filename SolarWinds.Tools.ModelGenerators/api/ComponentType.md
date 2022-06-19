@@ -14,6 +14,12 @@ public enum ComponentType
 
 DeviceCpu type marker
 
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Device'></a>
+
+`Device` 0
+
+Represents the base component device
+
 <a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Interface'></a>
 
 `Interface` 1

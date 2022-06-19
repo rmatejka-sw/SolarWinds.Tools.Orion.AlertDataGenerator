@@ -12,6 +12,6 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
             this.Value = value;
         }
         public DateTime DateTime { get;  }
-        public double  Value { get;  }
+        public double Value { get;  }
     }
 }

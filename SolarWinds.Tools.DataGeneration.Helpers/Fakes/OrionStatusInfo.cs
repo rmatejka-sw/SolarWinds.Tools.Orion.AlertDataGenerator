@@ -63,6 +63,7 @@ StatusId|StatusName|Ranking|Color|IconPostfix
         public static OrionStatusInfo Warning => StatusInfos.FirstOrDefault(_ => _.StatusName == "Warning");
         public static OrionStatusInfo Critical => StatusInfos.FirstOrDefault(_ => _.StatusName == "Critical");
 
+        public static OrionStatusInfo StatusIdToStatusInfo(int statusId) => StatusInfos.FirstOrDefault(_ => _.StatusId == statusId);
         public string StatusText => this.StatusId.ToString();
         public string StatusLED => FakerHelper.Faker.Orion().StatusImage(this.StatusId);
     }

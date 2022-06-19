@@ -1,6 +1,6 @@
 ﻿using System;
 using CommandLine;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
 

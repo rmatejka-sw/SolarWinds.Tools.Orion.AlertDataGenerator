@@ -1,8 +1,9 @@
 using System;
+using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_CS;
 
 namespace OrionAlertDataGenerator.Models
 {
-    public class CPULoad_CS_Hourly_hist
+    public class CPULoad_CS_Hourly_hist 
     {
         public int NodeID { get; set; }
         public DateTime Timestamp { get; set; }

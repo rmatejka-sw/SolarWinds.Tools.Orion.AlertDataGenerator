@@ -3,14 +3,15 @@ using System.Linq;
 using CommandLine;
 using DapperExtensions;
 using SolarWinds.Tools.CommandLineTool.Extensions;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
+using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_CS;
+using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.ResponseTime_CS;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
 
 namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
@@ -51,6 +52,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 {
                     if (this.DeleteFakesBefore)
                     {
+                        ConsoleLogger.Info($"Deleting previously generated fake data...");
                         DeleteFakesAction.DeleteFakes();
                     }
                     this.GenerateStaticData();
@@ -58,6 +60,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 }
                 else
                 {
+                    this.GenerateMetrics(timeInterval.Value, timeRange);
                 }
             }
             catch (Exception e)
@@ -102,10 +105,19 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         }
 
 
+        private void GenerateMetrics(DateTime interval, TimeRange timeRange)
+        {
+            ConsoleLogger.Info($"Generating metrics for {interval}");
+            this.GenerateNodeMetricsForDevices(interval, timeRange);
+            this.GenerateInterfaceMetricsForDevices(interval, timeRange);
+        }
+
+
         private void GenerateNodesForDevices()
         {
             try
             {
+                ConsoleLogger.Info($"Generating nodes for {this.NetworkGenerator.Devices.Count} devices...");
                 foreach (var device in this.NetworkGenerator.Devices)
                 {
                     try
@@ -146,6 +158,27 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             }
         }
 
+        private void GenerateNodeMetricsForDevices(DateTime interval, TimeRange timeRange)
+        {
+            foreach (var device in this.NetworkGenerator.Devices)
+            {
+
+                CPULoad_CS.Populate(interval, timeRange, device);
+                foreach (var deviceVolume in device.VolumeDevices)
+                {
+                    VolumeUsage_CS.Populate(interval, timeRange, device, deviceVolume);
+                }
+            }
+        }
+        private void GenerateInterfaceMetricsForDevices(DateTime interval, TimeRange timeRange)
+        {
+            foreach (var deviceInterface in this.NetworkGenerator.Interfaces)
+            {
+
+                //CPULoad_CS.Populate(interval, timeRange, device);
+            }
+        }
+
         private void GenerateAiimAnomalies()
         {
             try
@@ -173,6 +206,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         {
             try
             {
+                ConsoleLogger.Info($"Generating Interfaces for {this.NetworkGenerator.Interfaces.Count} interfaces...");
                 foreach (var deviceInterface in this.NetworkGenerator.Interfaces)
                 {
                     var device = this.NetworkGenerator.Devices.FirstOrDefault(d => d.DeviceIndex == deviceInterface.DeviceIndex);
@@ -191,13 +225,15 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         {
             try
             {
+                ConsoleLogger.Info($"Generating Volumes for {this.NetworkGenerator.Devices.Sum(_=>_.VolumeDevices.Count)} devices...");
                 foreach (var device in this.NetworkGenerator.Devices)
                 {
-                    var volumeCount = FakerHelper.Faker.Random.Int(1, 5);
-                    for (int volumeIndex = 1; volumeIndex <= volumeCount; volumeIndex++)
+                    foreach (var volume in device.VolumeDevices)
                     {
-                        var volume = new Volumes().Populate(device.NodeName, device.OrionNodeID, volumeIndex);
-                        var result = DbConnectionManager.DbConnection.Insert(volume);
+                        var orionVolume = new Volumes().Populate(device, volume);
+                        var result = DbConnectionManager.DbConnection.Insert(orionVolume);
+                        volume.OrionNodeId = (int)result.NodeID;
+                        volume.OrionVolumeId = (int)result.VolumeID;
                     }
                 }
             }

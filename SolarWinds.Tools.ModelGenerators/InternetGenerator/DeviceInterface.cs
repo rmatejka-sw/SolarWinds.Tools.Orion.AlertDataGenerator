@@ -6,7 +6,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
     {
         public DeviceInterface() : base(ComponentType.Interface)
         {
-            this.MetricData = new BandwidthMetricRate();
+            MetricData = new BandwidthMetricRate();
         }
         public int InterfaceIndex { get; set; }
         public string Name { get; set; }

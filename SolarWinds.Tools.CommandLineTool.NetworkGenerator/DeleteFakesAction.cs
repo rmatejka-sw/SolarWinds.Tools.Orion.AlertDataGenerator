@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using CommandLine;
 using Dapper;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -108,7 +108,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 command.AppendLine($"DELETE dbo.Interfaces where Comments='{FakerHelper.FakeMarker})';");
                 command.AppendLine($"DELETE dbo.Events where EventType={Events.AnomalyDetectedTypeId};");
                 command.AppendLine($"DELETE dbo.Events where EventType={Events.AnomalyDetectedTypeId};");
-                command.AppendLine($"DELETE dbo.Volumes where VolumeDescription like'%{FakerHelper.FakeName}%';");
+                command.AppendLine($"DELETE dbo.Volumes where DiskSerialNumber like'%{FakerHelper.FakeName}%';");
                 DbConnectionManager.DbConnection.Execute(command.ToString());
             }
             catch (Exception ex)

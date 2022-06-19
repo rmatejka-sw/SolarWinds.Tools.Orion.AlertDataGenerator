@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolarWinds.Tools.ModelGenerators.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
 {
@@ -14,11 +14,11 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
     {
         protected WorkloadDefinition workloadDefinition;
         protected IList<double> _workLevels;
-        public WorkDay(int minutesPerInterval=10, double startPercent = 0)
+        public WorkDay(int minutesPerInterval=10, double startPercent = 0, WorkloadDefinition workloadDefinition=null)
         {
             var intervalsPerHour = 60 / minutesPerInterval;
             // Assume first interval start at midnight
-            this.workloadDefinition = new WorkloadDefinition(
+            this.workloadDefinition = workloadDefinition ?? new WorkloadDefinition(
                 $"{5* intervalsPerHour}>5",     // 0-5am
                 $"{3 * intervalsPerHour}>10",    // 5-8am 
                 $"{2 * intervalsPerHour}>60",    // 8-10am
@@ -33,7 +33,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
         public IList<double> WorkLevels => _workLevels;
         public double GetWorkLevelForInterval(DateTime interval, TimeSpan pollingInterval)
         {
-            return this._workLevels[interval.ToTimeIntervalIndex(null, (int)pollingInterval.TotalMinutes)];
+            return this._workLevels[interval.ToTimeIntervalIndex((int)pollingInterval.TotalMinutes)];
         }
     }
 }

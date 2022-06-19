@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using DapperExtensions;
-using SolarWinds.Tools.CommandLineTool.Models;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
 using SolarWinds.Tools.DataGeneration.Helpers;
@@ -82,6 +82,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 
         public int CreateNetworkElements(GenerateNetworkAction options)
         {
+            ConsoleLogger.Info($"Creating test network...");
             internetNetworkGenerator = new InternetNetworkGenerator(options);
             internetNetworkGenerator.CreateNetworks();
             this.deviceConnections.Clear();
@@ -89,6 +90,8 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             this.deviceConnections.AddRange(internetNetworkGenerator.DeviceConnections);
             this.deviceInterfaces.AddRange(internetNetworkGenerator.DeviceInterfaces);
             this.devicesByIndex.Clear();
+            ConsoleLogger.Info($"Created {internetNetworkGenerator.Devices.Count} Devices");
+            ConsoleLogger.Info($"Created {internetNetworkGenerator.DeviceInterfaces.Count} Device Interfaces");
             foreach (var device in internetNetworkGenerator.Devices)
             {
                 this.devicesByIndex[device.DeviceIndex] = device;

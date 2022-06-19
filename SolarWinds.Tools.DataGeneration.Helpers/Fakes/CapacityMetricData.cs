@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 
 namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
@@ -28,5 +30,6 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         public double PercentUsed => Used / Capacity * 100.0;
         public double Available => Capacity - Used;
         public double Used => Current;
+
     }
 }

@@ -8,6 +8,7 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         {
             this.Max = 100.0;
             this.Min = 0.0;
+            this.Current = FakerHelper.Faker.Random.Double(this.Min, this.Max);
         }
 
         public override Units Units => new PercentUnits();

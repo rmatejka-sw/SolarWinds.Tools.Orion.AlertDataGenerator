@@ -3,24 +3,11 @@
 ## SolarWinds.Tools.ModelGenerators Assembly
 ### Namespaces
 
-<a name='SolarWinds.Tools.ModelGenerators.Extensions'></a>
-
-## SolarWinds.Tools.ModelGenerators.Extensions Namespace
-- **[DateTimeExtensions](DateTimeExtensions.md 'SolarWinds.Tools.ModelGenerators.Extensions.DateTimeExtensions')** `Class`
-  - **[ToTimeInterval(this DateTime, TimeSpan)](DateTimeExtensions.ToTimeInterval(thisDateTime,TimeSpan).md 'SolarWinds.Tools.ModelGenerators.Extensions.DateTimeExtensions.ToTimeInterval(this System.DateTime, System.TimeSpan)')** `Method` Takes a DateTime and rounds to the interval start time if the time  
-    is less than the normalized start time (e.g., 5, 10, 15 for 5 minute  
-    interval span)
-  - **[ToTimeIntervalIndex(this DateTime, TimeRange, int)](DateTimeExtensions.ToTimeIntervalIndex(thisDateTime,TimeRange,int).md 'SolarWinds.Tools.ModelGenerators.Extensions.DateTimeExtensions.ToTimeIntervalIndex(this System.DateTime, SolarWinds.Tools.CommandLineTool.Models.TimeRange, int)')** `Method` Returns the zero-based interval index date dateTime falls into  
-    for the specified TimeRange. If TimeRange is null, uses a default TimeRange  
-    of 24 hours with the first interval starting at midnight.
-
 <a name='SolarWinds.Tools.ModelGenerators.InternetGenerator'></a>
 
 ## SolarWinds.Tools.ModelGenerators.InternetGenerator Namespace
 - **[Device](Device.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.Device')** `Class`
-  - **[GenerateObservation(DateTime, TimeRange, WorkWeek)](Device.GenerateObservation(DateTime,TimeRange,WorkWeek).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.Device.GenerateObservation(System.DateTime, SolarWinds.Tools.CommandLineTool.Models.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek)')** `Method` Generates faked observations for all device components for the time interval specified
-- **[DeviceCpu](DeviceCpu.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceCpu')** `Class` Represents Overall CPU for a device
-- **[DeviceMemory](DeviceMemory.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceMemory')** `Class` Represents memory for a device
+  - **[GenerateObservation(DateTime, TimeRange, WorkWeek)](Device.GenerateObservation(DateTime,TimeRange,WorkWeek).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.Device.GenerateObservation(System.DateTime, SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek)')** `Method` Generates faked observations for all device components for the time interval specified
 - **[InternetNetworkGenerator](InternetNetworkGenerator.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator')** `Class` Adapted from  
   https://github.com/solarwinds/orion/blob/main/src/libs/tests/SolarWinds.NetPath/SolarWinds.NetPath.Test.Common/TraceRouteGraphGenerator.cs  
   Generates a connected set of network Devices representing a typical Internet topology where a path  
@@ -34,17 +21,21 @@
     and terminating device. All networks are then connected together into a complete Internet.
   - **[CreateNetworks()](InternetNetworkGenerator.CreateNetworks().md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator.CreateNetworks()')** `Method` Uses IInternetGeneratorOptions to generate a complete network of connected devices with accurate subnet definitions and  
     redundant path definitions between start and endpoints.
-  - **[PopulateMetrics(TimeRange)](InternetNetworkGenerator.PopulateMetrics(TimeRange).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator.PopulateMetrics(SolarWinds.Tools.CommandLineTool.Models.TimeRange)')** `Method` TEMPORARY HACK!!!! This will be replaced by BusinessProcess model  
+  - **[PopulateMetrics(TimeRange)](InternetNetworkGenerator.PopulateMetrics(TimeRange).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator.PopulateMetrics(SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange)')** `Method` TEMPORARY HACK!!!! This will be replaced by BusinessProcess model  
     when I have time to complete which will allow for the creation of more varied  
     and realistic data having dependencies between devices.  
     For now it uses a hard-wire seasons pattern for a fictional business day  
     along with some variability
 - **[IDeviceComponent&lt;TMetricData&gt;](IDeviceComponent_TMetricData_.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>')** `Interface` An entity that is part of a device
   - **[ComponentType](IDeviceComponent_TMetricData_.ComponentType.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.ComponentType')** `Property` Type of component
+  - **[Current](IDeviceComponent_TMetricData_.Current.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.Current')** `Property` Returns the current reading for the MetricData. Equivalent to  
+    MetricData.Current
   - **[DeviceIndex](IDeviceComponent_TMetricData_.DeviceIndex.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.DeviceIndex')** `Property` Global index of device which the component is a part of
-  - **[GenerateObservation(DateTime, TimeRange, WorkWeek)](IDeviceComponent_TMetricData_.GenerateObservation(DateTime,TimeRange,WorkWeek).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.GenerateObservation(System.DateTime, SolarWinds.Tools.CommandLineTool.Models.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek)')** `Method` Generates and records observation for the component based on the workWeek workLevel
+  - **[GenerateObservation(DateTime, TimeRange, WorkWeek, double)](IDeviceComponent_TMetricData_.GenerateObservation(DateTime,TimeRange,WorkWeek,double).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.GenerateObservation(System.DateTime, SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek, double)')** `Method` Generates and records observation for the component based on the workWeek workLevel. WorkLevelAffect  
+    controls the degree to which the worklevel affects the metric
 - **[ComponentType](ComponentType.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType')** `Enum`
   - **[Cpu](ComponentType.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Cpu 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Cpu')** `Field` DeviceCpu type marker
+  - **[Device](ComponentType.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Device 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Device')** `Field` Represents the base component device
   - **[Interface](ComponentType.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Interface 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Interface')** `Field` DeviceInterface type marker
   - **[Memory](ComponentType.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Memory 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Memory')** `Field` DeviceMemory type marker
   - **[Volume](ComponentType.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Volume 'SolarWinds.Tools.ModelGenerators.InternetGenerator.ComponentType.Volume')** `Field` DeviceVolume type marker
@@ -60,6 +51,17 @@
   - **[Holidays](BusinessProcess.Holidays.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.BusinessProcesses.BusinessProcess.Holidays')** `Property` Any date listed will result in the WorkLevel for that day being reduced for any DeviceWorkload  
     that is affected by people. Automated tasks will not be affected.
   - **[WorkLevel](BusinessProcess.WorkLevel.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.BusinessProcesses.BusinessProcess.WorkLevel')** `Property` The work cycle defined for the business process based on typical work week. Also affected by holidays.
+
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents'></a>
+
+## SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents Namespace
+- **[DeviceAvailability](DeviceAvailability.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceAvailability')** `Class` Represents memory for a device
+- **[DeviceCpu](DeviceCpu.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceCpu')** `Class` Represents Overall CPU for a device
+- **[DeviceLoad](DeviceLoad.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceLoad')** `Class` Represents memory for a device
+- **[DeviceMemory](DeviceMemory.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceMemory')** `Class` Represents memory for a device
+- **[DeviceResponseTime](DeviceResponseTime.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceResponseTime')** `Class` Represents memory for a device
+  - **[MaxResponseTime](DeviceResponseTime.MaxResponseTime.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents.DeviceResponseTime.MaxResponseTime')** `Property` The maximum response time for the device after which the device is considered  
+    down.
 
 <a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads'></a>
 

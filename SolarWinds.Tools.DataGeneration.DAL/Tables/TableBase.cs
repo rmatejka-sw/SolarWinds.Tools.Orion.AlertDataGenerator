@@ -61,12 +61,12 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 
         public virtual T Populate() 
         {
-            new AutoFaker<T>().Populate(this as T);
+            //new AutoFaker<T>().Populate(this as T);
             return this as T;
         }
         public virtual T Populate(long relatedId)
         {
-            new AutoFaker<T>().Populate(this as T);
+            //new AutoFaker<T>().Populate(this as T);
             return this as T;
         }
 

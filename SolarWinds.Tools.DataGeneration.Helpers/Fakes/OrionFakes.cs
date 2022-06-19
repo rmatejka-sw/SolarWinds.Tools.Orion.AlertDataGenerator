@@ -95,7 +95,7 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         /// </summary>
         /// <param name="fromStatus">Pass to get image for existing status</param>
         /// <returns>Filename for image status</returns>
-        public string StatusImage(int? fromStatus = null) => $"{(fromStatus.HasValue ? (int)fromStatus.Value : this.Status())}.gif";
+        public string StatusImage(int? fromStatus = null) => $"{((fromStatus.HasValue? OrionStatusInfo.StatusIdToStatusInfo((int)fromStatus.Value) : this.Status()).IconPostfix)}.gif";
 
 
         /// <summary>

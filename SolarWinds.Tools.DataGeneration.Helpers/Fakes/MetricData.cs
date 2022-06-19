@@ -1,6 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 
 namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
@@ -10,6 +11,7 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
     /// </summary>
     public abstract class MetricData : IMetricData
     {
+        private double? _current;
         protected MetricData()
         {
             this.Observations = new List<MetricDataObservation>();
@@ -27,6 +29,23 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         {
             this.Current = Clamp(current, this.Min, this.Max);
             this.Observations.Add(new MetricDataObservation(pollingInterval, this.Current));
+        }
+
+        public double RestoreTo(DateTime pollingInterval, TimeRange timeRange)
+        {
+            this._current ??= this.Current;
+            return this.Current = this.Observations[pollingInterval.ToTimeIntervalIndex(timeRange)].Value;
+        }
+
+        public double RestoreToLatest()
+        {
+            if (this._current.HasValue)
+            {
+                this.Current = this._current.Value;
+                this._current = null;
+            }
+
+            return this.Current;
         }
 
         public IList<MetricDataObservation> Observations { get; }

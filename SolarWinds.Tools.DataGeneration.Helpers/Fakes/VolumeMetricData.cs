@@ -5,7 +5,12 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
     public class VolumeMetricData : CapacityMetricData {
 
-    public override IList<double> PhysicalCapacities => new List<double>
+        public VolumeMetricData()
+        {
+            this.Current = FakerHelper.Faker.Random.Double(this.Min, this.Max);
+        }
+
+        public override IList<double> PhysicalCapacities => new List<double>
         {
             500D.To( MetricPrefix.Giga),
             1D.To( MetricPrefix.Tera),
@@ -17,5 +22,6 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
         };
 
         public override Units Units => new ByteUnits();
+
     }
 }

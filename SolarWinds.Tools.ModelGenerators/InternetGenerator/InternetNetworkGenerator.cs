@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SolarWinds.Tools.CommandLineTool.Models;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator

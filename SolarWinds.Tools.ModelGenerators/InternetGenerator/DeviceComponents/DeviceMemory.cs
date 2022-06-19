@@ -1,6 +1,6 @@
 ﻿using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
 
-namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
+namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents
 {
     /// <summary>
     /// Represents memory for a device

@@ -1,7 +1,6 @@
 ﻿using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using System;
 
-namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
+namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents
 {
     /// <summary>
     /// Represents Overall CPU for a device

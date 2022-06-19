@@ -14,7 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SolarWinds.Tools.CommandLineTool\SolarWinds.Tools.CommandLineTool.csproj" />
+    <ProjectReference Include="..\SolarWinds.Tools.DataGeneration.Helpers\SolarWinds.Tools.DataGeneration.Helpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

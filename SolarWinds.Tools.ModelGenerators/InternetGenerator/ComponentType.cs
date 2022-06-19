@@ -6,6 +6,11 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
     public enum ComponentType
     {
         /// <summary>
+        /// Represents the base component device
+        /// </summary>
+        Device = 0,
+
+        /// <summary>
         /// DeviceInterface type marker
         /// </summary>
         Interface = 1,

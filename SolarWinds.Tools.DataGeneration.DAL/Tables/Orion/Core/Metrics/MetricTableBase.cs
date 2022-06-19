@@ -1,6 +1,11 @@
-﻿namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics
+﻿
+using System;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+
+namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics
 {
-    public class MetricTableBase<T> : TableBase<T> where T : class, new()
+    public class MetricTableBase
     {
+
     }
 }

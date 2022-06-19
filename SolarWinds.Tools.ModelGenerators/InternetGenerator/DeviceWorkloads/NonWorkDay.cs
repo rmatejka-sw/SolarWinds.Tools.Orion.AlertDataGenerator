@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SolarWinds.Tools.ModelGenerators.Extensions;
+﻿using System.Linq;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
 {
@@ -12,12 +9,12 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
     /// </summary>
     public class NonWorkDay : WorkDay
     {
-        public NonWorkDay(int minutesPerInterval=6, double startPercent = 0) : base(minutesPerInterval, startPercent)
+        public NonWorkDay(int minutesPerInterval=6, double startPercent = 0, WorkloadDefinition workloadDefinition=null) : base(minutesPerInterval, startPercent)
         {
             var intervalsPerHour = 60 / minutesPerInterval;
             // 10 minutes per interval = 6 intervals per hour
             // Assume first interval start at midnight
-            this.workloadDefinition = new WorkloadDefinition(
+            this.workloadDefinition = workloadDefinition??new WorkloadDefinition(
                 $"{5* intervalsPerHour}>5",     // 0-5am
                 $"{3 * intervalsPerHour}>10",    // 5-8am 
                 $"{2 * intervalsPerHour}>20",    // 8-10am

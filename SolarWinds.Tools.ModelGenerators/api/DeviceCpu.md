@@ -1,5 +1,5 @@
 #### [SolarWinds.Tools.ModelGenerators](index.md 'index')
-### [SolarWinds.Tools.ModelGenerators.InternetGenerator](index.md#SolarWinds.Tools.ModelGenerators.InternetGenerator 'SolarWinds.Tools.ModelGenerators.InternetGenerator')
+### [SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents](index.md#SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents')
 
 ## DeviceCpu Class
 

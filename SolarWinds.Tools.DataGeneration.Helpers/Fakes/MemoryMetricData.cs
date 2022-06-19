@@ -5,6 +5,11 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
     public class MemoryMetricData : CapacityMetricData
     {
+        public MemoryMetricData()
+        {
+            this.Current = FakerHelper.Faker.Random.Double(this.Min, this.Max);
+        }
+
         public override IList<double> PhysicalCapacities => new List<double>
         {
             4D.To( MetricPrefix.Giga),

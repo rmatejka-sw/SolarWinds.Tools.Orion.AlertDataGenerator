@@ -5,6 +5,11 @@ namespace SolarWinds.Tools.DataGeneration.Helpers.Fakes
 {
     public class BandwidthMetricRate : CapacityMetricData, IRate
     {
+        public BandwidthMetricRate()
+        {
+            this.Current = FakerHelper.Faker.Random.Double(this.Min, this.Max);
+        }
+
         public override Units Units => new Units($"Bps");
         public TimeUnit TimeUnits => TimeUnit.Seconds;
         public override IList<double> PhysicalCapacities => new List<double>

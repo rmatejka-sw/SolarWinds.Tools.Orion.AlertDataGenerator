@@ -1,10 +1,12 @@
 using System;
+using Dapper.Contrib.Extensions;
 
 namespace OrionAlertDataGenerator.Models
 {
-    public class CPULoad_CS_Daily_hist
+    public class CPULoad_CS_Daily_hist 
     {
-        public int NodeID { get; set; }
+        [Key]
+        public long NodeID { get; set; }
         public DateTime Timestamp { get; set; }
         public short? MinLoad { get; set; }
         public short? MaxLoad { get; set; }
