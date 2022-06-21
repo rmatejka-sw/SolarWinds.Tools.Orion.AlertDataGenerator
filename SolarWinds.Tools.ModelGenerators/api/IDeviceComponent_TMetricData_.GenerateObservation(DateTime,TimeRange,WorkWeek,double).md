@@ -7,23 +7,23 @@ Generates and records observation for the component based on the workWeek workLe
 controls the degree to which the worklevel affects the metric
 
 ```csharp
-double GenerateObservation(System.DateTime interval, SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange timaRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek workLevel, double workLevelAffect=1.0);
+double GenerateObservation(System.DateTime interval, SolarWinds.Tools.ModelGenerators.Metrics.TimeRange timaRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek workLevel, double workLevelAffect=1.0);
 ```
 #### Parameters
 
-<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).interval'></a>
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.ModelGenerators.Metrics.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).interval'></a>
 
 `interval` [System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')
 
-<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).timaRange'></a>
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.ModelGenerators.Metrics.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).timaRange'></a>
 
-`timaRange` [SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange 'SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange')
+`timaRange` [TimeRange](TimeRange.md 'SolarWinds.Tools.ModelGenerators.Metrics.TimeRange')
 
-<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).workLevel'></a>
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.ModelGenerators.Metrics.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).workLevel'></a>
 
-`workLevel` [SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek')
+`workLevel` [WorkWeek](WorkWeek.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek')
 
-<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).workLevelAffect'></a>
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent_TMetricData_.GenerateObservation(System.DateTime,SolarWinds.Tools.ModelGenerators.Metrics.TimeRange,SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek,double).workLevelAffect'></a>
 
 `workLevelAffect` [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double')
 

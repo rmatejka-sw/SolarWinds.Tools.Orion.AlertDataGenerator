@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using SolarWinds.Tools.CommandLineTool.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Services;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.CommandLineTool
 {

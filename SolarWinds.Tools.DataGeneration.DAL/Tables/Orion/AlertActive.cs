@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using DapperExtensions;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {

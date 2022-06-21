@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
@@ -54,24 +56,23 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
         public string MetricDisplayName { get; set; }
 
 
-        public AIIM_AnomalyHistory Populate(DateTime interval, AIIM_AlertConditionEntityProperty source )
+        public AIIM_AnomalyHistory Populate(DateTime interval, Device device, System_ManagedEntity entityInstance, string metricID, MetricDataObservation observation, double metricValue)
         {
             var f = FakerHelper.Faker;
-            var entityInstance = f.PickRandom<System_ManagedEntity>(System_ManagedEntity.GetManagedEntityByType(source.AnomalyEntityType));
-            this.SourceInstanceType = $"{source.AnomalyEntityType}";
-            this.MetricId = source.AnomalyEntityProperty;
+            this.SourceInstanceType = $"{entityInstance.InstanceType}";
+            this.MetricId = metricID;
             this.SourceId = entityInstance.GetEntityId();
             this.SourceOpid = entityInstance.GetOpid();
             this.SourceUri = entityInstance.Uri;
             this.TimeStampUtc = interval;
-            this.MeasurementTimeUtc = this.TimeStampUtc;
+            this.MeasurementTimeUtc = interval;
             this.ValidUntilUtc = this.TimeStampUtc + TimeSpan.FromMinutes(10);
             this.SourceDetailsUrl = entityInstance.DetailsUrl;
             this.SourceDisplayName = entityInstance.DisplayName;
             this.SourceIcon = "network-device";
             this.SourceStatusIcon = entityInstance.StatusLED.Replace(".gif","").ToLower();
-            this.MetricDisplayName = source.AnomalyEntityProperty;
-            this.MetricValue = f.Random.Double(1, 1000);
+            this.MetricDisplayName = metricID;
+            this.MetricValue = metricValue;
             return this;
         }
     }

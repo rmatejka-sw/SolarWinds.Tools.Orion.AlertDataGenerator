@@ -3,8 +3,8 @@ using System.Linq;
 using Dapper.Contrib.Extensions;
 using OrionAlertDataGenerator.Models;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_CS
 {
@@ -18,7 +18,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_
             memoryDevice.MetricData.RestoreTo(interval, timeRange);
             device.Load.MetricData.RestoreTo(interval, timeRange);
             detail.NodeID = cur.NodeID = (long)device.OrionNodeID;
-            detail.Timestamp = cur.Timestamp = interval;
+            detail.Timestamp = cur.Timestamp = interval.ToLocalTime();
             detail.Load = cur.Load = (short)device.Load.Current;
             detail.TotalMemory = cur.TotalMemory = (long)memoryDevice.MetricData.Capacity;
             detail.MemoryUsed = cur.MemoryUsed = memoryDevice.MetricData.Used;

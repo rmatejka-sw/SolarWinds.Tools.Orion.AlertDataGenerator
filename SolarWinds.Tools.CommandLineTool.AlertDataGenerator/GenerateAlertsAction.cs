@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 using DapperExtensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
 {

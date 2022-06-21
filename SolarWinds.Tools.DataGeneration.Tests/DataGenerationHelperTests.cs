@@ -1,8 +1,7 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.Tests
 {

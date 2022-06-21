@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
+using SolarWinds.Tools.ModelGenerators.Extensions;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
 {
@@ -31,6 +31,13 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
         }
 
         public IList<double> WorkLevels => _workLevels;
+        
+        /// <summary>
+        /// Return WorkLevel as a percentage between 0 and 100
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <param name="pollingInterval"></param>
+        /// <returns></returns>
         public double GetWorkLevelForInterval(DateTime interval, TimeSpan pollingInterval)
         {
             return this._workLevels[interval.ToTimeIntervalIndex((int)pollingInterval.TotalMinutes)];

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.CommandLineTool.Extensions
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
+using SolarWinds.Tools.ModelGenerators.Fakes;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {

@@ -2,8 +2,8 @@
 using Dapper.Contrib.Extensions;
 using OrionAlertDataGenerator.Models.VolumeUsage_CS;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.ResponseTime_CS
 {

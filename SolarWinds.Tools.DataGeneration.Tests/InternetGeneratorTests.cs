@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
+using SolarWinds.Tools.ModelGenerators.Extensions;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.Tests
 {
@@ -107,6 +111,50 @@ namespace SolarWinds.Tools.DataGeneration.Tests
                 workLevel.Should().Be(workDay.WorkLevels[index]);
                 totalIntervals++;
             }
+        }
+
+
+        [TestCase(0)]
+        [TestCase(1000000f)]
+        public void AnomalyGenerator_Test(double startValue)
+        {
+            var metricData = new MemoryMetricData();
+            var anomalyGenerator = new AnomalyGenerator(metricData);
+            double? anomalyValue = 0;
+            var maxIterations = 100;
+            metricData.Current = startValue;
+            metricData.RecordObservation(DateTime.UtcNow, metricData.Current);
+            do
+            {
+                anomalyValue = anomalyGenerator.NextValue();
+
+            } while (!anomalyValue.HasValue && maxIterations-- > 0);
+            if (anomalyValue.HasValue) metricData.RecordObservation(DateTime.UtcNow, anomalyValue.Value);
+            while ((anomalyValue = anomalyGenerator.NextValue()).HasValue)
+            {
+                metricData.RecordObservation(DateTime.UtcNow, anomalyValue.Value);
+            }
+            metricData.Observations.Count.Should().Be(5);
+            metricData.Observations.First().Value.Should().BeApproximately(metricData.Observations.Last().Value, 0.01);
+            metricData.Observations.Count(_=>_.Value != metricData.Observations.First().Value).Should().Be(3);
+            ((metricData.Observations[2].Value - metricData.Observations[0].Value) / metricData.Span)
+                .Should().BeApproximately(0.5f, 0.01f);
+            ((metricData.Observations[2].Value - metricData.Observations[4].Value) / metricData.Span)
+                .Should().BeApproximately(0.50f, 0.01f);
+        }
+
+        [Test]
+        public void AnomalyGenerator_Reset_Test()
+        {
+            var metricData = new MemoryMetricData();
+            var anomalyGenerator = new AnomalyGenerator(metricData);
+            var count = 0;
+            while (anomalyGenerator.NextValue().HasValue) count++;
+            count.Should().Be(4);
+            while (anomalyGenerator.NextValue().HasValue) count++;
+            anomalyGenerator.Reset();
+            while (anomalyGenerator.NextValue().HasValue) count++;
+            count.Should().Be(8);
         }
     }
 }

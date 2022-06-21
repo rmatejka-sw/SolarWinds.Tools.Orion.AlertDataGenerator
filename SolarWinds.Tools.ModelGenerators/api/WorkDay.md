@@ -14,3 +14,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 Derived  
 &#8627; [NonWorkDay](NonWorkDay.md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.NonWorkDay')
+
+| Methods | |
+| :--- | :--- |
+| [GetWorkLevelForInterval(DateTime, TimeSpan)](WorkDay.GetWorkLevelForInterval(DateTime,TimeSpan).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkDay.GetWorkLevelForInterval(System.DateTime, System.TimeSpan)') | Return WorkLevel as a percentage between 0 and 100 |

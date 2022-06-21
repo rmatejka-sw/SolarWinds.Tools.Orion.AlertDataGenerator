@@ -7,7 +7,7 @@ An entity that is part of a device
 
 ```csharp
 public interface IDeviceComponent<TMetricData>
-    where TMetricData : SolarWinds.Tools.DataGeneration.Helpers.Fakes.IMetricData
+    where TMetricData : SolarWinds.Tools.ModelGenerators.Metrics.IMetricData
 ```
 #### Type parameters
 
@@ -23,4 +23,4 @@ public interface IDeviceComponent<TMetricData>
 
 | Methods | |
 | :--- | :--- |
-| [GenerateObservation(DateTime, TimeRange, WorkWeek, double)](IDeviceComponent_TMetricData_.GenerateObservation(DateTime,TimeRange,WorkWeek,double).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.GenerateObservation(System.DateTime, SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek, double)') | Generates and records observation for the component based on the workWeek workLevel. WorkLevelAffect<br/>controls the degree to which the worklevel affects the metric |
+| [GenerateObservation(DateTime, TimeRange, WorkWeek, double)](IDeviceComponent_TMetricData_.GenerateObservation(DateTime,TimeRange,WorkWeek,double).md 'SolarWinds.Tools.ModelGenerators.InternetGenerator.IDeviceComponent<TMetricData>.GenerateObservation(System.DateTime, SolarWinds.Tools.ModelGenerators.Metrics.TimeRange, SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads.WorkWeek, double)') | Generates and records observation for the component based on the workWeek workLevel. WorkLevelAffect<br/>controls the degree to which the worklevel affects the metric |

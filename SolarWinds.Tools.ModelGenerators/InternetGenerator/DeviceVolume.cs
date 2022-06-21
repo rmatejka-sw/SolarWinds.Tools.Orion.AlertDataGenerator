@@ -1,5 +1,5 @@
-﻿using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
-using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents;
+﻿using SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceComponents;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
 {

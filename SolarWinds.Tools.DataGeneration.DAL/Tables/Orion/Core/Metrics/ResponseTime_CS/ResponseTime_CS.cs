@@ -2,8 +2,8 @@
 using Dapper.Contrib.Extensions;
 using OrionAlertDataGenerator.Models;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.ResponseTime_CS
 {
@@ -16,7 +16,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.Response
             device.Availability.MetricData.RestoreTo(interval, timeRange);
             device.ResponseTime.MetricData.RestoreTo(interval, timeRange);
             detail.NodeID = cur.NodeID = (long)device.OrionNodeID;
-            detail.Timestamp = cur.Timestamp = interval;
+            detail.Timestamp = cur.Timestamp = interval.ToLocalTime();
             detail.Availability = cur.Availability = (float)device.Availability.Current;
             detail.ResponseTime = cur.ResponseTime = (short) device.ResponseTime.Current;
             detail.Weight = cur.Weight = (int)WeightType.Detail;

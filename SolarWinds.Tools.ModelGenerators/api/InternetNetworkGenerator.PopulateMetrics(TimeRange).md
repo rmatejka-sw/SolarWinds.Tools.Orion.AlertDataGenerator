@@ -10,10 +10,10 @@ For now it uses a hard-wire seasons pattern for a fictional business day
 along with some variability
 
 ```csharp
-public void PopulateMetrics(SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange timeRange);
+public void PopulateMetrics(SolarWinds.Tools.ModelGenerators.Metrics.TimeRange timeRange);
 ```
 #### Parameters
 
-<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator.PopulateMetrics(SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange).timeRange'></a>
+<a name='SolarWinds.Tools.ModelGenerators.InternetGenerator.InternetNetworkGenerator.PopulateMetrics(SolarWinds.Tools.ModelGenerators.Metrics.TimeRange).timeRange'></a>
 
-`timeRange` [SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange](https://docs.microsoft.com/en-us/dotnet/api/SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange 'SolarWinds.Tools.DataGeneration.Helpers.Models.TimeRange')
+`timeRange` [TimeRange](TimeRange.md 'SolarWinds.Tools.ModelGenerators.Metrics.TimeRange')

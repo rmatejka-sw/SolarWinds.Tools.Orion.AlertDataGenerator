@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
-using System.Threading;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
 {
@@ -101,7 +99,12 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
             }
 
         }
+        
 
+        /// <summary>
+        /// Enumerable for WorkLevels returning value between 0 and 100 representing workload percentage
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<double> WorkloadLevels(double startPercent = 0, int? repeat = null, int durationMultiplier = 1)
         {
             StartPercent = startPercent;
@@ -113,5 +116,21 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
             }
 
         }
+
+
+        /// <summary>
+        /// Enumerable for WorkloadRates returning value between 0 and 100 representing workload rate of change for the interval
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<double> WorkloadRates(double currentWorkLevelRate)
+        {
+            StartPercent = currentWorkLevelRate;
+            for (int interval = 1; interval <= TotalIntervals; interval++)
+            {
+                yield return PercentChangePerInterval??0;
+            }
+
+        }
+
     }
 }

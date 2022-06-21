@@ -16,6 +16,12 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator.DeviceWorkloads
             this.WorkDay = new WorkDay(minutesPerInterval, startPercent);
         }
 
+        /// <summary>
+        /// Returns WorkLevel as percentage between 0 and 100
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <param name="pollingInterval"></param>
+        /// <returns></returns>
         public double GetWorkLevelForInterval(DateTime interval, TimeSpan pollingInterval)
         {
             if (weekendDays.Contains(interval.DayOfWeek)) return this.NonWorkDay.GetWorkLevelForInterval(interval, pollingInterval);

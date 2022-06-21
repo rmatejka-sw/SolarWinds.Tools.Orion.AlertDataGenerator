@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using SolarWinds.Tools.DataGeneration.DAL.Models;
 using SolarWinds.Tools.DataGeneration.Helpers;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
@@ -40,6 +42,12 @@ namespace SolarWinds.Tools.DataGeneration.DAL.SwisEntities
             return 0;
         }
 
+        public static System_ManagedEntity GetByOpid(string entityOpid)
+        {
+            var opid = new Opid(entityOpid);
+            return System_ManagedEntity.GetManagedEntity(
+                $"SELECT * FROM System.ManagedEntity where InstanceType='{opid.EntityType}' AND Uri like '%={opid.EntityId}'").FirstOrDefault();
+        }
         public string GetOpid() => $"{InstanceSiteId}_{InstanceType}_{GetEntityId()}";
     }
 

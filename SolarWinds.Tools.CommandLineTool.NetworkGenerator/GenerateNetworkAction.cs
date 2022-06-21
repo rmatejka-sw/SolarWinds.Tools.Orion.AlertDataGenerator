@@ -3,7 +3,6 @@ using System.Linq;
 using CommandLine;
 using DapperExtensions;
 using SolarWinds.Tools.CommandLineTool.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Models;
 using SolarWinds.Tools.CommandLineTool.Options;
 using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables;
@@ -11,8 +10,10 @@ using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_CS;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.ResponseTime_CS;
 using SolarWinds.Tools.DataGeneration.Helpers;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+using SolarWinds.Tools.ModelGenerators.InternetGenerator;
 using SolarWinds.Tools.ModelGenerators.InternetGenerator.Options;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
 {
@@ -93,10 +94,6 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 this.GenerateNodesForDevices();
                 this.GenerateInterfacesForDevices();
                 this.GenerateVolumesForDevices();
-                if (this.IncludeAiimAnomalies)
-                {
-                    this.GenerateAiimAnomalies();
-                }
             }
             catch (Exception e)
             {
@@ -110,6 +107,10 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             ConsoleLogger.Info($"Generating metrics for {interval}");
             this.GenerateNodeMetricsForDevices(interval, timeRange);
             this.GenerateInterfaceMetricsForDevices(interval, timeRange);
+            if (this.IncludeAiimAnomalies)
+            {
+                this.GenerateAiimAnomalies(interval, timeRange);
+            }
         }
 
 
@@ -164,6 +165,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             {
 
                 CPULoad_CS.Populate(interval, timeRange, device);
+                ResponseTime_CS.Populate(interval, timeRange, device);
                 foreach (var deviceVolume in device.VolumeDevices)
                 {
                     VolumeUsage_CS.Populate(interval, timeRange, device, deviceVolume);
@@ -179,20 +181,29 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             }
         }
 
-        private void GenerateAiimAnomalies()
+        private void GenerateAiimAnomalies(DateTime interval, TimeRange timeRange)
         {
             try
             {
-                var f = FakerHelper.Faker;
-                var anomalyObjects = AIIM_AlertConditionEntityProperty.Get<AIIM_AlertConditionEntityProperty>(
-                    "SELECT DISTINCT * from Orion.AIIM.AlertConditionEntityProperty where IsAnomalyCondition = true");
-                var source = f.PickRandom<AIIM_AlertConditionEntityProperty>(anomalyObjects);
-                foreach (var interval in this.NextInterval())
+                var nodes = System_ManagedEntity.GetManagedEntity("SELECT * FROM System.ManagedEntity WHERE InstanceType = 'Orion.Nodes'");
+                foreach (var device in this.NetworkGenerator.Devices)
                 {
-                    for (int i = 0; i < f.Random.Int(1, 10); i++)
+                    var entityInstance = nodes.FirstOrDefault(_ => _.Uri.EndsWith($"={device.OrionNodeID}"));
+                    if (entityInstance == null)
                     {
-                        var aiimAnomalyHistory = new AIIM_AnomalyHistory().Populate(interval, source);
-                        DbConnectionManager.DbConnection.Insert(aiimAnomalyHistory);
+                        ConsoleLogger.Error($"Orion.Node {device.OrionNodeID} not found.");
+                        continue;
+                    }
+                    GenerateMetricAnomaly(interval, timeRange, device, "Orion.ResponseTime.AvgResponseTime", device.ResponseTime.MetricData, entityInstance);
+                    GenerateMetricAnomaly(interval, timeRange, device, "Orion.CPULoad.AvgLoad", device.Load.MetricData, entityInstance);
+                    foreach (var memory in device.MemoryDevices)
+                    {
+                        GenerateMetricAnomaly(interval, timeRange, 
+                            device, 
+                            "Orion.CPULoad.AvgPercentMemoryUsed", 
+                            memory.MetricData, 
+                            entityInstance,
+                            (MetricData md)=>(md as MemoryMetricData)?.PercentUsed??md.Current);
                     }
                 }
             }
@@ -200,6 +211,25 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             {
                 ConsoleLogger.Error(ex);
             }
+        }
+
+        private static void GenerateMetricAnomaly(DateTime interval,
+            TimeRange timeRange,
+            Device device,
+            string metricId,
+            MetricData metricData,
+            System_ManagedEntity entityInstance,
+            Func<MetricData,double> getMetricValue = null)
+        {
+            var observation = metricData.RestoreTo(interval, timeRange);
+            if (!observation.IsAnomalous) return;
+            var aiimAnomalyHistory = new AIIM_AnomalyHistory()
+                .Populate(interval, device, entityInstance,
+                    metricId,
+                    observation,
+                    getMetricValue?.Invoke(metricData) ?? metricData.Current);
+            DbConnectionManager.DbConnection.Insert(aiimAnomalyHistory);
+            metricData.RestoreToLatest();
         }
 
         private void GenerateInterfacesForDevices()
@@ -225,7 +255,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         {
             try
             {
-                ConsoleLogger.Info($"Generating Volumes for {this.NetworkGenerator.Devices.Sum(_=>_.VolumeDevices.Count)} devices...");
+                ConsoleLogger.Info($"Generating Volumes for {this.NetworkGenerator.Devices.Sum(_ => _.VolumeDevices.Count)} devices...");
                 foreach (var device in this.NetworkGenerator.Devices)
                 {
                     foreach (var volume in device.VolumeDevices)

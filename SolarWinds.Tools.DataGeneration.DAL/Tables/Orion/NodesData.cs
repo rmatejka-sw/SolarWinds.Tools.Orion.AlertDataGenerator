@@ -1,7 +1,9 @@
 using System;
 using Dapper.Contrib.Extensions;
 using SolarWinds.Tools.DataGeneration.Helpers.Extensions;
-using SolarWinds.Tools.DataGeneration.Helpers.Fakes;
+using SolarWinds.Tools.ModelGenerators.Extensions;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+using SolarWinds.Tools.ModelGenerators.Metrics;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
 {
