@@ -66,7 +66,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion
             base.Populate();
             this.NodeID = device.OrionNodeID;
             this.VolumeIndex = deviceVolume.VolumeIndex;
-            this.Caption = $"Volume {deviceVolume.VolumeIndex}";
+            this.Caption = deviceVolume.VolumeType.Caption;
             this.PollInterval = 2*60;
             this.StatCollection = 15;
             this.RediscoveryInterval = 30;
