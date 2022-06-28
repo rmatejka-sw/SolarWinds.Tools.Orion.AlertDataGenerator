@@ -22,7 +22,7 @@ namespace SolarWinds.Tools.ModelGenerators.Metrics
                 //    )
                 new WorkloadDefinition(
                     "1>80",
-                    "4>0",
+                    "2>0",
                     "1>-80"
                 )
 

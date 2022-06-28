@@ -2,7 +2,7 @@
   "profiles": {
     "SolarWinds.Tools.CommandLineTool.NetworkGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "GenerateNetwork --IncludeAiimAnomalies --DeleteFakesBefore --pastDays 7 --futureDays 7"
+      "commandLineArgs": "TriggerAnomalyBasedAlerts"
     }
   }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using CommandLine;
+using Dapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
@@ -36,7 +38,6 @@ namespace SolarWinds.Tools.CommandLineTool
         /// </summary>
         public virtual void PreInitializeServices()
         {
-
         }
 
         protected CommandLineTool()
