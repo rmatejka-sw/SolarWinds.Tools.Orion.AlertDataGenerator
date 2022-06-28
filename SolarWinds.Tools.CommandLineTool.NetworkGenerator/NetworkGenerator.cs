@@ -122,7 +122,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 {
                     ConsoleLogger.Success($">>>>>>>>> INTERVAL {pollingInterval}");
                     var anomalies = AIIM_AnomalyHistory.GetList(
-                            $"SELECT * FROM AIIM_AnomalyHistory WHERE MeasurementTimeUtc between '{pollingInterval}' and '{pollingInterval.AddMinutes(10)}' ")
+                            $"SELECT * FROM AIIM_AnomalyHistory WHERE MeasurementTimeUtc between '{pollingInterval:O}' and '{(pollingInterval.AddMinutes(10)):O}' ")
                         .ToList();
                     foreach (var aiimAnomalyHistory in anomalies)
                     {
