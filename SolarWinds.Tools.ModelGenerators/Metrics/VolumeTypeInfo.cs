@@ -17,6 +17,7 @@ namespace SolarWinds.Tools.ModelGenerators.Metrics
             this.Label = this.IsPhysicalDisk ? FakerHelper.Faker.Name.JobDescriptor() : null;
             this.SerialNumber = this.IsPhysicalDisk ? FakerHelper.Faker.System.AndroidId() : null;
             this.Caption = this.IsPhysicalDisk ? $"{DeviceId} Label: {FakerHelper.Faker.Name.JobDescriptor()} Serial Number {this.SerialNumber}" : this.TypeName;
+            if (this.Caption.Length>75) this.Caption = this.Caption.Substring(0,75);
         }
 
         public int VolumeIndex { get; }

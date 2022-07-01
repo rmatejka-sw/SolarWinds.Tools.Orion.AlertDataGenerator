@@ -17,6 +17,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.CPULoad_
             var memoryDevice = device.MemoryDevices.FirstOrDefault();
             memoryDevice.MetricData.RestoreTo(interval, timeRange);
             device.Load.MetricData.RestoreTo(interval, timeRange);
+            if (device.OrionNodeID == 0) return;
             detail.NodeID = cur.NodeID = (long)device.OrionNodeID;
             detail.Timestamp = cur.Timestamp = interval.ToLocalTime();
             detail.Load = cur.Load = (short)device.Load.Current;

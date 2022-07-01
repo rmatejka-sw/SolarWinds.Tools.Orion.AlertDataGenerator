@@ -69,7 +69,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
             {
                 var tableAttribute = typeof(T).GetCustomAttributes().FirstOrDefault(a => a.GetType() == typeof(TableAttribute)) as TableAttribute;
                 var tableName = tableAttribute != null ? tableAttribute.Name : typeof(T).Name;
-                return (int)DbConnectionManager.DbConnection.Query<int>($"SELECT MAX({columnName}) from {tableName}")
+                return (int)DbConnectionManager.DbConnection.Query<int>($"SELECT ISNULL(MAX({columnName}),0) from {tableName}")
                     .FirstOrDefault();
             }
             catch (Exception e)

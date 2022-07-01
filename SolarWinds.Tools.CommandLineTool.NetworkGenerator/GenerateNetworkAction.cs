@@ -26,10 +26,18 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         [Option("IncludeAiimAnomalies", Default = false, HelpText = "If true, populates AIIM anomaly history table (AIIM_AnomalyHistory).")]
         public bool IncludeAiimAnomalies { get; set; }
 
+        [Option("MaxHops", Default = 10, HelpText = "Maximum number of hops between start and end nodes in a network.")]
         public int MaxHops { get; set; }
+
+        [Option("MinNodes", Default = 50, HelpText = "Minimum number of nodes to create.")]
         public int MinNodes { get; set; }
+
+        [Option("ShadowNodes", Default = 2, HelpText = "Percentage of nodes that will be created as Shadow Nodes")]
         public int ShadowNodes { get; set; }
+
+        [Option("MaxInternalNodes", Default = 10, HelpText = "Maximum number of nodes for an internal network address space")]
         public int MaxInternalNodes { get; set; }
+
         public int MaxConnectionsBetweenNodes { get; set; }
         public bool ExcludeIntranetDevices { get; set; }
         public string DbServerName { get; set; }
@@ -163,7 +171,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
         {
             foreach (var device in this.NetworkGenerator.Devices)
             {
-
+                if (device.IsShadowNode) continue;
                 CPULoad_CS.Populate(interval, timeRange, device);
                 ResponseTime_CS.Populate(interval, timeRange, device);
                 foreach (var deviceVolume in device.VolumeDevices)
@@ -188,6 +196,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                 var nodes = System_ManagedEntity.GetManagedEntity("SELECT * FROM System.ManagedEntity WHERE InstanceType = 'Orion.Nodes'");
                 foreach (var device in this.NetworkGenerator.Devices)
                 {
+                    if (device.IsShadowNode) continue;
                     var entityInstance = nodes.FirstOrDefault(_ => _.Uri.EndsWith($"={device.OrionNodeID}"));
                     if (entityInstance == null)
                     {

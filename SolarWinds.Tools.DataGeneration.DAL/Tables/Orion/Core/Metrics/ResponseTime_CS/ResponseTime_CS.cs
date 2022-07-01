@@ -13,6 +13,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables.Orion.Core.Metrics.Response
         {
             var cur = new ResponseTime_CS_cur();
             var detail = new ResponseTime_CS_Detail_hist();
+            if (device.OrionNodeID == 0) return;
             device.Availability.MetricData.RestoreTo(interval, timeRange);
             device.ResponseTime.MetricData.RestoreTo(interval, timeRange);
             detail.NodeID = cur.NodeID = (long)device.OrionNodeID;
