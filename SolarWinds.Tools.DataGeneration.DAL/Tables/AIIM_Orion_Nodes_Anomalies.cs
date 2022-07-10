@@ -1,6 +1,7 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 using DapperExtensions.Mapper;
+using SolarWinds.Tools.DataGeneration.DAL.Models;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
@@ -14,27 +15,27 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 
         [Column("Orion_CPULoad_AvgLoadDisplayName")]
         public string OrionCPULoadAvgLoadDisplayName { get; set; } = "CPU AvgLoad";
-        
         [Column("Orion_CPULoad_AvgLoadIsAnomalous")]
         public bool? OrionCPULoadAvgLoadIsAnomalous { get; set; }
-
         [Column("Orion_CPULoad_AvgLoadUnits")]
         public string OrionCPULoadAvgLoadUnits { get; set; } = "%";
-
         [Column("Orion_CPULoad_AvgLoadValue")]
         public double? OrionCPULoadAvgLoadValue { get; set; }
+        [Column("Orion_CPULoad_AvgLoadStatus")]
+        public int? OrionCPULoadAvgLoadStatus { get; set; }
+
 
         [Column("Orion_CPULoad_AvgPercentMemoryUsedDisplayName")]
         public string OrionCPULoadAvgPercentMemoryUsedDisplayName { get; set; } = "CPU AvgPercentMemory";
-        
         [Column("Orion_CPULoad_AvgPercentMemoryUsedIsAnomalous")]
         public bool? OrionCPULoadAvgPercentMemoryUsedIsAnomalous { get; set; }
-
         [Column("Orion_CPULoad_AvgPercentMemoryUsedUnits")]
         public string OrionCPULoadAvgPercentMemoryUsedUnits { get; set; } = "%";
-
         [Column("Orion_CPULoad_AvgPercentMemoryUsedValue")]
         public double? OrionCPULoadAvgPercentMemoryUsedValue { get; set; }
+        [Column("Orion_CPULoad_AvgPercentMemoryUsedStatus")]
+        public int? OrionCPULoadAvgPercentMemoryUsedStatus { get; set; }
+
 
         [Column("Orion_ResponseTime_AvgResponseTimeDisplayName")]
         public string OrionResponseTimeAvgResponseTimeDisplayName { get; set; } = "AvgResponseTime";
@@ -44,6 +45,8 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
         public string OrionResponseTimeAvgResponseTimeUnits { get; set; } = "ms";
         [Column("Orion_ResponseTime_AvgResponseTimeValue")]
         public double? OrionResponseTimeAvgResponseTimeValue { get; set; }
+        [Column("Orion_ResponseTime_AvgResponseTimeStatus")]
+        public int? OrionResponseTimeAvgResponseTimeStatus { get; set; }
 
 
         [Column("Orion_ResponseTime_PercentLossDisplayName")]
@@ -54,6 +57,8 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
         public string OrionResponseTimePercentLossUnits { get; set; } = "%";
         [Column("Orion_ResponseTime_PercentLossValue")]
         public double? OrionResponseTimePercentLossValue { get; set; }
+        [Column("Orion_ResponseTime_PercentLossStatus")]
+        public int? OrionResponseTimePercentLossStatus { get; set; }
 
 
         public AIIM_Orion_Nodes_Anomalies Populate(AIIM_AnomalyHistory aiimAnomalyHistory)
@@ -64,18 +69,22 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
                 case "Orion.CPULoad.AvgLoad":
                     this.OrionCPULoadAvgLoadValue = aiimAnomalyHistory.MetricValue;
                     this.OrionCPULoadAvgLoadIsAnomalous = true;
+                    this.OrionCPULoadAvgPercentMemoryUsedStatus = (int)AiOpsMetricStatusEnum.AnomalyDetected;
                     break;
                 case "Orion.CPULoad.AvgPercentMemoryUsed":
                     this.OrionCPULoadAvgPercentMemoryUsedValue = aiimAnomalyHistory.MetricValue;
-                    this.OrionCPULoadAvgPercentMemoryUsedIsAnomalous = true; 
+                    this.OrionCPULoadAvgPercentMemoryUsedIsAnomalous = true;
+                    this.OrionCPULoadAvgPercentMemoryUsedStatus = (int)AiOpsMetricStatusEnum.AnomalyDetected;
                     break;
                 case "Orion.ResponseTime.AvgResponseTime":
                     this.OrionResponseTimeAvgResponseTimeValue = aiimAnomalyHistory.MetricValue;
                     this.OrionResponseTimeAvgResponseTimeIsAnomalous = true;
+                    this.OrionResponseTimeAvgResponseTimeStatus = (int)AiOpsMetricStatusEnum.AnomalyDetected;
                     break;
                 case "Orion.ResponseTime.PercentLoss":
                     this.OrionResponseTimePercentLossValue = aiimAnomalyHistory.MetricValue;
                     this.OrionResponseTimePercentLossIsAnomalous = true;
+                    this.OrionResponseTimePercentLossStatus = (int)AiOpsMetricStatusEnum.AnomalyDetected;
                     break;
             }
 

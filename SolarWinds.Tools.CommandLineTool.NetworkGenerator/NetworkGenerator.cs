@@ -169,6 +169,8 @@ ResponseTimePercentLossIsAnomalous:{nodeAnomaly.OrionResponseTimePercentLossIsAn
         {
             try
             {
+                var aiopsMetricStatus = new AIIM_AiOpsMetricStatus().Populate(aiimAnomalyHistory);
+                DbConnectionManager.DbConnection.Insert(aiopsMetricStatus);
                 switch (aiimAnomalyHistory.SourceInstanceType)
                 {
                     case "Orion.Nodes":
@@ -205,6 +207,25 @@ ResponseTimePercentLossIsAnomalous:{nodeAnomaly.OrionResponseTimePercentLossIsAn
                         }
                         break;
                     case "Orion.Volumes":
+                        var volumeAnomaly = AIIM_Orion_Volumes_Anomalies.GetList(
+                            $@"SELECT [SourceUri]
+                              ,[Orion_VolumeUsageHistory_PercentDiskUsedDisplayName]
+                              ,[Orion_VolumeUsageHistory_PercentDiskUsedIsAnomalous]
+                              ,[Orion_VolumeUsageHistory_PercentDiskUsedUnits]
+                              ,[Orion_VolumeUsageHistory_PercentDiskUsedValue]
+                              ,[Orion_VolumeUsageHistory_PercentDiskUsedStatus]
+                          FROM [dbo].[AIIM_Orion_Volumes_Anomalies] where SourceUri='{aiimAnomalyHistory.SourceUri}'").FirstOrDefault();
+                        if (volumeAnomaly == null)
+                        {
+                            volumeAnomaly = new AIIM_Orion_Volumes_Anomalies().Populate(aiimAnomalyHistory);
+                            DbConnectionManager.DbConnection.Insert(volumeAnomaly);
+                            ConsoleLogger.Success($"Triggered anomaly alert for {aiimAnomalyHistory.MetricId} on {aiimAnomalyHistory.SourceUri}");
+                        }
+                        else
+                        {
+                            volumeAnomaly.Populate(aiimAnomalyHistory);
+                            DbConnectionManager.DbConnection.Update(volumeAnomaly);
+                        }
                         break;
                 }
 

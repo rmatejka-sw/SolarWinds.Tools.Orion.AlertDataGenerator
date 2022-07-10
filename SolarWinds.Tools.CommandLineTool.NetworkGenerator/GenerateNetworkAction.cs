@@ -231,7 +231,15 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             Func<MetricData,double> getMetricValue = null)
         {
             var observation = metricData.RestoreTo(interval, timeRange);
-            if (!observation.IsAnomalous) return;
+            if (!observation.IsAnomalous)
+            {
+                var aiopsMetricStatus = new AIIM_AiOpsMetricStatus().Populate(
+                    interval, 
+                    entityInstance.GetOpid(),
+                    metricId);
+                DbConnectionManager.DbConnection.Insert(aiopsMetricStatus);
+                return;
+            };
             var aiimAnomalyHistory = new AIIM_AnomalyHistory()
                 .Populate(interval, device, entityInstance,
                     metricId,

@@ -4,15 +4,15 @@ using DapperExtensions.Mapper;
 
 namespace SolarWinds.Tools.DataGeneration.DAL.Tables
 {
-    public sealed class AIIM_Orion_Nodes_Anomalies_ClassMapper : ClassMapper<AIIM_Orion_Nodes_Anomalies>
+    public sealed class AIIM_Orion_Volumes_Anomalies_ClassMapper : ClassMapper<AIIM_Orion_Nodes_Anomalies>
     {
-        public AIIM_Orion_Nodes_Anomalies_ClassMapper()
+        public AIIM_Orion_Volumes_Anomalies_ClassMapper()
         {
             Schema("dbo");
             Table("AIIM_Orion_Nodes_Anomalies");
 
             Map(p => p.SourceUri).Key(KeyType.Assigned);
-            foreach (var propertyInfo in typeof(AIIM_Orion_Nodes_Anomalies).GetProperties())
+            foreach (var propertyInfo in typeof(AIIM_Orion_Volumes_Anomalies).GetProperties())
             {
                 var columnAttribute = propertyInfo.GetCustomAttribute(typeof(ColumnAttribute)) as ColumnAttribute;
                 if (columnAttribute == null) continue;

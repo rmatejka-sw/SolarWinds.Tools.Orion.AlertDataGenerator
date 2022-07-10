@@ -1,4 +1,8 @@
-﻿namespace SolarWinds.Tools.DataGeneration.DAL.Extensions
+﻿using System.Collections.Generic;
+using System.Linq;
+using SolarWinds.Tools.ModelGenerators.Fakes;
+
+namespace SolarWinds.Tools.DataGeneration.DAL.Extensions
 {
     public static class FakerExtensions
     {
