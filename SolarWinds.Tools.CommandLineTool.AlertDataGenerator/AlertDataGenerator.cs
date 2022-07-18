@@ -6,7 +6,6 @@ using SolarWinds.Tools.DataGeneration.DAL.SwisEntities;
 using SolarWinds.Tools.DataGeneration.DAL.Tables.Orion;
 using SolarWinds.Tools.DataGeneration.Helpers;
 using SolarWinds.Tools.ModelGenerators.Fakes;
-using SolarWinds.Tools.ModelGenerators.Metrics;
 
 
 namespace SolarWinds.Tools.CommandLineTool.AlertDataGenerator
