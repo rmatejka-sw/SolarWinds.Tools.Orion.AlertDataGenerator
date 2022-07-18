@@ -235,7 +235,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
             {
                 var aiopsMetricStatus = new AIIM_AiOpsMetricStatus().Populate(
                     interval, 
-                    entityInstance.GetOpid(),
+                    entityInstance.Uri,
                     metricId);
                 DbConnectionManager.DbConnection.Insert(aiopsMetricStatus);
                 return;

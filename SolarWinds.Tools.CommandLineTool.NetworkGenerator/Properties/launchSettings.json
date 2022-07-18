@@ -2,7 +2,7 @@
   "profiles": {
     "SolarWinds.Tools.CommandLineTool.NetworkGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "GenerateNetwork -d --IncludeAiimAnomalies --MinNodes 500 --pastDays 7 --futureDays 7"
+      "commandLineArgs": "GenerateNetwork -d --IncludeAiimAnomalies --MinNodes 50 --pastDays 7 --futureDays 7"
     }
   }
 }

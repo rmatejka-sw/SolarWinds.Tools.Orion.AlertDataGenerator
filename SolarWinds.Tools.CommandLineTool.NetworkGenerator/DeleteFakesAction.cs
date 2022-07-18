@@ -103,6 +103,7 @@ namespace SolarWinds.Tools.CommandLineTool.NetworkGenerator
                     command.Clear();
                 }
                 command.AppendLine($"DELETE dbo.AIIM_AnomalyHistory;");
+                command.AppendLine($"DELETE dbo.AIIM_AiOpsMetricStatus;");
                 command.AppendLine($"DELETE dbo.NodesData where IOSImage='{FakerHelper.FakeMarker}';");
                 command.AppendLine($"DELETE dbo.ShadowNodes where NodeName like'%{FakerHelper.FakeName}%';");
                 command.AppendLine($"DELETE dbo.Interfaces where Comments='{FakerHelper.FakeMarker})';");

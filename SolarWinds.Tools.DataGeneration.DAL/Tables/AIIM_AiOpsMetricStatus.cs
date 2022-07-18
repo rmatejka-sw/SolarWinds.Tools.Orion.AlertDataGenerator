@@ -33,7 +33,7 @@ namespace SolarWinds.Tools.DataGeneration.DAL.Tables
             this.TimeStampUtc = interval;
             this.Status = (int) f.Random.WeightedRandom(
                 new[] { AiOpsMetricStatusEnum.Down, AiOpsMetricStatusEnum.Untrained, AiOpsMetricStatusEnum.NotDetected },
-                new float[] { 0.1f, 0.2f, 0.7f }
+                new float[] { 0.01f, 0.1f, 0.89f }
             );
             return this;
         }

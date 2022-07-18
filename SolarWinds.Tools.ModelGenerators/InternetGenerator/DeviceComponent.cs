@@ -62,7 +62,7 @@ namespace SolarWinds.Tools.ModelGenerators.InternetGenerator
             {
                 lastAnomaly = interval;
             }
-            else if (lastAnomaly.HasValue && interval > lastAnomaly.Value.AddHours(FakerHelper.Faker.Random.Double(5,15)))
+            else if (lastAnomaly.HasValue && interval > lastAnomaly.Value.AddMinutes(FakerHelper.Faker.Random.Double(20,40)))
             {
                 this.AnomalyGenerator.Reset();
             }
